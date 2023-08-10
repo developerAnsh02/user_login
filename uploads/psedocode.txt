@@ -1,0 +1,36 @@
+//Add a vacancy for a full-time staff member
+WHEN "Add a vacancy for a full-time staff member" button is clicked
+    CREATE a new full-time staff member
+    ADD the new full-time staff member to the arraylist
+END
+
+//Add a vacancy for a part-time staff member
+WHEN "Add a vacancy for a part-time staff member" button is clicked
+    CREATE a new part-time staff member
+    ADD the new part-time staff member to the arraylist
+END
+
+//Set Salary full-time staff member
+WHEN "Set Salary full-time staff member" button is clicked
+    PROMPT user for the salary for the full-time staff member
+    SET the salary for the full-time staff member to the value entered
+END
+
+//Set Working shifts part-time staff member
+WHEN "Set Working shifts part-time staff member" button is clicked
+    PROMPT user for the working shifts for the part-time staff member
+    SET the working shifts for the part-time staff member to the value entered
+END
+
+//Terminate a part-time staff member
+WHEN "Terminate a part-time staff member" button is clicked
+    PROMPT user for the part-time staff member to terminate
+    REMOVE the part-time staff member from the arraylist
+END
+
+//Displaying a staff members in the arraylist
+WHEN "Displaying a staff members in the arraylist" button is clicked
+    LOOP through the arraylist
+        DISPLAY the details of each staff member in the arraylist
+    END LOOP
+END

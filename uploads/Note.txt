@@ -1,0 +1,4 @@
+Step 1: Import the project to the netbeans Software
+Step 2: import sql file to the xammp database server
+Step 3: set the system localhost name, database name and password in the fulltimestaff.java and other java files
+Step 4: Execute the task

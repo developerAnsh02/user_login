@@ -1,0 +1,31 @@
+def calculate_mean_median_mode(numbers):
+    # Calculate mean
+    mean = sum(numbers) / len(numbers)
+
+    # Calculate median
+    sorted_numbers = sorted(numbers)
+    mid = len(numbers) // 2
+    median = (sorted_numbers[mid] + sorted_numbers[~mid]) / 2
+
+    # Calculate mode
+    counts = {}
+    for number in numbers:
+        if number in counts:
+            counts[number] += 1
+        else:
+            counts[number] = 1
+    mode = max(counts, key=counts.get)
+
+    return mean, median, mode
+
+# Ask user for input
+user_input = input("Enter a list of numbers separated by spaces: ")
+numbers = [int(num) for num in user_input.split()]
+
+# Call function to calculate mean, median, and mode
+mean, median, mode = calculate_mean_median_mode(numbers)
+
+# Print results
+print("Mean: ", mean)
+print("Median: ", median)
+print("Mode: ", mode)
