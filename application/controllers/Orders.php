@@ -797,6 +797,28 @@ class Orders extends CI_Controller
 
 		endif;
 
+		if (isset($data['current'][0]->uid)) :
+			$data['user_id'] = $data['current'][0]->uid;
+			$query 			 = $this->db->get_where("orders", array("order_id" => $data['order_id']));
+			$userRecord 	 = $query->result();
+			if (isset($userRecord) && !empty($userRecord)) {
+				$data['wid'] = $userRecord[0]->wid;
+			}
+
+		endif;
+
+		if (isset($data['current'][0]->uid)) :
+			$data['user_id'] = $data['current'][0]->uid;
+			$query 			 = $this->db->get_where("orders", array("order_id" => $data['order_id']));
+			$userRecord 	 = $query->result();
+			if (isset($userRecord) && !empty($userRecord)) {
+				$data['admin_id'] = $userRecord[0]->admin_id;
+			}
+
+		endif;
+
+		
+
 
 		$data['old_id'] = $id;
 		$data['categories'] = $this->order_model->getCategories();
@@ -808,6 +830,8 @@ class Orders extends CI_Controller
 		$data['typeofwritings'] = $this->order_model->getWtittingTypes();
 		$data['countries'] = $this->order_model->getCountries();
 		$data['users'] = $this->order_model->getUsersList();
+		$data['writerTL'] 		= $this->Employee->getWriters();
+		$data['writerAdmin'] 		= $this->Employee->getWritersAdmin();
 		$data['prefix'] = array('Mr.' => 'Mr.', 'Miss.' => 'Miss.', 'Ms.' => 'Ms.');
 
 		// echo '<pre>'; print_r($data); exit;
@@ -890,36 +914,36 @@ class Orders extends CI_Controller
 
 			$data = array
 			(
-				'order_id' => $this->input->post('order_id'),
-				'delivery_date' => date('Y-m-d', strtotime($this->input->post('delivery_date'))),
-				'delivery_time' => $this->input->post('delivery_time'),
-				'order_date' => date('Y-m-d', strtotime($this->input->post('order_date'))),
-				'services' => $this->input->post('typeofservice'),
-				'formatting' => $this->input->post('formatting'),
-				'typeofpaper' => $this->input->post('typeofpaper'),
-				'typeofwritting' => $this->input->post('typeofwritting'),
-				'pages' => $this->input->post('pages'),
-				'title' => $this->input->post('title'),
-				'deadline' => $this->input->post('no_of_days'),
-				'message' => $this->input->post('message'),
-				'actual_amount' => $this->input->post('actualorder'),
-				'discount_per' => $this->input->post('discount_per'),
-				'amount' => $this->input->post('order_total'),
-				'paymentstatus' => $this->input->post('paymentstatus'),
-				'projectstatus' => $this->input->post('projectstatus'),
-				'order_type' => $this->input->post('order_type'),
-				'writer_name' => $this->input->post('writer_name'),
-				'writer_deadline' => date('Y-m-d', strtotime($this->input->post('writer_deadline'))),
-				'writer_price' => $this->input->post('writer_price'),
-				'referal' => @$this->input->post('referal'),
-				'edited_by' => $this->session->userdata['logged_in']['id'],
-				'college_name' => $this->input->post('college_name'),
-				'chapter' =>  @$this->input->post('chapter'),
-				'draftrequired'=> $this->input->post('draftrequired'),
-				'draft_date' => $this->input->post('draft_date'),
-				'draft_time' => $this->input->post('draft_time'),
-				// 'received_amount' => $this->input->post('received_amount'),
-				'wid' =>$this->input->post('writer_name_new'),
+				'order_id'     		 => $this->input->post('order_id'),
+				'delivery_date' 	 => date('Y-m-d', strtotime($this->input->post('delivery_date'))),
+				'delivery_time'		 => $this->input->post('delivery_time'),
+				'order_date'		 => date('Y-m-d', strtotime($this->input->post('order_date'))),
+				'services' 			 => $this->input->post('typeofservice'),
+				'formatting' 		 => $this->input->post('formatting'),
+				'typeofpaper'		 => $this->input->post('typeofpaper'),
+				'typeofwritting' 	 => $this->input->post('typeofwritting'),
+				'pages'				 => $this->input->post('pages'),
+				'title' 			 => $this->input->post('title'),
+				'deadline' 			 => $this->input->post('no_of_days'),
+				'message' 		 	 => $this->input->post('message'),
+				'actual_amount' 	 => $this->input->post('actualorder'),
+				'discount_per' 		 => $this->input->post('discount_per'),
+				'amount' 			 => $this->input->post('order_total'),
+				'paymentstatus' 	 => $this->input->post('paymentstatus'),
+				'projectstatus' 	 => $this->input->post('projectstatus'),
+				'order_type' 		 => $this->input->post('order_type'),
+				'writer_name'		 => $this->input->post('writer_name'),
+				'writer_deadline'	 => date('Y-m-d', strtotime($this->input->post('writer_deadline'))),
+				'writer_price'		 => $this->input->post('writer_price'),
+				'referal'			 => @$this->input->post('referal'),
+				'edited_by'			 => $this->session->userdata['logged_in']['id'],
+				'college_name'		 => $this->input->post('college_name'),
+				'chapter'			 =>  @$this->input->post('chapter'),
+				'draftrequired'		 => $this->input->post('draftrequired'),
+				'draft_date'		 => $this->input->post('draft_date'),
+				'draft_time'		 => $this->input->post('draft_time'),
+				'wid' 				 =>$this->input->post('writer_name_new'),
+				'admin_id' 			 =>$this->input->post('writer_new_admin'),
 				'flag' => '0',
 			);
 			if (!empty($this->input->post('user_id')) && $this->input->post('user_id') != '') 
@@ -930,7 +954,7 @@ class Orders extends CI_Controller
 			$result = $this->order_model->editOrder($data, $old_id);
             $due =  $this->input->post('due_amount');
             
-// 			echo '<pre>'; print_r($data); exit;
+			// echo '<pre>'; print_r($data); exit;
 			
             
             

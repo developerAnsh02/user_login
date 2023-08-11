@@ -189,6 +189,8 @@ class Employee extends CI_Model
     return $query->result_array();
 }
 
+
+
 public function is_email_exists($email) {
 	$this->db->where('email', $email);
 	$query = $this->db->get('employees');
@@ -229,5 +231,15 @@ public function getAdminWriters()
 public function insert_writer_admin($data) {
 	// Insert the data into the employees table
 	$this->db->insert('employees', $data);
+}
+
+public function getWritersAdmin()
+{
+    $this->db->select('id, name, email');
+    $this->db->from('employees');
+    $this->db->where('role_id', 8);
+	$this->db->where('flag',0);
+    $query = $this->db->get();
+    return $query->result_array();
 }
 }

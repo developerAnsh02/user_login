@@ -532,8 +532,12 @@ $data = explode('?', $currentURL);
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="create_at" value="<?php echo date("Y-m-d", strtotime($lead['create_at'])); ?>" class="inputField create_at form-control" style="width: 120px !important;" readonly>
-                                                </td>
+                                                <?php if($role_id == 1) { ?>
+                                                     <input type="text" name="create_at" value="<?php echo date("Y-m-d", strtotime($lead['create_at'])); ?>" class="inputField create_at mdate form-control" style="width: 120px !important;" >
+                                                    <?php } else { ?>
+                                                     <input type="text" name="user_name" value="<?php echo date("Y-m-d", strtotime($lead['create_at'])); ?>" class="inputField user_name form-control" readonly>
+                                                    <?php } ?>
+                                                                                                    </td>
                                                 <td>
                                                     <input type="text" name="user_name" value="<?php echo $lead['user_name']; ?>" class="inputField user_name form-control">
                                                 </td>
