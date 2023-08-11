@@ -1612,9 +1612,14 @@ public function feedback_list_all()
 		
 			public function order_list_by_filter_writer($conditions) {
 				// Define your base query
+				$login_id = @$this->session->userdata['logged_in']['id'];
 				$this->db->select('*');
 				$this->db->from('orders');
-				$this->db->where('wid' , $this->login_id);
+				if ($this->role_id == 6) {
+					$this->db->where('wid', $login_id); // Adding condition for writer ID
+				} else {
+					$this->db->where('admin_id', $login_id);
+				}
 		
 				// Apply filters based on the conditions
 			
@@ -1654,15 +1659,21 @@ public function feedback_list_all()
 		public	function getOrderIDsw()
             {
             	$login_id = @$this->session->userdata['logged_in']['id'];
-                $result = $this->db->select('id, order_id')
-                                   ->from('orders')
-                                   ->where('flag', '0')
-                                   ->where('wid', $login_id) // Adding condition for writer ID
-                                   ->order_by('id', 'desc')
-                                   ->get()
-                                   ->result_array();
-            
-                return $result;
+
+				$this->db->select('id, order_id')
+						->from('orders')
+						->where('flag', '0');
+
+				if ($this->role_id == 6) {
+					$this->db->where('wid', $login_id); // Adding condition for writer ID
+				} else {
+					$this->db->where('admin_id', $login_id);
+				}
+
+				$this->db->order_by('id', 'desc');
+				$result = $this->db->get()->result_array();
+
+				return $result;
             }
 
            public function writer_notification()
@@ -1803,6 +1814,49 @@ public function TodayRecentorderSubWriter()
     $query =  $this->db->get()->result_array();
     return $query; // Return the result as an array of objects
 }
+
+public function admin_writer_data($id, $limit, $start, $online_order = '')
+		{
+			$this->db->select('orders.*, orders.id as id, employees.name as c_name, employees.email as c_email, countries.phonecode as countrycode, employees.mobile_no as c_mobile, employees.is_fail as c_is_fail');
+			$this->db->from('orders');
+			$this->db->join('employees', 'orders.admin_id = employees.id', 'left');
+			$this->db->join('countries', 'countries.id = employees.countrycode', 'left');
+			$this->db->where('orders.flag', '0');
+
+			if ($this->role_id == '8') {
+				$this->db->where('employees.id', $id);
+			}
+
+			if (isset($online_order) && !empty($online_order)) {
+				$this->db->where('orders.order_type', 'Website');
+			}
+
+			$this->db->limit($limit, $start);
+			$this->db->order_by("orders.id", "desc");
+
+			$query = $this->db->get()->result_array();
+
+			foreach ($query as $i => $po_data) {
+				$this->db->select('payment_details.*');
+				$this->db->where('payment_details.order_id', $po_data['id']);
+				$b_query = $this->db->get('payment_details')->result_array();
+				$query[$i]['payment_details'] = $b_query;
+			}
+			foreach ($query as $i => $po_data) {
+				$this->db->select('files_db.*');
+				$this->db->where('files_db.detail_id', $po_data['id']);
+				$a_query = $this->db->get('files_db')->result_array();
+				$query[$i]['order_file_details'] = $a_query;
+			}
+			foreach ($query as $i => $po_data) {
+				$this->db->select('completed_orders.*');
+				$this->db->where('completed_orders.order_id', $po_data['id']);
+				$c_query = $this->db->get('completed_orders')->result_array();
+				$query[$i]['completed_orders'] = $c_query;
+			}
+
+			return $query;
+		}
             
             
             

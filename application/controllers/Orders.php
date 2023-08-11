@@ -224,7 +224,10 @@ class Orders extends CI_Controller
 				$data['orders'] 	= $this->order_model->writer_data($login_id, $config["per_page"], $page, $online_order);
 			} elseif ($role_id == 7) {
 				$data['orders']		= $this->order_model->sub_writer_data($login_id, $config["per_page"], $page, $online_order);
-			} else {
+			} elseif ($role_id == 8) {
+				$data['orders']		= $this->order_model->admin_writer_data($login_id, $config["per_page"], $page, $online_order);
+			} 
+			else {
 				$data['orders'] 	= $this->order_model->order_listnew(null, $config["per_page"], $page, $online_order);
 			}
 		}
@@ -2612,6 +2615,71 @@ public function get_call_listwriter($c_id = '')
         die();
     }
 }
+
+public function writer_admin()
+{
+    $this->load->model('Employee'); // Make sure the model name is capitalized
+    $data = [];
+
+    $logged_in_user = $this->session->userdata('logged_in'); // Access session data using function
+
+    
+        $writers = $this->Employee->getAdminWriters();
+    
+
+    // Fetch all writers regardless of role
+    $data['writerTL'] = $this->Employee->getWriters();
+    $data['writers'] = $writers;
+
+    $this->template->load('template', 'master/writer_tl_admin', $data);
+}
+
+
+	public function insert_writer_admin()
+	{
+		// Get the writer email and mobile number from the form
+		$writer_email = $this->input->post('email');
+		$writer_name = $this->input->post('name');
+	
+		// Load the necessary models and libraries
+		$this->load->model('employee');
+	
+		// Check if the email already exists in the database
+		if ($this->employee->is_email_exists($writer_email)) {
+			$this->session->set_flashdata('error', 'Email already exists!');
+			redirect($_SERVER['HTTP_REFERER']); // Redirect to the same page
+			return;
+		}
+	
+		// Extract the name from the email address
+		
+	
+		// Prepare the data for insertion
+		$data = array(
+			'role_id' => 8,
+			'countrycode' => 91,
+			'mobile_no' => '********',
+			'email' => $writer_email, // Assigning email as name
+			'name' => $writer_name, // Assigning name as email name before @
+			'username' => $writer_email, // Assigning email as username
+			'password' => md5('user@123') // Using 'User@123' as the default password
+		);
+	
+		// Insert the data into the employees table
+		$run = $this->employee->insert_writer_admin($data);
+	
+		if ($run == TRUE) {
+			$this->session->set_flashdata('error', 'Failed to insert writer!');
+		} else {
+			$this->session->set_flashdata('success', 'Writer Inserted Successfully!');
+		}
+	
+		redirect($_SERVER['HTTP_REFERER']); // Redirect to the same page
+	}
+
+
+
+
 
 
 

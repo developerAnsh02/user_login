@@ -616,7 +616,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                 <div class="card m-b-0">
                     <div class="card-body">
                         
-                          <?php if($role_id == '6') { ?>
+                          <?php if($role_id == '6' || $role_id == '8') { ?>
                         <form method="get" id="filterForm">
                             <div class="row">
 
@@ -647,7 +647,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                         
                                         <select name="swid" class="form-control" >
                                             <option value="">Select an Writer</option>
-                                            <?php foreach ($subwrtier as $employee) : ?>
+                                            <?php foreach ($writerTL as $employee) : ?>
                                                 <option value="<?php echo $employee['id']; ?>"><?php echo $employee['name']; ?></option>
                                             <?php endforeach; ?>
                                         </select>
@@ -757,7 +757,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                             </div>
                         </form>
                     <?php } ?>
-                        <?php if($role_id != '2' && $role_id != 6 && $role_id != 7) { ?>
+                        <?php if($role_id != '2' && $role_id != 6 && $role_id != 7 && $role_id != 8) { ?>
                         <form method="get" id="filterForm">
                             <div class="row">
                                 
@@ -1022,26 +1022,29 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                         <th style="white-space: nowrap;" class="hide-mb"> Order Date</th>
                                         <th style="white-space: nowrap;"  class="hide-mb"> Delivery Date</th>
                                         <th style="white-space: nowrap;"class="hide-mb"> Title</th>
-                                        <?php if($role_id != 6 && $role_id != 7) { ?>
+                                        <?php if($role_id != 6 && $role_id != 7 && $role_id != 8) { ?>
                                         <th style="white-space: nowrap;"  class="hide-mb"> Status</th>
                                         <?php } ?>
-                                          <?php if($role_id == 6  || $role_id == 7) { ?>
+                                          <?php if($role_id == 6  || $role_id == 7 || $role_id == 8) { ?>
                                         <th style="white-space: nowrap;"  class="hide-mb">Writer Status</th>
                                         <?php } ?>
                                         
                                         <th style="white-space: nowrap;" class="hide-mb"> Words</th>
-                                        <?php if($role_id != '5' &&  $role_id != '6' && $role_id != '7') {  ?>
+                                        <?php if($role_id != '5' &&  $role_id != '6' && $role_id != '7' && $role_id != '8') {  ?>
                                         <th style="white-space: nowrap;" class="hide-mb"> Amount</th>
                                         <th style="white-space: nowrap;" class="hide-mb"> Paid </th>
                                         <th style="white-space: nowrap;" class="hide-mb"> Due </th>
+                                        <th style="white-space: nowrap;" class="hide-mb"> Writer Team Leader </th>
                                         <?php } if ($role_id != 2 && $role_id != 4) { ?>
                                             <?php  if ($role_id != 7) { ?>
                                             <th style="white-space: nowrap;"class="hide-mb"> Writer Name</th>
                                             <?php } ?>
-                                             <?php  if ($role_id != 7 && $role_id != 6) { ?>
+                                             <?php  if ($role_id != 7 && $role_id != 6 && $role_id != 8) { ?>
                                             <th style="white-space: nowrap;" class="hide-mb"> Writer Deadline</th>
                                             <?php } ?>
-                                          
+                                            <?php if($role_id == 8){ ?>
+                                            <th style="white-space: nowrap;"class="hide-mb"> Writer TL</th>
+                                            <?php  } ?>
                                         <?php } ?>
                                         <!-- <th style="white-space: nowrap;" > Action </th> -->
                                         <?php if($role_id != '2') { ?>
@@ -1057,7 +1060,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                     $i = 1;
                                     foreach ($orders as $obj) { ?>
                                    <?php
-                                     if($role_id != 6 && $role_id != 7)
+                                     if($role_id != 6 && $role_id != 7 && $role_id != 8)
                                      {
                                           if ($obj['c_is_fail'] == 1 && $obj['is_fail'] == 1) {
                                             $class = "red-background";
@@ -1159,7 +1162,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                     $color = "#35b8e0";
                                                 }
                                                 ?>
-                                                <?php if($role_id != 6 && $role_id != 7) { ?>
+                                                <?php if($role_id != 6 && $role_id != 7 && $role_id != 8) { ?>
                                                 <span class="label label-primary" style="background-color:<?= $color ?>;">
                                                     <?= $obj['projectstatus'] ?>
                                                 </span>
@@ -1181,7 +1184,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                     $colorwrier = "green";
                                                 }
                                                 ?>
-                                                 <?php if($role_id == 6 || $role_id == 7) { ?>
+                                                 <?php if($role_id == 6 || $role_id == 7 || $role_id == 8) { ?>
                                                 <span class="label label-primary" style="background-color:<?= $colorwrier ?>;">
                                                     <?= $obj['writer_status'] ?>
                                                 </span>
@@ -1201,7 +1204,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 ?>
                                             </td>
  
-                                            <?php if($role_id != 5 && $role_id != '6' && $role_id != '7') { ?>
+                                            <?php if($role_id != 5 && $role_id != '6' && $role_id != '7' && $role_id != '8') { ?>
                                             <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php echo @$obj['amount']; ?> &#163;
                                             </td>
@@ -1211,7 +1214,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 $obj['amount'] = 0;
                                             }
                                             ?>
-                                             <?php if($role_id != 5 && $role_id != '6' && $role_id != '7') { ?>
+                                             <?php if($role_id != 5 && $role_id != '6' && $role_id != '7' && $role_id != '8') { ?>
                                             <td style="white-space: nowrap;" class="hide-mb">
                                                 <?php echo @$obj['received_amount']; ?> &#163;
                                             </td>
@@ -1233,14 +1236,14 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 
                                                 if($role_id != 4) {
                                                 ?>
-                                                  <?php if($role_id != 6 && $role_id != 7) { ?>
+                                                  <?php if($role_id != 6 && $role_id != 7 && $role_id != 8) { ?>
                                                 <td class="hide-mb">
                                                     <?php echo $obj['writer_name']; ?>
      
                                                 </td>
                                                 <?php }?>
                                                 
-                                             <?php if ($role_id == 6) { ?>
+                                             <?php if ($role_id == 6 || $role_id == 8) { ?>
                                             <td class="hide-mb">
                                                <?php foreach ($subwrtier as $employee) : ?>
                                                     <?php if (@$employee['id'] == $obj['swid']) {
@@ -1249,7 +1252,17 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 <?php endforeach; ?>
                                             </td>
                                         <?php } ?>
-                                                 <?php  if ($role_id != 7 && $role_id != 6) { ?>
+
+                                        <?php if ($role_id == 8) { ?>
+                                            <td class="hide-mb">
+                                               <?php foreach ($subwrtier as $employee) : ?>
+                                                    <?php if (@$employee['id'] == $obj['swid']) {
+                                                        echo $employee['name'];
+                                                    } ?>
+                                                <?php endforeach; ?>
+                                            </td>
+                                        <?php } ?>
+                                                 <?php  if ($role_id != 7 && $role_id != 6 && $role_id != 8) { ?>
                                                 <td class="hide-mb" >
                                                     <?php if (($obj['writer_deadline'] != '1970-01-01') and (!empty($obj['writer_deadline']))) {
                                                         echo date('d-M-Y', strtotime($obj['writer_deadline']));
@@ -1278,7 +1291,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                     </a>
                                                 <?php }  ?>
                                                        
-                                                       <?php if($role_id == 6 || $role_id == 7) {?> 
+                                                       <?php if($role_id == 6 || $role_id == 7 || $role_id == 8) {?> 
                                                        <a type="button" class="btn btn-xs btn-dark btn-sm m-1" data-bs-toggle="modal" data-bs-target="#editModalw<?= $obj['id'] ?>" title="Order Edit">
                                                         <i style="color:#fff;" class="fa fa-edit"></i>
                                                         </a>
@@ -1305,12 +1318,12 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                 <input type="text" style="display:none;" name="order_type" value="Back-End">
                                                                                 <div class="row">
                                                                                     <div class="col-lg-4">
-                                                                                        <?php if($role_id == 6){ ?>
+                                                                                        <?php if($role_id == 6 || $role_id == 8){ ?>
                                                                                         <div class="form-group has-warning m-b-40">
                                                                                             <label class="control-label">Select Writer</label>
                                                                                             <select name="writer_name_new" class="form-control" >
                                                                                                 <option value="">Select an Writer</option>
-                                                                                                <?php foreach ($subwrtier as $employee) : ?>
+                                                                                                <?php foreach ($writerTL as $employee) : ?>
                                                                                                     <option value="<?php echo $employee['id']; ?>" <?php if (@$employee['id'] == $obj['swid']) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
                                                                                                 <?php endforeach; ?>
                                                                                             </select>
@@ -1322,13 +1335,27 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                     <div class="col-lg-4">
                                                                                         <div class="form-group has-warning m-b-40">
                                                                                             <label class="control-label">Select Your Status</label>
-                                                                                            <?php if($role_id == 6){ ?>
+                                                                                            <?php if($role_id == 6 ){ ?>
                                                                                             <select name="writer_status" class="form-control" >
                                                                                                 <option value="" <?php if (@$obj['writer_status'] == 'NULL') {echo "selected";} ?>>Select a status</option>
                                                                                                 <option value="Quality Accepted" <?php if (@$obj['writer_status'] == 'Quality Accepted') {echo "selected";} ?>>Quality Accepted</option>
                                                                                                 <option value="Quality Rejected" <?php if (@$obj['writer_status'] == 'Quality Rejected') {echo "selected";} ?> >Quality Rejected</option>
                                                                                             </select>
-                                                                                            <?php } else { ?>
+                                                                                            <?php }
+                                                                                            elseif($role_id == 8)
+                                                                                            { ?>
+                                                                                            <select name="writer_status" class="form-control" >
+                                                                                                <option value="" <?php if (@$obj['writer_status'] == 'NULL') {echo "selected";} ?>>Select a status</option>
+                                                                                                <option value="Quality Accepted" <?php if (@$obj['writer_status'] == 'Quality Accepted') {echo "selected";} ?>>Quality Accepted</option>
+                                                                                                <option value="Quality Rejected" <?php if (@$obj['writer_status'] == 'Quality Rejected') {echo "selected";} ?> >Quality Rejected</option>
+                                                                                                <option value="" <?php if (@$obj['writer_status'] == 'NULL ') {echo "selected";} ?>>Select a status</option>
+                                                                                                <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progres</option>
+                                                                                                <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
+                                                                                                <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
+                                                                                            </select>
+                                                                                                
+                                                                                            <?php }
+                                                                                            else { ?>
                                                                                             <select name="writer_status" class="form-control" required>
                                                                                                 <option value="" <?php if (@$obj['writer_status'] == 'NULL ') {echo "selected";} ?>>Select a status</option>
                                                                                                 <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progres</option>
@@ -1363,7 +1390,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                         $btn_class = 'danger';
                                                     }
                                                     ?>
-                                                    <?php if($role_id !=6 && $role_id !=7) { ?>
+                                                    <?php if($role_id !=6 && $role_id !=7 && $role_id !=8) { ?>
                                                     <?php if (($obj['projectstatus'] == 'Other') |  ($obj['projectstatus'] == 'Other') || ($obj['projectstatus'] == 'In Progress') || ($obj['projectstatus'] == 'Pending')  || ($obj['projectstatus'] == 'initiated'  ) ) { ?>
                                                         <a class="btn btn-xs btn-<?= $btn_class ?> btn-sm m-1 sendmail"   >
                                                             <input type="hidden" value = "<?= $obj['id'] ?>" name='id'  >
@@ -1386,13 +1413,13 @@ $loginid        = $this->session->userdata['logged_in']['id'];
 
                                                   
 
-                                                        <?php if($role_id != 6 && $role_id != 5 &&  $role_id != 7)  { ?>
+                                                        <?php if($role_id != 6 && $role_id != 5 &&  $role_id != 7 &&  $role_id != 8)  { ?>
                                                         <a href="<?php echo base_url(); ?>index.php/Orders/payments/<?php echo $obj['id']; ?>" type="button" class="btn btn-xs btn-primary btn-sm m-1"  title="Order Payment" style="background-color: red;">
                                                             <i style="color:#fff;" class="fa fa-money"></i>
                                                         </a>
                                                         <?php } ?>
 
-                                                    <?php if($role_id != 6) { ?>
+                                                    <?php if($role_id != 6 && $role_id != 7 &&$role_id != 8) { ?>
                                                     <?php if ($obj['projectstatus'] == 'Pending' || $obj['projectstatus'] == 'Cancelled') { ?>
                                                         <a class="btn btn-xs btn-warning btn-sm m-1" href="<?php echo base_url(); ?>index.php/Orders/callstatus/<?php echo $obj['id']; ?>">
                                                             <i style="color:#fff;" class="fa fa-phone"></i>
@@ -1404,7 +1431,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
 
                                                 <!-- Mark Job Failed -->
                                                 
-                                                <?php if($role_id != '2' && $role_id != '6' &&  $role_id != '7'  ) { ?>
+                                                <?php if($role_id != '2' && $role_id != '6' &&  $role_id != '7'  &&  $role_id != '8' ) { ?>
                                                 <a type="button" class="btn btn-xs btn-primary btn-sm m-1 mark_as_failed" title="Mark as failed job" style="background-color:tomato;">
                                                     <i style="color:#fff;" class="fa fa-close"></i>
                                                 </a>
@@ -1414,19 +1441,19 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 <!-- / Mark Job Failed -->
 
                                                 <!-- Button trigger modal -->
-                                                <?php if($role_id != 6 && $role_id != 7) { ?>
+                                                <?php if($role_id != 6 && $role_id != 7 && $role_id != 8)  { ?>
                                                 <a type="button" class="btn btn-xs btn-primary btn-sm m-1" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $obj['id'] ?>" title="More buttons">
                                                     <i style="color:#fff;" class="fa fa-list"></i>
                                                 </a>
                                                 <?php } ?>
                                                 
-                                                <?php if($role_id == 6 || $role_id == 7 || $role_id == 1 ) {?>
+                                                <?php if($role_id == 6 || $role_id == 7 || $role_id == 1|| $role_id == 8 ) {?>
                                                 <a href="<?php echo base_url(); ?>index.php/Orders/updateCallsData/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
                                                    W
                                                 </a>
                                                 <?php } ?>
                                                 
-                                                <?php if($role_id == 6 || $role_id == 2 || $role_id == 1 || $role_id == 5){ ?> 
+                                                <?php if($role_id == 6 || $role_id == 2 || $role_id == 1 || $role_id == 5 || $role_id == 8){ ?> 
                                                 <a href="<?php echo base_url(); ?>index.php/Orders/orderchatc/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
                                                    C
                                                 </a>
@@ -1558,7 +1585,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <div class="col-md-12">
-                                                                    <?php if($role_id != '5' && $role_id != '6' && $role_id != '7') { ?> 
+                                                                    <?php if($role_id != '5' && $role_id != '6' && $role_id != '7' && $role_id != '8') { ?> 
                                                                     
                                                                     <fieldset class="scheduler-border">
                                                                         <legend class="scheduler-border"> Customer Details <?= $obj['c_name'] ?></legend>
@@ -1626,7 +1653,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                 <label class="control-label">Pages:</label>
                                                                                 <span> <?php echo $obj['pages']; ?></span>
                                                                             </div>
-                                                                              <?php if($role_id != '6' &&  $role_id != '7') { ?>
+                                                                              <?php if($role_id != '6' &&  $role_id != '7' && $role_id != '8') { ?>
                                                                             <div class="col-md-6">
                                                                                 <label class="control-label">Deadline:</label>
                                                                                 <span> <?php echo $obj['deadline']; ?> Day</span>
