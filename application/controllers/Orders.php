@@ -2331,7 +2331,8 @@ class Orders extends CI_Controller
         $data = array(
            
             
-            'swid' => $this->input->post('writer_name_new'),
+            'wid' => $this->input->post('writer_name_new'),
+            'swid' => $this->input->post('subwriter_name_new'),
             
             'writer_status' => $this->input->post('writer_status'),
             'flag' => '0',

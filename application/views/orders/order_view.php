@@ -673,56 +673,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                             <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
                                         </select>
                                     </div>
-                                    <!-- <div class="col-md-3 col-sm-3" style='display:none'>
-                                        <select id='purpose' class="form-control purpose" name="filter_check">
-                                            <option value="writer">Writer Name</option>
-                                        </select>
-                                    </div>
                                    
-
-                                    <div class="col-md-3 col-sm-3" id='business' >
-                                        <select name="writer_name" class="form-control" required>
-                                            <option value=" " <?php if (@$obj['writer_name'] == ' ') {
-                                                            echo "selected";
-                                                        } ?>>Select Writer </option>
-                                            <option value="team 01" <?php if (@$obj['writer_name'] == 'team 01') {
-                                                            echo "selected";
-                                                        } ?>>team 1</option>
-                                            <option value="team 02" <?php if (@$obj['writer_name'] == 'team 02') {
-                                                            echo "selected";
-                                                        } ?>>team 2</option>
-                                            <option value="team 03" <?php if (@$obj['writer_name'] == 'team 03') {
-                                                            echo "selected";
-                                                        } ?>>team 3</option>
-                                            <option value="team 04" <?php if (@$obj['writer_name'] == 'team 04') {
-                                                            echo "selected";
-                                                        } ?>>team 4</option>
-                                            <option value="team 05" <?php if (@$obj['writer_name'] == 'team 05') {
-                                                            echo "selected";
-                                                        } ?>>team 5</option>
-                                            <option value="team 06" <?php if (@$obj['writer_name'] == 'team 06') {
-                                                            echo "selected";
-                                                        } ?>>team 6</option>
-                                            <option value="team 07" <?php if (@$obj['writer_name'] == 'team 07') {
-                                                            echo "selected";
-                                                        } ?>>team 7</option>
-                                            <option value="team 08" <?php if (@$obj['writer_name'] == 'team 08') {
-                                                            echo "selected";
-                                                        } ?>>team 8</option>
-                                            <option value="team 09" <?php if (@$obj['writer_name'] == 'team 09') {
-                                                            echo "selected";
-                                                        } ?>>team  9</option>
-                                            <option value="team 010" <?php if (@$obj['writer_name'] == 'team 010') {
-                                                        } ?>>team 10</option>
-                                            <option value="team 011" <?php if (@$obj['writer_name'] == 'team 011') {
-                                            } ?>>team 11</option>
-
-                                            <option value="team 012" <?php if (@$obj['writer_name'] == 'team 012') {
-                                            } ?>>team 12</option>
-                                             <option value="team 013" <?php if (@$obj['writer_name'] == 'team 013') {
-                                                                                                } ?>>team 13</option>
-                                        </select>
-                                    </div> -->
                                     
                                 </div>
                             </div>
@@ -1317,21 +1268,58 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                 <input type="text" style="display:none;" name="order_id" class="form-control" value="<?= $obj['order_id'] ?>" autofocus readonly="readonly">
                                                                                 <input type="text" style="display:none;" name="order_type" value="Back-End">
                                                                                 <div class="row">
-                                                                                    <div class="col-lg-4">
-                                                                                        <?php if($role_id == 6 || $role_id == 8){ ?>
+                                                                                <div class="col-lg-4">
+                                                                                <?php if ($role_id == 6 || $role_id == 8): ?>
                                                                                         <div class="form-group has-warning m-b-40">
                                                                                             <label class="control-label">Select Writer</label>
-                                                                                            <select name="writer_name_new" class="form-control" >
-                                                                                                <option value="">Select an Writer</option>
-                                                                                                <?php foreach ($writerTL as $employee) : ?>
-                                                                                                    <option value="<?php echo $employee['id']; ?>" <?php if (@$employee['id'] == $obj['swid']) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
+                                                                                            <select name="writer_name_new" class="form-control" id="writerSelect">
+                                                                                                <option value="">Select a Writer</option>
+                                                                                                <?php foreach ($writerTL as $employeeS): ?>
+                                                                                                    <option value="<?php echo $employeeS['id']; ?>" <?php if (@$employeeS['id'] == $obj['wid']) { echo "selected"; } ?>><?php echo $employeeS['name']; ?></option>
                                                                                                 <?php endforeach; ?>
                                                                                             </select>
                                                                                         </div>
-                                                                                        <?php } else { ?>
+                                                                                    <?php else: ?>
                                                                                         <input type="hidden" name="writer_name_new" value="<?= $obj['swid'] ?>">
-                                                                                        <?php }?>
+                                                                                    <?php endif; ?>
+
+
+                                                                                    
+
+                                                                                    <div id="selectedWriterDisplay" name="writerId"></div>
+                                                                                        
+                                                                                    <script>
+                                                                                        
+                                                                                        // Assuming you're using jQuery
+                                                                                        $(document).ready(function () {
+                                                                                            $('#writerSelect').change(function () {
+                                                                                                var selectedValue = $(this).val();
+                                                                                                $('#selectedWriterDisplay').text(selectedValue);
+
+                                                                                                if (selectedValue !== "") {
+                                                                                                    $('#subwriterDropdown').shw();
+                                                                                                } else {
+                                                                                                    $('#subwriterDropdown').hde();
+                                                                                                }
+                                                                                            });
+                                                                                        });
+                                                                                    </script>
+                                                                                <?php if($employeeS['id'] != 0) { ?>
+                                                                                <div id="subwriterDropdown" class="form-group has-warning m-b-40" style="">
+                                                                                        <label class="control-label">Select Writer</label>
+                                                                                        <select name="subwriter_name_new" class="form-control">
+                                                                                            <option value="">Select a Writer</option>
+                                                                                            <?php foreach ($subwrtier as $employee): ?>
+                                                                                                <?php if ($employee['tl_id'] == $employeeS['id'] ): ?>
+                                                                                                    <option value="<?php echo $employee['id']; ?>" <?php if (@$employee['id'] == $obj['swid']) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
+                                                                                                <?php endif; ?>
+                                                                                            <?php endforeach; ?>
+                                                                                        </select>
                                                                                     </div>
+                                                                                </div>
+                                                                                <?php } ?>
+
+
                                                                                     <div class="col-lg-4">
                                                                                         <div class="form-group has-warning m-b-40">
                                                                                             <label class="control-label">Select Your Status</label>
@@ -1348,7 +1336,6 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                                 <option value="" <?php if (@$obj['writer_status'] == 'NULL') {echo "selected";} ?>>Select a status</option>
                                                                                                 <option value="Quality Accepted" <?php if (@$obj['writer_status'] == 'Quality Accepted') {echo "selected";} ?>>Quality Accepted</option>
                                                                                                 <option value="Quality Rejected" <?php if (@$obj['writer_status'] == 'Quality Rejected') {echo "selected";} ?> >Quality Rejected</option>
-                                                                                                <option value="" <?php if (@$obj['writer_status'] == 'NULL ') {echo "selected";} ?>>Select a status</option>
                                                                                                 <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progres</option>
                                                                                                 <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
                                                                                                 <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>

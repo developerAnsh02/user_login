@@ -199,10 +199,14 @@ public function is_email_exists($email) {
 
 public function getsubWritersfortl($tl_id)
 {
-    $this->db->select('id, name, email');
+	$role_id = $this->session->userdata['logged_in']['role_id'];
+    $this->db->select('id, name, email, tl_id');
     $this->db->from('employees');
     $this->db->where('role_id', 7);
-    $this->db->where('tl_id', $tl_id);
+	
+	if($role_id == 6){
+   	 $this->db->where('tl_id', $tl_id);
+	}
     $this->db->where('flag', 0);
     $query = $this->db->get();
     return $query->result_array();
