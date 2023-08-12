@@ -1714,6 +1714,12 @@ public function feedback_list_all()
                     $this->db->where('orders.swid', $login_id);
 
 				}
+				elseif($this->role_id == '8')
+				{
+					$this->db->join('orders', 'clintchat.order_code = orders.order_id', 'left');
+                    $this->db->where('orders.admin_id', $login_id);
+
+				}
             	$this->db->where('clintchat.is_read', '1');
             	$this->db->order_by("clintchat.id", "desc");
             	$query =  $this->db->get()->result_array();

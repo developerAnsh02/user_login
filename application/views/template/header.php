@@ -731,7 +731,7 @@ if (isset($this->session->userdata['logged_in'])) {
                         </li>
                         <?php } ?>
                         
-                             <?php if($role_id == 1 ||$role_id == 6 || $role_id == 7 || $role_id == 5 ) { ?>
+                             <?php if($role_id == 1 ||$role_id == 6 || $role_id == 7 || $role_id == 5 || $role_id == 8 ) { ?>
                         
                            <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-bs-toggle="dropdown"

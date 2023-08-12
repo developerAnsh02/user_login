@@ -31,7 +31,7 @@ class Leads extends CI_Controller
         $config = array();
         $config["base_url"] = base_url() . "Leads/index";
         $config["total_rows"] = $this->totalLeads();
-        $config["per_page"] = 10;
+        $config["per_page"] = 20;
         $config["uri_segment"] = 3;
         $config['num_tag_open'] = '<li>';
         $config['num_tag_close'] = '</li>';

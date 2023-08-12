@@ -985,17 +985,22 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                         <th style="white-space: nowrap;" class="hide-mb"> Amount</th>
                                         <th style="white-space: nowrap;" class="hide-mb"> Paid </th>
                                         <th style="white-space: nowrap;" class="hide-mb"> Due </th>
-                                        <th style="white-space: nowrap;" class="hide-mb"> Writer Team Leader </th>
-                                        <?php } if ($role_id != 2 && $role_id != 4) { ?>
-                                            <?php  if ($role_id != 7) { ?>
+                                        <?php } if( $role_id == '1' || $role_id == '8') { ?>
+
+                                        <th style="white-space: nowrap;" class="hide-mb"> Writer Team Leader </th> <?php } ?>
+
+                                        <?php if( $role_id == '1' || $role_id == '8' || $role_id == '6') { ?>
+
+                                        <th style="white-space: nowrap;" class="hide-mb"> Writer </th> <?php } ?>
+
+                                        <?php  if ($role_id != 2 && $role_id != 4) { ?>
+                                            <?php  if ($role_id != 7 && $role_id != 6 && $role_id != 8) { ?>
                                             <th style="white-space: nowrap;"class="hide-mb"> Writer Name</th>
                                             <?php } ?>
                                              <?php  if ($role_id != 7 && $role_id != 6 && $role_id != 8) { ?>
-                                            <th style="white-space: nowrap;" class="hide-mb"> Writer Deadline</th>
+                                            <th style="white-space: nowrap;" class="hide-mb">Writer Deadline</th>
                                             <?php } ?>
-                                            <?php if($role_id == 8){ ?>
-                                            <th style="white-space: nowrap;"class="hide-mb"> Writer TL</th>
-                                            <?php  } ?>
+                                           
                                         <?php } ?>
                                         <!-- <th style="white-space: nowrap;" > Action </th> -->
                                         <?php if($role_id != '2') { ?>
@@ -1182,9 +1187,26 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                             </td>
                                             <?php } ?>
 
+                                            <?php if ($role_id == 1|| $role_id == 8 ) { ?>
+                                            <td class="hide-mb">
+                                               <?php foreach ($writerTL as $employee) : ?>
+                                                    <?php if (@$employee['id'] == $obj['wid']) {
+                                                        echo $employee['name'];
+                                                    } ?>
+                                                <?php endforeach; ?>
+                                            </td>
+                                       
+                                            <?php } ?>
+                                            <?php if ($role_id == 8 || $role_id == 1 || $role_id == 6) { ?>
+                                                <td class="hide-mb">
+                                                <?php foreach ($subwrtier as $employee) : ?>
+                                                        <?php if (@$employee['id'] == $obj['swid']) {
+                                                            echo $employee['name'];
+                                                        } ?>
+                                                    <?php endforeach; ?>
+                                                </td>
+                                            <?php } ?>
                                             <?php
-                                            if ($role_id != 2) {
-                                                
                                                 if($role_id != 4) {
                                                 ?>
                                                   <?php if($role_id != 6 && $role_id != 7 && $role_id != 8) { ?>
@@ -1194,25 +1216,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 </td>
                                                 <?php }?>
                                                 
-                                             <?php if ($role_id == 6 || $role_id == 8) { ?>
-                                            <td class="hide-mb">
-                                               <?php foreach ($subwrtier as $employee) : ?>
-                                                    <?php if (@$employee['id'] == $obj['swid']) {
-                                                        echo $employee['name'];
-                                                    } ?>
-                                                <?php endforeach; ?>
-                                            </td>
-                                        <?php } ?>
-
-                                        <?php if ($role_id == 8) { ?>
-                                            <td class="hide-mb">
-                                               <?php foreach ($subwrtier as $employee) : ?>
-                                                    <?php if (@$employee['id'] == $obj['swid']) {
-                                                        echo $employee['name'];
-                                                    } ?>
-                                                <?php endforeach; ?>
-                                            </td>
-                                        <?php } ?>
+                                            
                                                  <?php  if ($role_id != 7 && $role_id != 6 && $role_id != 8) { ?>
                                                 <td class="hide-mb" >
                                                     <?php if (($obj['writer_deadline'] != '1970-01-01') and (!empty($obj['writer_deadline']))) {
@@ -1220,7 +1224,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                     }   ?>
                                                 </td>
                                                 <?php }  }?>
-                                            <?php } ?>
+                                           
 
                                             <td style="display:none;"><?php echo $obj['c_name']; ?></td>
                                             <td style="display:none;"><?php echo $obj['c_mobile']; ?></td>
@@ -1269,55 +1273,74 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                 <input type="text" style="display:none;" name="order_type" value="Back-End">
                                                                                 <div class="row">
                                                                                 <div class="col-lg-4">
-                                                                                <?php if ($role_id == 6 || $role_id == 8): ?>
+                                                                              <?php if ( $role_id == 8): ?>
                                                                                         <div class="form-group has-warning m-b-40">
                                                                                             <label class="control-label">Select Writer</label>
-                                                                                            <select name="writer_name_new" class="form-control" id="writerSelect">
+                                                                                            <select name="writer_name_new" class="form-control" id="writerSelect<?php echo $obj['order_id'] ?>">
                                                                                                 <option value="">Select a Writer</option>
                                                                                                 <?php foreach ($writerTL as $employeeS): ?>
-                                                                                                    <option value="<?php echo $employeeS['id']; ?>" <?php if (@$employeeS['id'] == $obj['wid']) { echo "selected"; } ?>><?php echo $employeeS['name']; ?></option>
+                                                                                                    <option value="<?= $employeeS['id']; ?>" <?= @$employeeS['id'] == $obj['wid'] ? "selected" : ""; ?>>
+                                                                                                        <?= $employeeS['name']; ?>
+                                                                                                    </option>
                                                                                                 <?php endforeach; ?>
                                                                                             </select>
                                                                                         </div>
                                                                                     <?php else: ?>
-                                                                                        <input type="hidden" name="writer_name_new" value="<?= $obj['swid'] ?>">
+                                                                                        <input type="hidden" name="writer_name_new" value="<?= $obj['wid'] ?>">
                                                                                     <?php endif; ?>
 
+                                                                                    <!-- <div id="selectedWriterDisplay" name="writerId"></div> -->
 
-                                                                                    
-
-                                                                                    <div id="selectedWriterDisplay" name="writerId"></div>
-                                                                                        
                                                                                     <script>
-                                                                                        
-                                                                                        // Assuming you're using jQuery
                                                                                         $(document).ready(function () {
-                                                                                            $('#writerSelect').change(function () {
+                                                                                            $('#writerSelect<?php echo $obj['order_id'] ?>').change(function () {
                                                                                                 var selectedValue = $(this).val();
-                                                                                                $('#selectedWriterDisplay').text(selectedValue);
+                                                                                                $('#selectedWriterDisplay<?php echo $obj['order_id'] ?>').text(selectedValue);
 
                                                                                                 if (selectedValue !== "") {
-                                                                                                    $('#subwriterDropdown').shw();
+                                                                                                    $('#subwriterDropdown<?php echo $obj['order_id'] ?>').show(); // Corrected typo: changed 'shw' to 'show'
                                                                                                 } else {
-                                                                                                    $('#subwriterDropdown').hde();
+                                                                                                    $('#subwriterDropdown<?php echo $obj['order_id'] ?>').hide(); // Corrected typo: changed 'hde' to 'hide'
                                                                                                 }
+
+                                                                                                // Populate subwriter dropdown based on the selected writer
+                                                                                                var subwriterDropdown = $('#subwriterDropdown<?php echo $obj['order_id'] ?> select');
+                                                                                                subwriterDropdown.find('option').hide();
+                                                                                                subwriterDropdown.find('option[data-tl-id="' + selectedValue + '"]').show();
                                                                                             });
                                                                                         });
                                                                                     </script>
-                                                                                <?php if($employeeS['id'] != 0) { ?>
-                                                                                <div id="subwriterDropdown" class="form-group has-warning m-b-40" style="">
-                                                                                        <label class="control-label">Select Writer</label>
+
+                                                                                    <?php if($obj['wid'] != 0) {?>
+                                                                                        
+                                                                                    <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" style="display: ;">
+                                                                                        <label class="control-label">Select Subwriter</label>
                                                                                         <select name="subwriter_name_new" class="form-control">
-                                                                                            <option value="">Select a Writer</option>
+                                                                                            <option value="">Select a Subwriter</option>
                                                                                             <?php foreach ($subwrtier as $employee): ?>
-                                                                                                <?php if ($employee['tl_id'] == $employeeS['id'] ): ?>
-                                                                                                    <option value="<?php echo $employee['id']; ?>" <?php if (@$employee['id'] == $obj['swid']) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
-                                                                                                <?php endif; ?>
+                                                                                                <option value="<?= $employee['id']; ?>" data-tl-id="<?= $employee['tl_id']; ?>" <?= @$employee['id'] == $obj['swid'] ? "selected" : ""; ?>>
+                                                                                                    <?= $employee['name']; ?>
+                                                                                                </option>
                                                                                             <?php endforeach; ?>
                                                                                         </select>
                                                                                     </div>
-                                                                                </div>
-                                                                                <?php } ?>
+                                                                                    <?php } else{ ?>
+                                                                                        <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" style="display: none;">
+                                                                                        <label class="control-label">Select Subwriter</label>
+                                                                                        <select name="subwriter_name_new" class="form-control">
+                                                                                            <option value="">Select a Subwriter</option>
+                                                                                            <?php foreach ($subwrtier as $employee): ?>
+                                                                                                <option value="<?= $employee['id']; ?>" data-tl-id="<?= $employee['tl_id']; ?>" <?= @$employee['id'] == $obj['swid'] ? "selected" : ""; ?>>
+                                                                                                    <?= $employee['name']; ?>
+                                                                                                </option>
+                                                                                            <?php endforeach; ?>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <?php } ?>
+                                                                                    </div>
+
+                                                                                  
+                                                                                
 
 
                                                                                     <div class="col-lg-4">
@@ -1434,13 +1457,13 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 </a>
                                                 <?php } ?>
                                                 
-                                                <?php if($role_id == 6 || $role_id == 7 || $role_id == 1|| $role_id == 8 ) {?>
+                                                <?php if($role_id == 6 || $role_id == 7 || $role_id == 1) {?>
                                                 <a href="<?php echo base_url(); ?>index.php/Orders/updateCallsData/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
                                                    W
                                                 </a>
                                                 <?php } ?>
                                                 
-                                                <?php if($role_id == 6 || $role_id == 2 || $role_id == 1 || $role_id == 5 || $role_id == 8){ ?> 
+                                                <?php if($role_id == 6 ||  $role_id == 1 || $role_id == 5 || $role_id == 8){ ?> 
                                                 <a href="<?php echo base_url(); ?>index.php/Orders/orderchatc/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
                                                    C
                                                 </a>
