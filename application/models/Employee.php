@@ -214,7 +214,7 @@ public function getsubWritersfortl($tl_id)
 
 public function getsubWriters()
 {
-	$this->db->select('id, name, email');
+	$this->db->select('id, name, email, tl_id');
     $this->db->from('employees');
     $this->db->where('role_id', 7);
     $this->db->where('flag', 0);

@@ -897,19 +897,38 @@ class Orders extends CI_Controller
 				}
 			}
 
-			$u_id = $this->input->post('u_id');
-			$query = $this->db->get_where("employees", array("id" => $u_id));
-			$result = $query->result_array();
-			$id=$result[0]['id'];
-			$update = array
-			(
-				'email' => $this->input->post('u_email'),
-				'mobile_no'=> $this->input->post('u_mobile_no')
-			);
-			// echo '<pre>'; print_r($update); exit;
-			$this->db->where('id',$id);
-			$this->db->update('employees', $update);
-			// end new code by ansh
+			$u_id 		= $this->input->post('u_id');
+			$query 		= $this->db->get_where("employees", array("id" => $u_id));
+			$result 	= $query->result_array();
+			$id		    = $result[0]['id'];
+
+			$new_email	= $this->input->post('u_email');
+
+			// Check if the new email already exists in the database
+			$email_check_query	 = $this->db->get_where("employees", array("email" => $new_email));
+			$email_check_result	 = $email_check_query->result_array();
+			$order_id			 = $this->input->post('order_id');
+
+			if (!empty($email_check_result) && $email_check_result[0]['id'] !== $id) {
+				// Email already exists and belongs to a different employee
+				$this->session->set_flashdata('error', 'Email already exists in the record with diffrent name . Please Use Other Email Thank You.');
+				redirect('/Orders/edit/' . $order_id);
+			} else {
+				$update = array(
+					'name' => $this->input->post('u_name'),
+					'email' => $new_email,
+					'mobile_no' => $this->input->post('u_mobile_no')
+				);
+
+				$this->db->where('id', $id);
+				$this->db->update('employees', $update);
+
+				// Redirect or perform other actions as needed
+			}
+
+			// Redirect to the view page
+			 // Replace with your actual route
+
 
 
 			$data = array
@@ -2481,21 +2500,11 @@ public function orderchatc($order_id = NULL)
 public function updateCallsData($order_code)
 {
 	$login_id = $this->session->userdata['logged_in']['id'];
-    // Assuming you have the $login_id variable defined or retrieved from your authentication system
-
-    // Load the database library (if not autoloaded)
-    // $this->load->database();
-
-    // Build the update query using Query Builder
     $this->db->set('is_read', 0); // Set the 'is_read' column to 0
     $this->db->where('order_code', $order_code); // Use the provided $order_code to identify the row(s) to update
     $this->db->where('created_by !=', $login_id); // Add condition to check created_by is not equal to $login_id
     $this->db->update('calls'); // Execute the update query
 
-    // You can check the result of the update operation if needed
-    // $result = $this->db->affected_rows();
-
-    // Construct the URL for redirect
     $redirect_url = base_url('index.php/Orders/orderchat/'. $order_code);
 
     // Redirect to the desired URL
@@ -2671,7 +2680,7 @@ public function writer_admin()
 	
 		// Check if the email already exists in the database
 		if ($this->employee->is_email_exists($writer_email)) {
-			$this->session->set_flashdata('error', 'Email already exists!');
+			$this->session->set_flashdata('error', 'Email already exists! Please Try again with another email');
 			redirect($_SERVER['HTTP_REFERER']); // Redirect to the same page
 			return;
 		}

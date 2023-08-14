@@ -14,14 +14,23 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
     <!-- ============================================================== -->
     <div class="container-fluid">
         <?php if ($this->session->flashdata('success')) : ?>
-            <div class="alert alert-success">
-                <?php echo $this->session->flashdata('success'); ?>
-            </div>
+            <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" class="btn-close" aria-label="Close">
+                            <span aria-hidden="true"></span>
+                        </button>
+                        <h3 class="text-success">
+                            <i class="fa fa-check-circle"></i> Success
+                        </h3>
+                        <?php echo $this->session->flashdata('success'); ?>
+                    </div>
         <?php endif; ?>
 
-        <?php if ($this->session->flashdata('error')) : ?>
-            <div class="alert alert-danger">
+        <?php if ($this->session->flashdata('error')): ?>
+            <div class="alert alert-danger alert-dismissible">
                 <?php echo $this->session->flashdata('error'); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" class="btn-close" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
             </div>
         <?php endif; ?>
 
@@ -93,7 +102,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                                         <td><?php echo $index + 1; ?></td>
                                         <td><?php echo $writer['name'] . ' (' . $writer['email'] . ')'; ?></td>
                                         <td>
-                                            <?php if($role_id ==2){ ?>
+                                            <?php if($role_id ==1){ ?>
                                             <a href="https://www.assignnmentinneed.com/user_login/index.php/Employees/edit/<?php echo $writer['id'] ?>"><i class="fa fa-edit"></i></a>
                                            <?php } ?>
                                             <a class="btn btn-xs btn-danger btnEdit" data-bs-toggle="modal" data-bs-target="#delete<?php echo $writer['id']; ?>"><i style="color:#fff;" class="fa fa-trash"></i></a>

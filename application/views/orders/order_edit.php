@@ -13,6 +13,8 @@ $currentURL = current_url();
     <!-- Container fluid  -->
     <!-- ============================================================== -->
     <div class="container-fluid">
+
+    
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
@@ -29,6 +31,17 @@ $currentURL = current_url();
                 </div>
             </div>
         </div>
+
+        <?php if ($this->session->flashdata('error')): ?>
+            <div class="alert alert-danger alert-dismissible">
+                <?php echo $this->session->flashdata('error'); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" class="btn-close" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+            </div>
+        <?php endif; ?>
+
+
         <!-- ============================================================== -->
         <!-- End Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
@@ -76,7 +89,7 @@ $currentURL = current_url();
                                 <?php if($role_id != '5') { ?>
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
-                                        <input type="text" class="form-control" name="u_email" value="<?= $user_email  ?>" required="required">
+                                        <input type="text" class="form-control" name="u_email" value="<?= $user_email  ?>">
                                         <span class="bar"></span>
                                         <label for="input10">Email</label>
                                     </div>
@@ -87,7 +100,7 @@ $currentURL = current_url();
                                 <?php if($role_id == '4') {   ?>
                                    <div class="col-lg-4">
                                        <div class="form-group has-warning m-b-40">
-                                           <input type="text" readonly class="form-control" name="u_mobile_no" value="<?php echo $mobile_no ?>" required="required">
+                                           <input type="text" readonly class="form-control" name="u_mobile_no" value="<?php echo $mobile_no ?>" >
                                            <span class="bar"></span>
                                            <label for="input10">Mobile No</label>
                                        </div>
@@ -108,7 +121,7 @@ $currentURL = current_url();
                                 <?php if($role_id != '5') { ?>
                                 <!-- Select Customer -->
                                 <?php if ($role_id != '2') {  ?>
-                                    <?php if ($role_id == '1') {  ?>
+                                    <?php if ($role_id == '1') {  ?>            
                                         <div class="col-lg-4">
                                             <div class="form-group has-warning m-b-40">
                                                 <?php echo form_dropdown('user_id', $users, $user_id, '', 'required="required"') ?>
@@ -250,88 +263,88 @@ $currentURL = current_url();
                                         <?php if ($role_id != '3') { ?>
                                             <?php if ($projectstatus == 'In Progress') { ?>
                                                 <select name="writer_name" class="form-control" required>
-                                            <option value=" " <?php if (@$obj['writer_name'] == ' ') {
+                                            <option value=" " <?php if (@$writer_name == ' ') {
                                                             echo "selected";
                                                         } ?>> </option>
-                                            <option value="team 01" <?php if (@$obj['writer_name'] == 'team 01') {
+                                            <option value="team 01" <?php if (@$writer_name == 'team 01') {
                                                             echo "selected";
                                                         } ?>>team 1</option>
-                                            <option value="team 02" <?php if (@$obj['writer_name'] == 'team 02') {
+                                            <option value="team 02" <?php if (@$writer_name == 'team 02') {
                                                             echo "selected";
                                                         } ?>>team 2</option>
-                                            <option value="team 03" <?php if (@$obj['writer_name'] == 'team 03') {
+                                            <option value="team 03" <?php if (@$writer_name == 'team 03') {
                                                             echo "selected";
                                                         } ?>>team 3</option>
-                                            <option value="team 04" <?php if (@$obj['writer_name'] == 'team 04') {
+                                            <option value="team 04" <?php if (@$writer_name == 'team 04') {
                                                             echo "selected";
                                                         } ?>>team 4</option>
-                                            <option value="team 05" <?php if (@$obj['writer_name'] == 'team 05') {
+                                            <option value="team 05" <?php if (@$writer_name == 'team 05') {
                                                             echo "selected";
                                                         } ?>>team 5</option>
-                                            <option value="team 06" <?php if (@$obj['writer_name'] == 'team 06') {
+                                            <option value="team 06" <?php if (@$writer_name == 'team 06') {
                                                             echo "selected";
                                                         } ?>>team 6</option>
-                                            <option value="team 07" <?php if (@$obj['writer_name'] == 'team 07') {
+                                            <option value="team 07" <?php if (@$writer_name == 'team 07') {
                                                             echo "selected";
                                                         } ?>>team 7</option>
-                                            <option value="team 08" <?php if (@$obj['writer_name'] == 'team 08') {
+                                            <option value="team 08" <?php if (@$writer_name == 'team 08') {
                                                             echo "selected";
                                                         } ?>>team 8</option>
-                                            <option value="team 09" <?php if (@$obj['writer_name'] == 'team 09') {
+                                            <option value="team 09" <?php if (@$writer_name == 'team 09') {
                                                             echo "selected";
                                                         } ?>>team  9</option>
-                                            <option value="team 010" <?php if (@$obj['writer_name'] == 'team 010') {
+                                            <option value="team 010" <?php if (@$writer_name == 'team 010') {
                                                         } ?>>team 10</option>
-                                            <option value="team 011" <?php if (@$obj['writer_name'] == 'team 011') {
+                                            <option value="team 011" <?php if (@$writer_name == 'team 011') {
                                             } ?>>team 11</option>
 
-                                            <option value="team 012" <?php if (@$obj['writer_name'] == 'team 012') {
+                                            <option value="team 012" <?php if (@$writer_name == 'team 012') {
                                             } ?>>team 12</option>
-                                            <option value="team 013" <?php if (@$obj['writer_name'] == 'team 013') {
+                                            <option value="team 013" <?php if (@$writer_name == 'team 013') {
                                             } ?>>team 13</option>
                                         </select>
                                                 <span class="bar"></span>
                                                 <label for="input10">Writer name (Select team)</label>
                                             <?php } else { ?>
                                                <select name="writer_name" class="form-control" required>
-                                            <option value=" " <?php if (@$obj['writer_name'] == ' ') {
+                                            <option value=" " <?php if (@$writer_name == ' ') {
                                                             echo "selected";
                                                         } ?>> </option>
-                                            <option value="team 01" <?php if (@$obj['writer_name'] == 'team 01') {
+                                            <option value="team 01" <?php if (@$writer_name == 'team 01') {
                                                             echo "selected";
                                                         } ?>>team 1</option>
-                                            <option value="team 02" <?php if (@$obj['writer_name'] == 'team 02') {
+                                            <option value="team 02" <?php if (@$writer_name == 'team 02') {
                                                             echo "selected";
                                                         } ?>>team 2</option>
-                                            <option value="team 03" <?php if (@$obj['writer_name'] == 'team 03') {
+                                            <option value="team 03" <?php if (@$writer_name == 'team 03') {
                                                             echo "selected";
                                                         } ?>>team 3</option>
-                                            <option value="team 04" <?php if (@$obj['writer_name'] == 'team 04') {
+                                            <option value="team 04" <?php if (@$writer_name == 'team 04') {
                                                             echo "selected";
                                                         } ?>>team 4</option>
-                                            <option value="team 05" <?php if (@$obj['writer_name'] == 'team 05') {
+                                            <option value="team 05" <?php if (@$writer_name == 'team 05') {
                                                             echo "selected";
                                                         } ?>>team 5</option>
-                                            <option value="team 06" <?php if (@$obj['writer_name'] == 'team 06') {
+                                            <option value="team 06" <?php if (@$writer_name == 'team 06') {
                                                             echo "selected";
                                                         } ?>>team 6</option>
-                                            <option value="team 07" <?php if (@$obj['writer_name'] == 'team 07') {
+                                            <option value="team 07" <?php if (@$writer_name == 'team 07') {
                                                             echo "selected";
                                                         } ?>>team 7</option>
-                                            <option value="team 08" <?php if (@$obj['writer_name'] == 'team 08') {
+                                            <option value="team 08" <?php if (@$writer_name == 'team 08') {
                                                             echo "selected";
                                                         } ?>>team 8</option>
-                                            <option value="team 09" <?php if (@$obj['writer_name'] == 'team 09') {
+                                            <option value="team 09" <?php if (@$writer_name == 'team 09') {
                                                             echo "selected";
                                                         } ?>>team  9</option>
-                                            <option value="team 010" <?php if (@$obj['writer_name'] == 'team 010') {
+                                            <option value="team 010" <?php if (@$writer_name == 'team 010') {
                                                         } ?>>team 10</option>
-                                            <option value="team 011" <?php if (@$obj['writer_name'] == 'team 011') {
+                                            <option value="team 011" <?php if (@$writer_name == 'team 011') {
                                             } ?>>team 11</option>
 
-                                            <option value="team 012" <?php if (@$obj['writer_name'] == 'team 012') {
+                                            <option value="team 012" <?php if (@$writer_name == 'team 012') {
                                             } ?>>team 12</option>
-                                            <option value="team 013" <?php if (@$obj['writer_name'] == 'team 013') {
+                                            <option value="team 013" <?php if (@$writer_name == 'team 013') {
                                             } ?>>team 13</option>
                                         </select>
                                                 <span class="bar"></span>
@@ -429,7 +442,7 @@ $currentURL = current_url();
                                             $writer_deadlinenew = date("Y-m-d");
                                         } ?>
 
-                                        <input type="text" class="form-control mdate" name="writer_deadline" value="">
+                                        <input type="text" class="form-control mdate" name="writer_deadline" value="<?php echo $writer_deadlinenew ?>">
                                         <span class="bar"></span>
                                         <label for="input10">Writer deadline</label>
                                     </div>
@@ -447,7 +460,7 @@ $currentURL = current_url();
                                             $writer_deadlinenew = date("Y-m-d");
                                         } ?>
 
-                                        <input type="text" class="form-control mdate" name="writer_deadline" value="">
+                                        <input type="text" class="form-control mdate" name="writer_deadline" value="<?php echo $writer_deadlinenew ?>">
                                         <span class="bar"></span>
                                         <label for="input10">Writer deadline</label>
                                     </div>

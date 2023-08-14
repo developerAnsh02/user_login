@@ -70,7 +70,6 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    
                                 </div>
                                 <?php } ?>
                                        
