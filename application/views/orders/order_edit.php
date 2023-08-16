@@ -587,7 +587,7 @@ $currentURL = current_url();
                                 <!-- Choose type of paper -->
                                 <div class="col-lg-4">
                                     <div class="form-group has-warning m-b-40">
-                                        <select class="ravi form-control typeofpaper" name="typeofpaper" required="required">
+                                        <select class="ravi<?php echo $order_id; ?> form-control typeofpaper" name="typeofpaper" required="required">
                                             <option value=""></option>
                                             <?php
                                             foreach ($typeofpapers as $key => $value) {
@@ -633,11 +633,11 @@ $currentURL = current_url();
                                         </div>
                                     </div>
                                     <?php } else{ ?>
-                                    <div class="col-lg-4" id='chap<?php echo $obj['order_id']; ?>'  style="display:none">
+                                    <div class="col-lg-4" id='chap<?php echo $order_id; ?>'  style="display:none">
                                         <div class="form-group has-warning m-b-40">
                                             
                                             <select id='chap<?php echo $obj['order_id']; ?>'  class=" form-control pages" name="chapter" >
-                                            <option value=" " <?php if ($obj['chapter'] == ' ') {
+                                            <option value=" " <?php if ($chapter == ' ') {
                                                                             echo "selected";
                                                                         } ?>> </option>
                                                 <option value="Chapter 1:  Introduction" <?php if ($chapter == 'Chapter 1:  Introduction') {
@@ -665,7 +665,7 @@ $currentURL = current_url();
                                     <?php } ?>
                                 <script>
                                      $(document).ready(function(){ //Make script DOM ready
-                                        $('.ravi').change(function() { //jQuery Change Function
+                                        $('.ravi<?php echo $order_id; ?>').change(function() { //jQuery Change Function
                                             var opval = $(this).val(); //Get value from select element
                                             if(opval=="Dissertation (all chapters)" || opval=="Thesis (all chapters)" || opval=="Research Paper"){ //Compare it and if true
                                             //   alert('d')
