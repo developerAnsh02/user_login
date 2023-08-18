@@ -159,8 +159,6 @@ $loginid        = $this->session->userdata['logged_in']['id'];
 																	</span>
                                                                    
 																</a>
-																
-															
                                                                 <div class="modal fade" id="kt_modal_new_targetleads<?php echo $obj['order_id']; ?>" tabindex="-1" aria-hidden="true">
                                                                         <!--begin::Modal dialog-->
                                                                         <div class="modal-dialog modal-dialog-centered mw-650px">
@@ -1278,6 +1276,9 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                             <label class="control-label">Select Writer</label>
                                                                                             <select name="writer_name_new" class="form-control" id="writerSelect<?php echo $obj['order_id'] ?>">
                                                                                                 <option value="">Select a Writer</option>
+                                                                                                <?php if($role_id ==8) { ?>
+                                                                                                    <option value="<?php echo $loginid ?>">Select Self  Writer</option>
+                                                                                                <?php } ?>
                                                                                                 <?php foreach ($writerTL as $employeeS): ?>
                                                                                                     <option value="<?= $employeeS['id']; ?>" <?= @$employeeS['id'] == $obj['wid'] ? "selected" : ""; ?>>
                                                                                                         <?= $employeeS['name']; ?>

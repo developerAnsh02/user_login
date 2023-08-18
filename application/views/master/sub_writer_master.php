@@ -4,6 +4,7 @@ $base = base_url();
 $hyperlink_ordes = $base . 'index.php/Orders/index';
 $hyperlink_customers = $base . 'index.php/Employees/index';
 $role_id = $this->session->userdata['logged_in']['role_id'];
+$login_id = $this->session->userdata['logged_in']['id'];
 ?>
 
 <!-- Page wrapper  -->
@@ -26,7 +27,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
         <?php endif; ?>
 
         <!-- Rest of your code -->
-    <!-- </div> -->
+         <!-- </div> -->
         <!-- ============================================================== -->
         <!-- Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
@@ -59,18 +60,46 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                                         <input type="text" placeholder="Enter Writer email" name="writer_email" class="form-control" value="" required autofocus>
                                     </div>
                                 </div>
-                                <?php if($role_id == 1) { ?>
-                                <div class="row col-md-12">
-                                    <div class="col-md-8 col-sm-8">
-                                        <label class="control-label">Writer TL</label>
-                                        <select name="writer_name_new" class="form-control" >
-                                            <option value="">Select an employee</option>
-                                            <?php foreach ($writerTL as $employee) : ?>
-                                                <option value="<?php echo $employee['id']; ?>" <?php if (@$obj['writer_name_new'] == $employee['id']) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
+                                <?php if($role_id == 1 || $role_id == 8) { ?>
+                                 
+                                    <div class="row col-md-12">
+                                        <div class="col-md-8 col-sm-8">
+                                            <label class="control-label">Writer TL</label>
+                                            <select id="writerDropdown" name="writer_name_new" class="form-control">
+                                                <option value="">Select an show Writer</option>
+                                                <?php if($role_id ==8){ ?>
+                                                <option value="<?php echo $login_id ?>">Select self</option>
+                                                <?php }  ?> 
+                                                
+                                               
+                                                <?php foreach ($writerTL as $employee) : ?>
+                                                    <option value="<?php echo $employee['id']; ?>" <?php if (@$obj['writer_name_new'] == $employee['id']) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                  
+
+                                    <script>
+                                    $(document).ready(function () {
+                                        $("#writerDropdown").on("change", function () {
+                                            var selectedValue = $(this).val();
+                                            $("#selectedWriter").html(selectedValue);
+
+                                            var subwriterDropdown = $('#subwriterDropdown select');
+                                            subwriterDropdown.find('option').hide();
+                                            subwriterDropdown.find('option[data-tl-id="' + selectedValue + '"]').show();
+
+                                            // Hide all rows with animation
+                                            $("tbody tr").slideUp("fast");
+
+                                            // Show rows with the selected value with animation
+                                            $("tbody tr[data-tl-id='" + selectedValue + "']").slideDown("fast");
+                                        });
+                                    });
+                                </script>
+
+
                                 <?php } ?>
                                        
                                 <br>
@@ -95,38 +124,40 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                             </thead>
                             <tbody>
                                 <?php foreach ($writers as $index => $writer) : ?>
-                                    <tr>
-                                        <td><?php echo $index + 1; ?></td>
-                                        <td><?php echo $writer['name'] . ' (' . $writer['email'] . ')'; ?></td>
-                                        <td>
-                                            <?php if($role_id ==2){ ?>
-                                            <a href="https://www.assignnmentinneed.com/user_login/index.php/Employees/edit/<?php echo $writer['id'] ?>"><i class="fa fa-edit"></i></a>
-                                           <?php } ?>
-                                            <a class="btn btn-xs btn-danger btnEdit" data-bs-toggle="modal" data-bs-target="#delete<?php echo $writer['id']; ?>"><i style="color:#fff;" class="fa fa-trash"></i></a>
-                                        </td>
-                                        <div class="modal fade" id="delete<?php echo $writer['id']; ?>" role="dialog">
-                                            <div class="modal-dialog">
-                                                <form class="form-horizontal" role="form" method="post" action="<?php echo base_url(); ?>index.php/Employees/deleteEmployee/<?php echo $writer['id']; ?>">
-                                                    <!-- Modal content-->
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Delete User</h4>
-                                                            <button type="button" class="btn btn-danger btn-xm close" data-bs-dismiss="modal">&times;</button>
+                                    <tr data-tl-id="<?php echo $writer['tl_id']; ?>">
+                                            <td><?php echo $index + 1; ?></td>
+                                            <td><?php echo $writer['name'] . ' (' . $writer['email'] . ')'; ?></td>
+                                            <td>
+                                            
+                                                <a href="<?php echo base_url() ?>index.php/employees/edit_writer/<?php echo $writer['id'] ?>"><i class="fa fa-edit"></i></a>
+                                            
+                                                <a class="btn btn-xs btn-danger btnEdit" data-bs-toggle="modal" data-bs-target="#delete<?php echo $writer['id']; ?>"><i style="color:#fff;" class="fa fa-trash"></i></a>
+                                            </td>
+                                            <div class="modal fade" id="delete<?php echo $writer['id']; ?>" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <form class="form-horizontal" role="form" method="post" action="<?php echo base_url(); ?>index.php/Employees/deleteEmployee/<?php echo $writer['id']; ?>">
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title">Delete User</h4>
+                                                                <button type="button" class="btn btn-danger btn-xm close" data-bs-dismiss="modal">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>Are you sure, you want to delete User <b><?php echo $writer['email']; ?> </b>?</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                            </div>
                                                         </div>
-                                                        <div class="modal-body">
-                                                            <p>Are you sure, you want to delete User <b><?php echo $writer['email']; ?> </b>?</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </form>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </tr>
+                                        </tr>
                                 <?php endforeach; ?>
                             </tbody>
+
+                          
                         </table>
                     </div>
                 </div>

@@ -338,4 +338,110 @@ class Employees extends CI_Controller
 		$emp = $this->Employee->getEmployee();
 		$this->load->view('template/dashboard',$emp);
 	}
+
+	public function edit_writer($id = NULL)
+	{
+		$this->load->model('Employee');
+		$data = array();
+		$result = $this->employee->getById($id);
+
+		if (isset($result['id']) && $result['id']) :
+			$data['id'] = $result['id'];
+		else :
+			$data['id'] = '';
+		endif;
+		if (isset($result['name']) && $result['name']) :
+			$data['name'] = $result['name'];
+		else :
+			$data['name'] = '';
+		endif;
+		if (isset($result['email']) && $result['email']) :
+			$data['email'] = $result['email'];
+		else :
+			$data['email'] = '';
+		endif;
+		if (isset($result['mobile_no']) && $result['mobile_no']) :
+			$data['mobile_no'] = $result['mobile_no'];
+		else :
+			$data['mobile_no'] = '';
+		endif;
+		if (isset($result['countrycode'])) :
+			$data['countrycode'] = $result['countrycode'];
+		else :
+			$data['countrycode'] = '';
+		endif;
+
+		if (isset($result['role_id']) && $result['role_id']) :
+			$data['role_id'] = $result['role_id'];
+		else :
+			$data['role_id'] = '';
+		endif;
+		if (isset($result['bank_id']) && $result['bank_id']) :
+			$data['bank_id'] = $result['bank_id'];
+		else :
+			$data['bank_id'] = '';
+		endif;
+		if (isset($result['address']) && $result['address']) :
+			$data['address'] = $result['address'];
+		else :
+			$data['address'] = '';
+		endif;
+		if (isset($result['photo']) && $result['photo']) :
+			$data['photo'] = $result['photo'];
+		else :
+			$data['photo'] = '';
+		endif;
+
+		if (isset($result['id']) && $result['id']) :
+			$data['title'] = 'Edit User';
+		else :
+			$data['title'] = 'Add New User';
+		endif;
+
+		if (isset($result['tl_id']) && $result['tl_id']) :
+			$data['tl_id'] = $result['tl_id'];
+		else :
+			$data['tl_id'] = '';
+		endif;
+		
+		$data['writerTL'] 		= $this->Employee->getWriters();
+		$data['roles']			= $this->employee->getRoles();
+		$data['banks']			= $this->employee->getBanks();
+		$data['countries'] 		= $this->employee->getCountries();
+
+		// echo '<pre>'; print_r($data); exit;
+		$this->template->load('template', '/writer/writer_edit', $data);
+	}
+
+
+	public function editwriter($id)
+	{
+    $this->form_validation->set_rules('role_id', 'Role', 'required');
+
+        $data = array(
+            'name' => $this->input->post('name'),
+            'email' => $this->input->post('email'),
+            'username' => $this->input->post('email'),
+            'mobile_no' => $this->input->post('mobile_no'),
+            'countrycode' => $this->input->post('countrycode'),
+            'role_id' => $this->input->post('role_id'),
+            'bank_id' => $this->input->post('bank_id'),
+            'tl_id' => $this->input->post('writer_name_new'),
+            'edited_by' => $loginId,
+        );
+
+        $result = $this->employee->employee_update($data, $id);
+        if ($result == TRUE) {
+           
+            $this->session->set_flashdata('success', 'Writer Updated Successfully !');
+			redirect($_SERVER['HTTP_REFERER']);
+        } else {
+            $this->session->set_flashdata('failed', 'No Changes in User details !');
+			redirect($_SERVER['HTTP_REFERER']);
+        }
+    }
+
+
+
+
 }

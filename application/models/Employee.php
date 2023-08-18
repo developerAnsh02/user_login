@@ -246,4 +246,5 @@ public function getWritersAdmin()
     $query = $this->db->get();
     return $query->result_array();
 }
+
 }

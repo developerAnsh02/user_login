@@ -820,19 +820,19 @@ class Orders extends CI_Controller
 		
 
 
-		$data['old_id'] = $id;
-		$data['categories'] = $this->order_model->getCategories();
-		$data['services'] = $this->order_model->getServices();
-		$data['typeofpapers'] = $this->order_model->getTypeOfPaper();
-		$data['pages'] = $this->order_model->getPagesList();
-		$data['timelines'] = $this->order_model->getTimelines();
-		$data['formattings'] = $this->order_model->getFormattings();
-		$data['typeofwritings'] = $this->order_model->getWtittingTypes();
-		$data['countries'] = $this->order_model->getCountries();
-		$data['users'] = $this->order_model->getUsersList();
-		$data['writerTL'] 		= $this->Employee->getWriters();
-		$data['writerAdmin'] 		= $this->Employee->getWritersAdmin();
-		$data['prefix'] = array('Mr.' => 'Mr.', 'Miss.' => 'Miss.', 'Ms.' => 'Ms.');
+		$data['old_id']				 = $id;
+		$data['categories']			 = $this->order_model->getCategories();
+		$data['services']			 = $this->order_model->getServices();
+		$data['typeofpapers'] 		 = $this->order_model->getTypeOfPaper();
+		$data['pages']				 = $this->order_model->getPagesList();
+		$data['timelines']			 = $this->order_model->getTimelines();
+		$data['formattings']		 = $this->order_model->getFormattings();
+		$data['typeofwritings']		 = $this->order_model->getWtittingTypes();
+		$data['countries']			 = $this->order_model->getCountries();
+		$data['users']				 = $this->order_model->getUsersList();
+		$data['writerTL'] 		   	 = $this->Employee->getWriters();
+		$data['writerAdmin'] 		 = $this->Employee->getWritersAdmin();
+		$data['prefix'] 			 = array('Mr.' => 'Mr.', 'Miss.' => 'Miss.', 'Ms.' => 'Ms.');
 
 		// echo '<pre>'; print_r($data); exit;
 		$this->template->load('template', 'orders/order_edit', $data);
@@ -973,7 +973,7 @@ class Orders extends CI_Controller
 			$result = $this->order_model->editOrder($data, $old_id);
             $due =  $this->input->post('due_amount');
             
-			// echo '<pre>'; print_r($data); exit;
+			echo '<pre>'; print_r($data); exit;
 			
             
             

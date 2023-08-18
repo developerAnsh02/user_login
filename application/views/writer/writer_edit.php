@@ -62,7 +62,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div class="card">
                     <div class="card">
                         <div class="card-body">
-                            <form class="floating-labels m-t-40 " role="form" method="post" action="<?php echo base_url(); ?>index.php/Employees/editemployee/<?= $id ?>" enctype="multipart/form-data">
+                            <form class="floating-labels m-t-40 " role="form" method="post" action="<?php echo base_url(); ?>index.php/Employees/editwriter/<?= $id ?>" enctype="multipart/form-data">
                                 <input type="hidden" name="employees_id" value="<?= $id ?>">
                                 <div class="row">
                                     <div class="col-lg-4">
@@ -104,7 +104,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                             <span class="bar"></span>
                                         </div>
                                     </div>
-                                    
+                                   
+                                    <div class="col-lg-4">
+                                        <div class="form-group has-error has-danger m-b-40">
+                                            <select name="writer_name_new" class="form-control" >
+                                                <option value="">Select an employee</option>
+                                                <?php foreach ($writerTL as $employee) : ?>
+                                                    <option value="<?php echo $employee['id']; ?>" <?php if ($tl_id== $employee['id']) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
+                                            <span class="bar"></span>
+                                        </div>
+                                    </div>
                                     <button type="submit" class="btn btn-primary btn-block">Update</button>
                                 </div>
                             </form>
