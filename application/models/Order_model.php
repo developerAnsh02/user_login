@@ -1725,6 +1725,8 @@ public function feedback_list_all()
             	$query =  $this->db->get()->result_array();
             	return $query;
             }
+
+			
             
              public function TotalWriter()
 	{
@@ -1861,6 +1863,25 @@ public function admin_writer_data($id, $limit, $start, $online_order = '')
 				$query[$i]['completed_orders'] = $c_query;
 			}
 
+			return $query;
+		}
+
+
+		public function adminwriter_notification()
+		{
+			// Load the database library if not already loaded
+			$login_id = $this->session->userdata['logged_in']['id'];
+			$this->db->select('*');
+			$this->db->from('calls');
+			if ($this->role_id == '8') {
+				$this->db->join('orders', 'calls.order_code = orders.order_id', 'left');
+				$this->db->where('orders.admin_id', $login_id);
+			}
+			
+			$this->db->where('calls.is_read', '1');
+			$this->db->where('calls.admin', '1');
+			$this->db->order_by("calls.id", "desc");
+			$query =  $this->db->get()->result_array();
 			return $query;
 		}
             

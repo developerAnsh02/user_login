@@ -973,7 +973,7 @@ class Orders extends CI_Controller
 			$result = $this->order_model->editOrder($data, $old_id);
             $due =  $this->input->post('due_amount');
             
-			echo '<pre>'; print_r($data); exit;
+			// echo '<pre>'; print_r($data); exit;
 			
             
             
@@ -2711,7 +2711,70 @@ public function writer_admin()
 		redirect($_SERVER['HTTP_REFERER']); // Redirect to the same page
 	}
 
+	public function orderchatAdmin($order_id = NULL)
+	{
+			$role_id = $this->session->userdata['logged_in']['role_id'];
+	   $data['title'] = 'Edit Order';
+	   $id = $this->uri->segment('3');
+   
+	   $query = $this->db->get_where("orders", array("order_id" => $order_id));
+	   $data['current'] = $query->result();
+	   $id = $data['current'][0]->id;
+   
+	   if (isset($data['current'][0]->order_id)) :
+		   $data['id'] = $data['current'][0]->id;
+	   endif;
+   
+	   if (isset($data['current'][0]->wid)) :
+		   $data['wid'] = $data['current'][0]->wid;
+	   endif;
+   
+	   if (isset($data['current'][0]->swid)) :
+		   $data['swid'] = $data['current'][0]->swid;
+	   endif;
+   
+	   if (isset($data['current'][0]->order_id)) :
+		   $data['order_id'] = $data['current'][0]->order_id;
+	   endif;
+	
+		   if (isset($data['current'][0]->wid)) :
+		   $data['user_id'] = $data['current'][0]->wid;
+		   $query 			 = $this->db->get_where("employees", array("id" => $data['user_id']));
+		   $userRecord 	 = $query->result();
+		   if (isset($userRecord) && !empty($userRecord)) {
+			   $data['user_name'] = $userRecord[0]->name;
+		   }
+   
+	   endif;
+   // 	echo '<pre>'; print_r($data); exit;
+	   $this->template->load('template', 'message/message_box_admin', $data);
+   }
 
+
+   public function updateadmin($order_code)
+{
+	$login_id = $this->session->userdata['logged_in']['id'];
+    // Assuming you have the $login_id variable defined or retrieved from your authentication system
+
+    // Load the database library (if not autoloaded)
+    // $this->load->database();
+
+    // Build the update query using Query Builder
+    $this->db->set('is_read', 0); // Set the 'is_read' column to 0
+    $this->db->where('order_code', $order_code); // Use the provided $order_code to identify the row(s) to update
+    $this->db->where('created_by !=', $login_id); // Add condition to check created_by is not equal to $login_id
+    $this->db->update('calls'); // Execute the update query
+
+    // You can check the result of the update operation if needed
+    // $result = $this->db->affected_rows();
+
+    // Construct the URL for redirect
+    $redirect_url = base_url('index.php/Orders/orderchatAdmin/'. $order_code);
+
+    // Redirect to the desired URL
+    redirect($redirect_url);
+}
+   
 
 
 

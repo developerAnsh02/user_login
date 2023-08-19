@@ -9,6 +9,7 @@ $notify_url = $base . 'index.php/Orders/feedback';
 $notification = $this->order_model->feedback_notification();
 $notificationw = $this->order_model->writer_notification();
 $notificationc = $this->order_model->client_notification();
+$notificationadmin = $this->order_model->adminwriter_notification();
 
 
 
@@ -554,9 +555,7 @@ if (isset($this->session->userdata['logged_in'])) {
 
 <?php } else { ?>
 <body class="skin-default-dark fixed-layout">
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
+  
     <div class="preloader">
         <div class="loader">
             <div class="loader__figure"></div>
@@ -585,7 +584,10 @@ if (isset($this->session->userdata['logged_in'])) {
                     </div> -->
                     <?if($role_id == 6 || $role_id ==7) {?>
                      
-                  
+                     <img src="https://www.assignnmentinneed.com/user_login/uploads/warlogo.jpeg" alt="" class="img-circle logo-mb2" style="width: 32%; background-color: #0c58b0; border-style: dotted;">
+                    <?php } else { ?>
+                    <img src="https://www.assignnmentinneed.com/user_login/uploads/logo-white.png" alt="" class="img-circle logo-mb2" style="width: 32%; ">
+                    <?php } ?>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
@@ -730,8 +732,44 @@ if (isset($this->session->userdata['logged_in'])) {
                             </div>
                         </li>
                         <?php } ?>
+                        <?php if($role_id == 1 ||  $role_id == 6 || $role_id == 8  ) { ?>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-bs-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"> 
+								<span class="badge badge-primary  navbar-badge btn" style="margin-top: -8px;border-radius:42%;background-color: #6699CC; color:black"> <i style="font-size:20px;" class="fa fa-bell">A</i> <sup style="color: black;"> <?php echo sizeof($notificationadmin); ?></sup></span>
+								<div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+							</a>
+							 <div class="dropdown-menu dropdown-menu-end mailbox animated bounceInDown">
+								<ul>
+									<span class="dropdown-item dropdown-header"><?= sizeof($notificationadmin); ?> Writer Admin Message</span>
+									<?php
+										$distinctNotificationsa = array_unique(array_column($notificationadmin, 'order_code'));
+										foreach ($distinctNotificationsa as $order_code) {
+											$notify = null;
+											foreach ($notificationadmin as $item) {
+												if ($item['order_code'] == $order_code && $item['created_by'] !=  $user_id) {
+													$notify = $item;
+													break;
+												}
+											}
+											
+											if ($notify) {
+												?>
+												<div class="dropdown-divider"></div>
+												<a href="<?= base_url() ?>Orders/updateadmin/<?= $notify['order_code']; ?>" class="dropdown-item">
+													<?= $notify['order_code']; ?>
+												</a>
+												<?php
+											}
+										}
+									?>
+		 								<div class="dropdown-divider"></div>
+	 							</ul>
+							</div>
+						</li>
+					<?php } ?>
                         
-                             <?php if($role_id == 1 ||$role_id == 6 || $role_id == 7 || $role_id == 5 || $role_id == 8 ) { ?>
+                             <?php if($role_id == 1 ||$role_id == 6 || $role_id == 7 || $role_id == 5 ) { ?>
                         
                            <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-bs-toggle="dropdown"

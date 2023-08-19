@@ -1410,9 +1410,6 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                             <i class="fa fa-envelope"></i>
                                                         </a>
                                                     <?php } } ?>
-                                                    
-                                                     
-
 
                                                 
                                                         <?php if ($role_id == 3 || $role_id == 4 || $role_id == 5) { ?>
@@ -1464,9 +1461,15 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 </a>
                                                 <?php } ?>
                                                 
-                                                <?php if($role_id == 6 ||  $role_id == 1 || $role_id == 5 || $role_id == 8){ ?> 
+                                                <?php if($role_id == 6 ||  $role_id == 1 || $role_id == 5 ){ ?> 
                                                 <a href="<?php echo base_url(); ?>index.php/Orders/orderchatc/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
                                                    C
+                                                </a>
+                                                <?php } ?>
+
+                                                <?php if($role_id == 6 || $role_id == 8 || $role_id == 1) {?>
+                                                <a href="<?php echo base_url(); ?>index.php/Orders/updateadmin/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style=";background-color:#6699CC;">
+                                                   A
                                                 </a>
                                                 <?php } ?>
                                                 <!-- Button trigger modal -->
@@ -2051,7 +2054,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
             var c_id = $('input[name="c_id"]').val();
                 $.ajax({
                     type: "POST",
-                    url: '<?php echo base_url(); ?>index.php/orders/get_call_listwriter',
+                    url: '<?php echo base_url(); ?>index.php/orders/get_admin_chat',
                     data: {
                         c_id: c_id,
                     },

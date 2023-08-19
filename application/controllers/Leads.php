@@ -1133,6 +1133,199 @@ public function writefilec()
     }
 }
 
+
+
+
+public function adminstatus()
+{
+    $login_id = $this->session->userdata['logged_in']['id'];
+    $data     = $this->input->post();
+    $backurl  = $this->input->post('backurl');
+  
+
+    unset($data['backurl']);
+
+    date_default_timezone_set("Europe/London");
+    $data['created_on'] = date("Y-m-d h:i:s A");
+    $data['created_by'] = $login_id;
+    $data['is_read'] = 1;
+    $data['admin'] = 1;
+
+    if ($data['description']) {
+        $result = $this->admin_chat_insert($data);
+        if ($result == TRUE) {
+            // $this->session->set_flashdata('success', 'Calls Added Successfully !');
+            // redirect($backurl, 'refresh');
+        } else {
+            // $this->session->set_flashdata('failed', 'Insertion Failed');
+            // redirect($backurl, 'refresh');
+        }
+    } else {
+        // $this->session->set_flashdata('failed', 'Insertion Failed');
+        // redirect($backurl, 'refresh');
+    }
+}
+
+public function admin_chat_insert($data)
+{
+    $this->db->insert('calls', $data);
+    if ($this->db->affected_rows() > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+public function get_admin_chat($order_id = '')
+{
+    $user_id = $this->session->userdata['logged_in']['id'];
+    if (empty($order_id)) {
+        $order_id = $_POST['order_id'];
+    }
+    $this->db->select('calls.*, employees.name as ename');
+    $this->db->from('calls');
+    $this->db->where('admin',1);
+    $this->db->join('employees', 'calls.created_by = employees.id', 'left');
+    if (!empty($order_id)) {
+        $this->db->where('calls.order_id', $order_id);
+    }
+    $call_lists = $this->db->get()->result_array();
+
+    if (isset($call_lists) && !empty($call_lists)) {
+        $html = '';
+        $html .= '<style>';
+        $html .= 'ul.no-bullets { list-style-type: none; }';
+        $html .= '</style>';
+        $html .= '<ul class="no-bullets">';
+
+        // Initialize a variable to track the previous date
+        $prev_date = null;
+
+        foreach ($call_lists as $call_list) {
+            $created_on = strtotime($call_list['created_on']);
+            $current_date = date('Y-m-d', $created_on);
+
+            // If the current date is different from the previous date, display the date
+            if ($current_date != $prev_date) {
+                $html .= '<div class="col-md-12">';
+                $html .= '<p style="text-align: center; color: #888;">' . ($current_date === date('Y-m-d') ? 'Today' : date('d-M-Y', $created_on)) . '</p>';
+                $html .= '</div>';
+                // Update the previous date with the current date
+                $prev_date = $current_date;
+            }
+
+            $html .= '<div class="col-md-12">';
+            if ($call_list['lead_id'] == $id) {
+                if ($call_list['created_by'] == $user_id) {
+                    $html .= '<li class="msg-right" style="text-align:end!important;display: flex;flex-direction: column;align-items: flex-end;margin: 5px 0;background-color: #DCF8C6;padding: 8px 12px;border-radius: 10px 0 10px 10px;font-size: 14px;max-width: 100%;margin: 0;white-space: pre-wrap;text-align: right;">';
+                } else {
+                    $html .= '<li class="msg-left" style="flex-direction: column;align-items: flex-end;margin: 5px 0;background-color: #DDB3B3;padding: 8px 12px;border-radius: 10px 0 10px 10px;font-size: 14px;margin: 0;white-space: pre-wrap;">';
+                }
+                $html .= "<div class='msg-left-sub'>";
+                $html .= '<div class="msg-desc" style="white-space: pre-wrap;">';
+                $html .= '<pre>';
+                $html .= $call_list['description'];
+
+             if (!empty($call_list['file'])) {
+                    $fileUrl = $call_list['file'];
+                    $fileName = basename($fileUrl); // Extracts the file name from the URL
+                    $html .= '<a href="' . $fileUrl . '" target="_blank">' . $fileName . ' <i class="fas fa-download"></i></a>';
+                    // If you want to display an icon instead of a link, you can use an icon library like Font Awesome:
+                }
+                $html .= '</pre>';
+                $html .= '</div>';
+                $html .= '<small style="color: #888;">';
+                $html .= date('h:i:s A', $created_on);
+                $html .= ' ';
+                $html .= '<b style=" font-weight: bold;">';
+                $html .= $call_list['created_by'] == $user_id ? 'You' : $call_list['ename'];
+                $html .= '</b>';
+                $html .= '</small>';
+                $html .= '</div>';
+                $html .= '</li>';
+                $html .= '</br>';
+                // Check if the file field is not empty and display the file
+                $html .= '</br>';
+            } else {
+                $html .= '<div class="col-md-12">';
+                $html .= '</div>';
+            }
+            $html .= "</div>";
+        }
+        $html .= "</ul>";
+
+        echo $html;
+        die();
+    }
+}
+
+public function writefilecadmin()
+{
+    $login_id = $this->session->userdata['logged_in']['id'];
+    $data = $this->input->post();
+    $backurl = $this->input->post('url');
+
+    // Unset the 'backurl' from the data array
+    unset($data['backurl']);
+
+    // Create a new array to store the data
+    $newData = array(
+        'created_on' => date("Y-m-d h:i:s A"), // Assuming you want to store the current timestamp
+        'created_by' => $login_id,
+        'order_id' => $this->input->post('order_id'),
+        'is_read' => 1,
+        'admin'  => 1 , // Assuming 'order_id' is the correct field name
+    );
+
+    // Merge the $data array with the $newData array
+    $data = array_merge($data, $newData);
+
+    // File upload handling
+    if (!empty($_FILES['file_call']['name'])) {
+        $config = array(
+            'upload_path' => './uploads/',
+            'allowed_types' => '*',
+            'max_size' => '50000',
+        );
+
+        // Load the upload library
+        $this->load->library('upload', $config);
+
+        foreach ($_FILES['file_call']['name'] as $i => $file_name) {
+            $_FILES['file']['name']     = $_FILES['file_call']['name'][$i];
+            $_FILES['file']['type']     = $_FILES['file_call']['type'][$i];
+            $_FILES['file']['tmp_name'] = $_FILES['file_call']['tmp_name'][$i];
+            $_FILES['file']['error']    = $_FILES['file_call']['error'][$i];
+            $_FILES['file']['size']     = $_FILES['file_call']['size'][$i];
+
+            if ($this->upload->do_upload('file')) {
+                $uploadData = $this->upload->data();
+                $filename = $uploadData['file_name'];
+                $picture = base_url('uploads/' . $filename);
+            } else {
+                $picture = '';
+            }
+
+            $data['file'] = $picture; // Store the filename directly without JSON encoding
+
+            // Assuming you have a model to handle database operations, update the following line accordingly
+            $this->db->insert('calls', $data);
+
+            if ($this->db->affected_rows() > 0) {
+                // File uploaded and data inserted successfully
+                // You may perform additional actions here if needed
+            } else {
+                // Error occurred while inserting data
+                // You may handle the error scenario here
+            }
+        }
+
+        // Redirect the user back to the specified URL after processing the data and file uploads
+        redirect($backurl); // Make sure $backurl is a valid URL
+    }
+}
+
     
     
     
