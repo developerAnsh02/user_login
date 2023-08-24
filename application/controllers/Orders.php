@@ -962,7 +962,7 @@ class Orders extends CI_Controller
 				'draft_date'		 => $this->input->post('draft_date'),
 				'draft_time'		 => $this->input->post('draft_time'),
 				'wid' 				 =>$this->input->post('writer_name_new'),
-				'admin_id' 			 =>$this->input->post('writer_new_admin'),
+				'admin_id'			 => $this->input->post('writer_name') === 'team 013' ? 8357 : $this->input->post('writer_new_admin'),
 				'flag' => '0',
 			);
 			if (!empty($this->input->post('user_id')) && $this->input->post('user_id') != '') 

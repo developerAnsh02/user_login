@@ -360,19 +360,9 @@ $currentURL = current_url();
                                 <input type="hidden" name="writer_name" id="input10" class="form-control writer_name" value="<?= @$writer_name ?>" />
                                 <?php } ?>
 
-                                <div class="col-lg-4">
-                                    <div class="form-group has-warning m-b-40">
-                                        <select name="writer_new_admin" class="form-control" onchange="toggleWriterNameNew(this)">
-                                            <option value=""></option>
-                                            <?php foreach ($writerAdmin as $employee) : ?>
-                                                <option value="<?php echo $employee['id']; ?>" <?php if (@$employee['id'] == $admin_id) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="input10">Select an Admin</label>
-                                    </div>
-                                </div>
+                               
                                 
-                                <?php if($admin_id != 0){ ?>
+                             
                                 <div class="col-lg-4" id="" style="display: ;">
                                     <div class="form-group has-warning m-b-40">
                                         <select name="writer_name_new" class="form-control">
@@ -384,35 +374,7 @@ $currentURL = current_url();
                                         <label for="input10">Select an Writer TL</label>
                                     </div>
                                 </div>
-                                <?php } else { ?>
-                                <div class="col-lg-4" id="writerNameNewContainer" style="display: none;">
-                                    <div class="form-group has-warning m-b-40">
-                                        <select name="writer_name_new" class="form-control">
-                                            <option value=""></option>
-                                            <?php foreach ($writerTL as $employee) : ?>
-                                                <option value="<?php echo $employee['id']; ?>" <?php if (@$employee['id'] == $wid) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="input10">Select an Writer TL</label>
-                                    </div>
-                                </div>
-                                <?php } ?>
-
-                                <script>
-                                function toggleWriterNameNew(selectElement) {
-                                    var writerNameNewContainer = document.getElementById('writerNameNewContainer');
-                                    if (selectElement.value !== '') {
-                                        writerNameNewContainer.style.display = 'block';
-                                    } else {
-                                        writerNameNewContainer.style.display = 'none';
-                                    }
-                                }
-                                </script>
-
-
-
-                                
-
+                               
                                 <!-- Writer price -->
                                 <div class="col-lg-4" style="display: none;">
                                     <div class="form-group has-warning m-b-40">

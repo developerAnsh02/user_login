@@ -582,7 +582,7 @@ if (isset($this->session->userdata['logged_in'])) {
                             </div>
                         </div>
                     </div> -->
-                    <?if($role_id == 6 || $role_id ==7) {?>
+                    <?php if($role_id == 6 || $role_id ==7) {?>
                      
                      <img src="https://www.assignnmentinneed.com/user_login/uploads/warlogo.jpeg" alt="" class="img-circle logo-mb2" style="width: 32%; background-color: #0c58b0; border-style: dotted;">
                     <?php } else { ?>
@@ -684,7 +684,7 @@ if (isset($this->session->userdata['logged_in'])) {
 
                             </div>
                         </li>
-                        <?php if($role_id == 1 ||$role_id == 6 || $role_id == 7 ) { ?>
+                        <?php if($role_id == 1 ||$role_id == 6 || $role_id == 7 || $role_id == 8 ) { ?>
                         
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-bs-toggle="dropdown"
@@ -736,7 +736,7 @@ if (isset($this->session->userdata['logged_in'])) {
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-bs-toggle="dropdown"
 								aria-haspopup="true" aria-expanded="false"> 
-								<span class="badge badge-primary  navbar-badge btn" style="margin-top: -8px;border-radius:42%;background-color: #6699CC; color:black"> <i style="font-size:20px;" class="fa fa-bell">A</i> <sup style="color: black;"> <?php echo sizeof($notificationadmin); ?></sup></span>
+								<span class="badge badge-primary  navbar-badge btn" style="margin-top: -8px;border-radius:42%;background-color: #6699CC; color:black"> <i style="font-size:20px;" class="fa fa-bell">Admin</i> <sup style="color: black;"> <?php echo sizeof($notificationadmin); ?></sup></span>
 								<div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
 							</a>
 							 <div class="dropdown-menu dropdown-menu-end mailbox animated bounceInDown">
@@ -818,6 +818,9 @@ if (isset($this->session->userdata['logged_in'])) {
                         </li>
                      
                      <?php } ?>
+
+
+					 
                         <!-- ============================================================== -->
                         <!-- End Comment -->
                         <!-- ============================================================== -->
