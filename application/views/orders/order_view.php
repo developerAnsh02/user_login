@@ -1199,10 +1199,10 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                             <?php if ($role_id == 8 || $role_id == 1 || $role_id == 6) { ?>
                                                 <td class="hide-mb">
                                                 
-
-                                                <?php if($obj['swid'] == $obj['wid']){ ?>
+                                                <?php if($obj['swid'] != 0  ){  ?>
+                                                <?php if($obj['swid'] == $obj['wid']  ){ ?>
                                                     Self
-                                                <?php } ?>
+                                                <?php } }?>
                                                 <?php foreach ($subwrtier as $employee) : ?>
                                                         <?php if (@$employee['id'] == $obj['swid']) {
                                                             echo $employee['name'];
@@ -1269,201 +1269,171 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                     </div>
                                                                     <form class="floating-labels m-t-40" role="form" method="post" action="<?php echo base_url(); ?>index.php/Orders/writeEdit/<?= $obj['id'] ?>" enctype="multipart/form-data">
-                                                                        <div class="modal-body">
-                                                                            <div class="card-body">
-                                                                                <input type="hidden" name="backurl" value="<?= $current_page ?>">
-                                                                                <input type="hidden" name="edit_id" value="<?= $obj['id'] ?>">
-                                                                                <input type="text" style="display:none;" name="order_id" class="form-control" value="<?= $obj['order_id'] ?>" autofocus readonly="readonly">
-                                                                                <input type="text" style="display:none;" name="order_type" value="Back-End">
-                                                                                <div class="row">
-                                                                                <div class="col-lg-4">
-                                                                              <?php if ( $role_id == 8): ?>
-                                                                                        <div class="form-group has-warning m-b-40">
-                                                                                            <label class="control-label">Select Writer</label>
-                                                                                            <select name="writer_name_new" class="form-control" id="writerSelect<?php echo $obj['order_id'] ?>">
-                                                                                                <option value="">Select a Writer</option>
-                                                                                                <?php if($role_id ==8) { ?>
-                                                                                                    <option value="<?php echo $loginid ?>">Select Self  Writer</option>
-                                                                                                <?php } ?>
-                                                                                                <?php foreach ($writerTL as $employeeS): ?>
-                                                                                                    <option value="<?= $employeeS['id']; ?>" <?= @$employeeS['id'] == $obj['wid'] ? "selected" : ""; ?>>
-                                                                                                        <?= $employeeS['name']; ?>
-                                                                                                    </option>
-                                                                                                <?php endforeach; ?>
-                                                                                            </select>
-                                                                                        </div>
-                                                                                    <?php else: ?>
-                                                                                        <input type="hidden" name="writer_name_new" value="<?= $obj['wid'] ?>">
-                                                                                    <?php endif; ?>
+                                                                <div class="modal-body">
+                                                                    <div class="card-body">
+                                                                        <input type="hidden" name="backurl" value="<?= $current_page ?>">
+                                                                        <input type="hidden" name="edit_id" value="<?= $obj['id'] ?>">
+                                                                        <input type="text" style="display:none;" name="order_id" class="form-control" value="<?= $obj['order_id'] ?>" autofocus readonly="readonly">
+                                                                        <input type="text" style="display:none;" name="order_type" value="Back-End">
 
-                                                                                    <!-- <div id="selectedWriterDisplay" name="writerId"></div> -->
-
-                                                                                    <script>
-                                                                                        $(document).ready(function () {
-                                                                                            $('#writerSelect<?php echo $obj['order_id'] ?>').change(function () {
-                                                                                                var selectedValue = $(this).val();
-                                                                                                $('#selectedWriterDisplay<?php echo $obj['order_id'] ?>').text(selectedValue);
-
-                                                                                                if (selectedValue !== "") {
-                                                                                                    $('#subwriterDropdown<?php echo $obj['order_id'] ?>').show(); // Corrected typo: changed 'shw' to 'show'
-                                                                                                } else {
-                                                                                                    $('#subwriterDropdown<?php echo $obj['order_id'] ?>').hide(); // Corrected typo: changed 'hde' to 'hide'
-                                                                                                }
-
-                                                                                                // Populate subwriter dropdown based on the selected writer
-                                                                                                var subwriterDropdown = $('#subwriterDropdown<?php echo $obj['order_id'] ?> select');
-                                                                                                subwriterDropdown.find('option').hide();
-                                                                                                subwriterDropdown.find('option[data-tl-id="' + selectedValue + '"]').show();
-                                                                                            });
-                                                                                        });
-                                                                                    </script>
-
-                                                                                    <?php if($obj['wid'] != 0) {?>
-                                                                                        
-                                                                                    <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" onchange="toggleDropdown()" style="display: ;">
-                                                                                        <label class="control-label">Select Subwriter</label>
-                                                                                        <select name="subwriter_name_new" id="subwriterDropdownss<?php echo $obj['order_id'] ?>" class="form-control">
-                                                                                            <option value="">Select a Subwriter</option>
-                                                                                            <option value="<?= $loginid ?>" <?= $loginid == $obj['swid'] ? "selected" : ""; ?>>Select yourself as Writer</option>
-                                                                                            <?php foreach ($subwrtier as $employee): ?>
-                                                                                                <option value="<?= $employee['id']; ?>" data-tl-id="<?= $employee['tl_id']; ?>" <?= @$employee['id'] == $obj['swid'] ? "selected" : ""; ?>>
-                                                                                                    <?= $employee['name']; ?>
-                                                                                                </option>
-                                                                                            <?php endforeach; ?>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                    <?php } else{ ?>
-                                                                                        <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40"  style="display: none;">
-                                                                                        <label class="control-label">Select Subwriter</label>
-                                                                                        <select name="subwriter_name_new" class="form-control">
-                                                                                            <option value="">Select a Subwriter</option>
-                                                                                            <?php foreach ($subwrtier as $employee): ?>
-                                                                                                <option value="<?= $employee['id']; ?>" data-tl-id="<?= $employee['tl_id']; ?>" <?= @$employee['id'] == $obj['swid'] ? "selected" : ""; ?>>
-                                                                                                    <?= $employee['name']; ?>
-                                                                                                </option>
-                                                                                            <?php endforeach; ?>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                    <?php } ?>
-                                                                                    </div>
-                                                                                  
-                                                                                
-                                                                                    <?php if($role_id == 6)  {?>
-                                                                                       
-                                                                                        
-                                                                                        <div class="col-lg-4">
-                                                                                            <div  class="form-group has-warning m-b-40">
-
-                                                                                                <?php if($obj['swid'] == $loginid ) {?>
-
-                                                                                                    <select  id="firstDropdown<?php echo $obj['order_id'] ?>" name="writer_status"  class="form-control" style="display:none" >
-                                                                                                        <option value="">Select a status</option>
-                                                                                                        <option value="Quality Accepted">Quality Accepted</option>
-                                                                                                        <option value="Quality Rejected">Quality Rejected</option>
-                                                                                                    </select>
-                                                                                                    <select  id="secondDropdownLOGIN<?php echo $obj['order_id'] ?>" name="writer_status"  class="form-control" >
-                                                                                                    <option value="" <?php if (@$obj['writer_status'] == 'NULL ') {echo "selected";} ?>>Select a status</option>
-                                                                                                    <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progres</option>
-                                                                                                    <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
-                                                                                                    <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
-                                                                                                    </select>
-                                                                                                    <!--  -->
-
-                                                                                                    
-                                                                                                    <?php } else { ?>
-                                                                                                        <select  id="secondDropdown<?php echo $obj['order_id'] ?>" name="writer_status" style="display:none" class="form-control" >
-                                                                                                        <option value="">Select a status</option>
-                                                                                                        <option value="In Progress">In Progress</option>
-                                                                                                        <option value="Completed">Completed</option>
-                                                                                                        <option value="Delivered">Delivered</option>
-                                                                                                    </select>
-                                                                                                    <select id="firstDropdownlogin<?php echo $obj['order_id'] ?>" name="writer_status" class="form-control" >
-                                                                                                        <option value="">Select a status</option>
-                                                                                                        <option value="Quality Accepted"><?php if (@$obj['writer_status'] == 'Quality Accepted') {echo "selected";} ?>Quality Accepted</option>
-                                                                                                        <option value="Quality Rejected"><?php if (@$obj['writer_status'] == 'Quality Rejected') {echo "selected";} ?>Quality Accepted</option>
-                                                                                                    </select>
-
-                                                                                                <?php } ?>
-                                                                                              
-                                                                                           
-
-                                                                                                <!-- <select id="firstDropdown<?php echo $obj['order_id'] ?>" name="writer_status" class="form-control" style="display:none">
-                                                                                                    <option value="">Select a status</option>
-                                                                                                    <option value="Quality Accepted">Quality Accepted</option>
-                                                                                                    <option value="Quality Rejected">Quality Rejected</option>
-                                                                                                </select> -->
-                                                                                            
-
-                                                                                                <!--  -->
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                                                                                                <script>
-                                                                                                    document.addEventListener("DOMContentLoaded", function () {
-                                                                                                        var subwriterDropdown = document.getElementById("subwriterDropdownss<?php echo $obj['order_id'] ?>");
-                                                                                                        var selectedValueDisplay = document.getElementById("selectedValueDisplay");
-                                                                                                        var firstDropdown = $('#firstDropdown<?php echo $obj['order_id'] ?>');
-                                                                                                        var firstDropdownlogin = $('#firstDropdownlogin<?php echo $obj['order_id'] ?>');
-                                                                                                        var secondDropdownLOGIN = $('#secondDropdownLOGIN<?php echo $obj['order_id'] ?>');
-                                                                                                        var secondDropdown = $('#secondDropdown<?php echo $obj['order_id'] ?>');
-                                                                                                        subwriterDropdown.addEventListener("change", function () {
-                                                                                                            var selectedValue = subwriterDropdown.value;
-                                                                                                            if(selectedValue ==  <?= $loginid ?>)
-                                                                                                            {
-                                                                                                                firstDropdown.hide();
-                                                                                                                secondDropdownLOGIN.show();
-                                                                                                                 secondDropdown.show();
-                                                                                                                 firstDropdownlogin.hide();
-                                                                                                            }
-                                                                                                            else
-                                                                                                            {
-                                                                                                                firstDropdown.show();
-                                                                                                             secondDropdown.hide();
-                                                                                                             secondDropdownLOGIN.hide();
-                                                                                                             firstDropdownlogin.hide();
-                                                                                                            }
-                                                                                                            
-                                                                                                            
-                                                                                                            
-                                                                                                        });
-                                                                                                    });
-                                                                                                </script>
-
-                                                                                        
-                                                                                    <?php } ?>
-
-                                                                                    
-                                                                                    <?php if($role_id == 8)
-                                                                                            { ?>
-                                                                                            <select name="writer_status" class="form-control" >
-                                                                                                <option value="" <?php if (@$obj['writer_status'] == 'NULL') {echo "selected";} ?>>Select a status</option>
-                                                                                                <option value="Quality Accepted" <?php if (@$obj['writer_status'] == 'Quality Accepted') {echo "selected";} ?>>Quality Accepted</option>
-                                                                                                <option value="Quality Rejected" <?php if (@$obj['writer_status'] == 'Quality Rejected') {echo "selected";} ?> >Quality Rejected</option>
-                                                                                                <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progres</option>
-                                                                                                <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
-                                                                                                <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
-                                                                                            </select>
-                                                                                                
-                                                                                            <?php } ?>
-
-                                                                                            <?php if($role_id == 7 ) {?>
-                                                                                            <select name="writer_status" class="form-control" required>
-                                                                                                <option value="" <?php if (@$obj['writer_status'] == 'NULL ') {echo "selected";} ?>>Select a status</option>
-                                                                                                <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progres</option>
-                                                                                                <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
-                                                                                                <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
-                                                                                            </select>
-                                                                                            <?php } ?>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <input style="display:none" type="button" id="d<?php echo $obj['order_id']; ?>" class="btn btn-primary btn-block" value="Update" onclick="myFunction<?php echo $obj['order_id']; ?>()()" >
-                                                                                        <button type="submit" id='nd<?php echo $obj['order_id']; ?>' class="btn btn-primary btn-block">Update</button>
-                                                                                    </div>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-4">
+                                                                                <?php if ($role_id == 8): ?>
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <label class="control-label">Select Writer</label>
+                                                                                    <select name="writer_name_new" class="form-control" id="writerSelect<?php echo $obj['order_id'] ?>">
+                                                                                        <option value="">Select a Writer</option>
+                                                                                        <?php if ($role_id == 8) { ?><option value="<?php echo $loginid ?>">Select Self Writer</option><?php } ?>
+                                                                                        <?php foreach ($writerTL as $employeeS): ?>
+                                                                                        <option value="<?= $employeeS['id']; ?>" <?= @$employeeS['id'] == $obj['wid'] ? "selected" : ""; ?>>
+                                                                                            <?= $employeeS['name']; ?>
+                                                                                        </option>
+                                                                                        <?php endforeach; ?>
+                                                                                    </select>
                                                                                 </div>
+                                                                                <?php else: ?>
+                                                                                <input type="hidden" name="writer_name_new" value="<?= $obj['wid'] ?>">
+                                                                                <?php endif; ?>
+
+                                                                                <script>
+                                                                                    $(document).ready(function () {
+                                                                                        $('#writerSelect<?php echo $obj['order_id'] ?>').change(function () {
+                                                                                            var selectedValue = $(this).val();
+                                                                                            $('#selectedWriterDisplay<?php echo $obj['order_id'] ?>').text(selectedValue);
+
+                                                                                            if (selectedValue !== "") {
+                                                                                                $('#subwriterDropdown<?php echo $obj['order_id'] ?>').show(); // Corrected typo: changed 'shw' to 'show'
+                                                                                            } else {
+                                                                                                $('#subwriterDropdown<?php echo $obj['order_id'] ?>').hide(); // Corrected typo: changed 'hde' to 'hide'
+                                                                                            }
+
+                                                                                            var subwriterDropdown = $('#subwriterDropdown<?php echo $obj['order_id'] ?> select');
+                                                                                            subwriterDropdown.find('option').hide();
+                                                                                            subwriterDropdown.find('option[data-tl-id="' + selectedValue + '"]').show();
+                                                                                        });
+                                                                                    });
+                                                                                </script>
+
+                                                                                <?php if ($obj['wid'] != 0 && $role_id != 7) { ?>
+                                                                                <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" onchange="toggleDropdown()" style="display: ;">
+                                                                                    <label class="control-label">Select Subwriter</label>
+                                                                                    <select name="subwriter_name_new" id="subwriterDropdownss<?php echo $obj['order_id'] ?>" class="form-control">
+                                                                                        <option value="">Select a Subwriter</option>
+                                                                                        <option value="<?= $loginid ?>" <?= $loginid == $obj['swid'] ? "selected" : ""; ?>>Select yourself as Writer</option>
+                                                                                        <?php foreach ($subwrtier as $employee): ?>
+                                                                                        <option value="<?= $employee['id']; ?>" data-tl-id="<?= $employee['tl_id']; ?>" <?= @$employee['id'] == $obj['swid'] ? "selected" : ""; ?>>
+                                                                                            <?= $employee['name']; ?>
+                                                                                        </option>
+                                                                                        <?php endforeach; ?>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <?php } else { ?>
+                                                                                <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" style="display: none;">
+                                                                                    <label class="control-label">Select Subwriter</label>
+                                                                                    <select name="subwriter_name_new" class="form-control">
+                                                                                        <option value="">Select a Subwriter</option>
+                                                                                        <?php foreach ($subwrtier as $employee): ?>
+                                                                                        <option value="<?= $employee['id']; ?>" data-tl-id="<?= $employee['tl_id']; ?>" <?= @$employee['id'] == $obj['swid'] ? "selected" : ""; ?>>
+                                                                                            <?= $employee['name']; ?>
+                                                                                        </option>
+                                                                                        <?php endforeach; ?>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <?php } ?>
                                                                             </div>
                                                                         </div>
-                                                                    </form>
+
+                                                                        <div class="row">
+                                                                            <?php if ($role_id == 6) { ?>
+                                                                            <div class="col-lg-4">
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <?php if ($obj['swid'] == $loginid) { ?>
+                                                                                    <select id="firstDropdown<?php echo $obj['order_id'] ?>" name="writer_status" class="form-control" style="display:none">
+                                                                                        <option value="">Select a status</option>
+                                                                                        <option value="Quality Accepted">Quality Accepted</option>
+                                                                                        <option value="Quality Rejected">Quality Rejected</option>
+                                                                                    </select>
+                                                                                    <select id="secondDropdownLOGIN<?php echo $obj['order_id'] ?>" name="writer_status" class="form-control">
+                                                                                        <option value="" <?php if (@$obj['writer_status'] == 'NULL ') {echo "selected";} ?>>Select a status</option>
+                                                                                        <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progress</option>
+                                                                                        <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
+                                                                                        <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
+                                                                                    </select>
+                                                                                    <?php } else { ?>
+                                                                                    <select id="secondDropdown<?php echo $obj['order_id'] ?>" name="writer_status" style="display:none" class="form-control">
+                                                                                        <option value="">Select a status</option>
+                                                                                        <option value="In Progress">In Progress</option>
+                                                                                        <option value="Completed">Completed</option>
+                                                                                        <option value="Delivered">Delivered</option>
+                                                                                    </select>
+                                                                                    <select id="firstDropdownlogin<?php echo $obj['order_id'] ?>" name="writer_status" class="form-control">
+                                                                                        <option value="">Select a status</option>
+                                                                                        <option value="Quality Accepted"><?php if (@$obj['writer_status'] == 'Quality Accepted') {echo "selected";} ?>Quality Accepted</option>
+                                                                                        <option value="Quality Rejected"><?php if (@$obj['writer_status'] == 'Quality Rejected') {echo "selected";} ?>Quality Rejected</option>
+                                                                                    </select>
+                                                                                    <?php } ?>
+                                                                                </div>
+                                                                            </div>
+                                                                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                                            <script>
+                                                                                document.addEventListener("DOMContentLoaded", function () {
+                                                                                    var subwriterDropdown = document.getElementById("subwriterDropdownss<?php echo $obj['order_id'] ?>");
+                                                                                    var selectedValueDisplay = document.getElementById("selectedValueDisplay");
+                                                                                    var firstDropdown = $('#firstDropdown<?php echo $obj['order_id'] ?>');
+                                                                                    var firstDropdownlogin = $('#firstDropdownlogin<?php echo $obj['order_id'] ?>');
+                                                                                    var secondDropdownLOGIN = $('#secondDropdownLOGIN<?php echo $obj['order_id'] ?>');
+                                                                                    var secondDropdown = $('#secondDropdown<?php echo $obj['order_id'] ?>');
+                                                                                    subwriterDropdown.addEventListener("change", function () {
+                                                                                        var selectedValue = subwriterDropdown.value;
+                                                                                        if (selectedValue == <?= $loginid ?>) {
+                                                                                            firstDropdown.hide();
+                                                                                            secondDropdownLOGIN.show();
+                                                                                            secondDropdown.show();
+                                                                                            firstDropdownlogin.hide();
+                                                                                        } else {
+                                                                                            firstDropdown.show();
+                                                                                            secondDropdown.hide();
+                                                                                            secondDropdownLOGIN.hide();
+                                                                                            firstDropdownlogin.hide();
+                                                                                        }
+                                                                                    });
+                                                                                });
+                                                                            </script>
+                                                                            <?php } ?>
+
+                                                                            <?php if ($role_id == 8) { ?>
+                                                                            <div class="col-lg-4">
+                                                                                <select name="writer_status" class="form-control">
+                                                                                    <option value="" <?php if (@$obj['writer_status'] == 'NULL') {echo "selected";} ?>>Select a status</option>
+                                                                                    <option value="Quality Accepted" <?php if (@$obj['writer_status'] == 'Quality Accepted') {echo "selected";} ?>>Quality Accepted</option>
+                                                                                    <option value="Quality Rejected" <?php if (@$obj['writer_status'] == 'Quality Rejected') {echo "selected";} ?>>Quality Rejected</option>
+                                                                                    <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progress</option>
+                                                                                    <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
+                                                                                    <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <?php } ?>
+
+                                                                            <?php if ($role_id == 7) { ?>
+                                                                            <div class="col-lg-4">
+                                                                                <select name="writer_status" class="form-control" required>
+                                                                                    <option value="" <?php if (@$obj['writer_status'] == 'NULL ') {echo "selected";} ?>>Select a status</option>
+                                                                                    <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progress</option>
+                                                                                    <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
+                                                                                    <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <?php } ?>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                            <input style="display:none" type="button" id="d<?php echo $obj['order_id']; ?>" class="btn btn-primary btn-block" value="Update" onclick="myFunction<?php echo $obj['order_id']; ?>()">
+                                                                            <button type="submit" id='nd<?php echo $obj['order_id']; ?>' class="btn btn-primary btn-block">Update</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+
 
                                                                         </div> 
                                                                     </div> 
@@ -1540,6 +1510,12 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                    W
                                                 </a>
                                                 <?php } } ?>
+                                                
+                                                <?php if( $role_id == 7 ) {?>
+                                                 <a href="<?php echo base_url(); ?>index.php/Orders/updateCallsData/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
+                                                   W
+                                                </a>
+                                                <?php } ?>
                                                
                                                 <?php if($role_id == 6 ||  $role_id == 1 || $role_id == 5 ){ ?> 
                                                     <a href="<?php echo base_url(); ?>index.php/Orders/orderchatc/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
