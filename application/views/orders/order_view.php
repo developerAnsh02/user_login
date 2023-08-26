@@ -995,7 +995,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                             <?php  if ($role_id != 7 && $role_id != 6 && $role_id != 8) { ?>
                                             <th style="white-space: nowrap;"class="hide-mb"> Writer Name</th>
                                             <?php } ?>
-                                             <?php  if ($role_id != 7 && $role_id != 6 && $role_id != 8) { ?>
+                                             <?php  if ($role_id != 7 && $role_id != 6) { ?>
                                             <th style="white-space: nowrap;" class="hide-mb">Writer Deadline</th>
                                             <?php } ?>
                                            
@@ -1047,7 +1047,11 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                         <tr <?php if ($obj['is_read'] == 0) { ?> style="font-weight: 700;" <?php } ?> class="read_order <?php echo $class ?> " order_id="<?= $obj['id']  ?>">
                                             <input type="hidden" class="row_id" value="<?= $obj['id'] ?>">
                                             <input type="hidden" class="uid" value="<?= $obj['uid'] ?>">
+<<<<<<< Updated upstream
                                             <input type="hidden" class="c_mobile" value="<?= $obj['c_mobile'] ?>">
+=======
+                                              <input type="hidden" class="c_mobile" value="<?= $obj['c_mobile'] ?>">
+>>>>>>> Stashed changes
                                             <input type="hidden" class="countrycode" value="<?= $obj['countrycode'] ?>">
                                             <td class="hide-mb">
                                                 <?php echo $i; ?>
@@ -1202,8 +1206,14 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 <td class="hide-mb">
                                                 
                                                 <?php if($obj['swid'] != 0  ){  ?>
+                                                
+                                                
+                                                
                                                 <?php if($obj['swid'] == $obj['wid']  ){ ?>
-                                                    Self
+                                                    Self Tl As Writer
+                                                <?php } elseif($obj['swid'] == $obj['admin_id']) {?>
+                                                    Self Admin As Writer
+                                                
                                                 <?php } }?>
                                                 <?php foreach ($subwrtier as $employee) : ?>
                                                         <?php if (@$employee['id'] == $obj['swid']) {
@@ -1223,7 +1233,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 <?php }?>
                                                 
                                             
-                                                 <?php  if ($role_id != 7 && $role_id != 6 && $role_id != 8) { ?>
+                                                 <?php  if ($role_id != 7 && $role_id != 6 ) { ?>
                                                 <td class="hide-mb" >
                                                     <?php if (($obj['writer_deadline'] != '1970-01-01') and (!empty($obj['writer_deadline']))) {
                                                         echo date('d-M-Y', strtotime($obj['writer_deadline']));
@@ -1259,7 +1269,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                         <div class="modal fade bd-example-modal-xl" id="editModalw<?= $obj['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog modal-xl">
                                                                 
-                                                                <div class="modal-content" style="width: 80%;">
+                                                                <div class="modal-content" style="width: 50%;">
                                                                     <div class="modal-header">
                                                                         <h3 class="modal-title" id="exampleModalLabel">
                                                                             <a href="<?php echo base_url(); ?>index.php/Orders/edit/<?php echo $obj['order_id']; ?>" target="_blank">
@@ -1285,7 +1295,9 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                     <label class="control-label">Select Writer</label>
                                                                                     <select name="writer_name_new" class="form-control" id="writerSelect<?php echo $obj['order_id'] ?>">
                                                                                         <option value="">Select a Writer</option>
+                                                                                        
                                                                                         <?php if ($role_id == 8) { ?><option value="<?php echo $loginid ?>">Select Self Writer</option><?php } ?>
+                                                                                        <?php if($obj['swid'] == $loginid){ ?><option value="<?php echo $loginid ?>" <?= $obj['swid'] == $loginid ? "selected" : ""; ?>>You are Writer Now </option><?php } ?>
                                                                                         <?php foreach ($writerTL as $employeeS): ?>
                                                                                         <option value="<?= $employeeS['id']; ?>" <?= @$employeeS['id'] == $obj['wid'] ? "selected" : ""; ?>>
                                                                                             <?= $employeeS['name']; ?>
@@ -1320,6 +1332,13 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                 <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" onchange="toggleDropdown()" style="display: ;">
                                                                                     <label class="control-label">Select Subwriter</label>
                                                                                     <select name="subwriter_name_new" id="subwriterDropdownss<?php echo $obj['order_id'] ?>" class="form-control">
+                                                                                        <option value="">Select a Subwriter</option>
+                                                                                        <?php if($role_id == 6){ ?>
+                                                                                        <option value="<?= $loginid ?>" <?= $loginid == $obj['swid'] ? "selected" : ""; ?>>Select yourself as Writer</option>
+                                                                                        <?php } ?>
+                                                                                        <?php if($role_id == 8){ ?>
+                                                                                        <option value="<?= $loginid ?>" <?= $loginid == $obj['swid'] ? "selected" : ""; ?>>Select yourself as Writer</option>
+                                                                                        <?php } ?>
                                                                                         <option value="">Select a Subwriter</option>
                                                                                         <option value="<?= $loginid ?>" <?= $loginid == $obj['swid'] ? "selected" : ""; ?>>Select yourself as Writer</option>
                                                                                         <?php foreach ($subwrtier as $employee): ?>
@@ -1396,7 +1415,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                             firstDropdown.show();
                                                                                             secondDropdown.hide();
                                                                                             secondDropdownLOGIN.hide();
-                                                                                            firstDropdownlogin.hide();
+                                                                                            firstDropdownlogin.show();
                                                                                         }
                                                                                     });
                                                                                 });
@@ -1404,20 +1423,42 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                             <?php } ?>
 
                                                                             <?php if ($role_id == 8) { ?>
-                                                                            <div class="col-lg-4">
-                                                                                <select name="writer_status" class="form-control">
-                                                                                    <option value="" <?php if (@$obj['writer_status'] == 'NULL') {echo "selected";} ?>>Select a status</option>
-                                                                                    <option value="Quality Accepted" <?php if (@$obj['writer_status'] == 'Quality Accepted') {echo "selected";} ?>>Quality Accepted</option>
-                                                                                    <option value="Quality Rejected" <?php if (@$obj['writer_status'] == 'Quality Rejected') {echo "selected";} ?>>Quality Rejected</option>
-                                                                                    <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progress</option>
-                                                                                    <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
-                                                                                    <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
-                                                                                </select>
+                                                                              <?php
+                                                                            if($obj['swid'] == $loginid) {    
+                                                                            ?>   
+                                                                             <div class="col-lg-4" >
+                                                                                
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                 <select id="secondDropdown<?php echo $obj['order_id'] ?>" name="writer_status" class="form-control">
+                                                                                        <option value="">Select a status</option>
+                                                                                        <option value="In Progress">In Progress</option>
+                                                                                        <option value="Completed">Completed</option>
+                                                                                        <option value="Delivered">Delivered</option>
+                                                                                    </select>
+                                                                                   </div>
                                                                             </div>
+                                                                            <?php } else { ?>
+                                                                           
+                                                                            <div class="col-lg-4" >
+                                                                                
+                                                                                <div class="form-group has-warning m-b-40">
+                                                                                    <select name="writer_status" class="form-control">
+                                                                                        <option value="" <?php if (@$obj['writer_status'] == 'NULL') {echo "selected";} ?>>Select a status</option>
+                                                                                        <option value="Quality Accepted" <?php if (@$obj['writer_status'] == 'Quality Accepted') {echo "selected";} ?>>Quality Accepted</option>
+                                                                                        <option value="Quality Rejected" <?php if (@$obj['writer_status'] == 'Quality Rejected') {echo "selected";} ?>>Quality Rejected</option>
+                                                                                        <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progress</option>
+                                                                                        <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
+                                                                                        <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
+                                                                                    </select>
+                                                                            </div>
+                                                                            </div>
+                                                                            <?php } ?>
                                                                             <?php } ?>
 
                                                                             <?php if ($role_id == 7) { ?>
-                                                                            <div class="col-lg-4">
+                                                                            
+                                                                            
+                                                                            <div class="col-lg-4" style="margin-bottom:40px;  justify-content: center;" >
                                                                                 <select name="writer_status" class="form-control" required>
                                                                                     <option value="" <?php if (@$obj['writer_status'] == 'NULL ') {echo "selected";} ?>>Select a status</option>
                                                                                     <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progress</option>
@@ -1496,6 +1537,12 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                     <i style="color:#fff;" class="fa fa-close"></i>
                                                 </a>
                                                 <?php } ?>
+                                                
+                                                 <?php if($role_id == 1 ) { ?>
+                                                <a type="button" class="btn btn-xs btn-primary btn-sm m-1 mark_as_call" title="Mark as failed job" style="background-color:green;">
+                                                    <i style="color:#fff;" class="fa fa-phone"></i>
+                                                </a>
+                                                <?php } ?>
 
 
                                                 <?php if($role_id == 1 ) { ?>
@@ -1514,7 +1561,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 </a>
                                                 <?php } ?>
                                                 <?php if($obj['swid'] != $loginid && $obj['swid'] != 0) {?>
-                                                <?php if($role_id == 6 || $role_id == 7 || $role_id == 1) {?>
+                                                <?php if($role_id == 6 || $role_id == 8 || $role_id == 1) {?>
                                                 <a href="<?php echo base_url(); ?>index.php/Orders/updateCallsData/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
                                                    W
                                                 </a>
@@ -1526,14 +1573,14 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 </a>
                                                 <?php } ?>
                                                
-                                                <?php if($role_id == 6 ||  $role_id == 1 || $role_id == 5 ){ ?> 
+                                                <?php if($role_id == 6 ||  $role_id == 1 || $role_id == 5 || $role_id == 8 ){ ?> 
                                                     <a href="<?php echo base_url(); ?>index.php/Orders/orderchatc/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
                                                       C
                                                     </a>
                                                     <?php }
                                                 ?>
 
-                                                <?php if($obj['admin_id'] != 0 ) {?>
+                                                <?php if($obj['admin_id'] != 0  && $obj['wid'] != 0) {?>
                                                     <?php if($role_id == 6 || $role_id == 8 || $role_id == 1) {?>
                                                         <a href="<?php echo base_url(); ?>index.php/Orders/updateadmin/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style=";background-color:#6699CC;">
                                                         A
@@ -1928,7 +1975,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                 </tbody>
                             </table>
 
-                            <?php if ($role_id == 1 || $role_id == 2) { ?>
+                            <?php if ($role_id == 1 || $role_id == 2 || $role_id == 8 || $role_id == 6 || $role_id == 7) { ?>
                                 <?php if (empty($from_date)) { ?>
                                     <div class="pagination">
                                         <?php echo $links; ?> </p>
@@ -2260,6 +2307,70 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                 }
             });
         });
+        
+           $(document).on('click', '.mark_as_call', function() {
+    var row_id = $(this).closest("tr").find('.row_id').val();
+    var uid = $(this).closest("tr").find('.uid').val();
+    var c_mobile = $(this).closest("tr").find('.c_mobile').val();
+    var countrycode = $(this).closest("tr").find('.countrycode').val();
+
+    // Show an alert with the values of c_mobile and countrycode
+    swal({
+        title: "Are you sure to call on",
+        text: "Call On " + "+" + countrycode + " " + c_mobile,
+        icon: "warning",
+        buttons: [
+            'No, cancel it!',
+            'Yes, I am sure!'
+        ],
+        dangerMode: true,
+    }).then(function(isConfirm) {
+        if (isConfirm) {
+            // User clicked "Yes, I am sure" - show another popup with a timer
+            var timerInterval;
+            swal({
+                title: "Calling...",
+                text: "You will be connected in 5 seconds.",
+                icon: "info",
+                timer: 5000, // 5000 milliseconds (5 seconds)
+                buttons: [
+                    'End Call',
+                    'Connecting...'
+                ],
+                closeOnClickOutside: false,
+            }).then(function(result) {
+                if (result === "End Call") {
+                    // Handle the end call action here.
+                    // You can add an AJAX call here to mark the call as completed.
+                    // $.ajax({
+                    //     type: "POST",
+                    //     url: '<?php echo base_url(); ?>index.php/Orders/markAsCompleted',
+                    //     data: {
+                    //         row_id: row_id,
+                    //         uid: uid,
+                    //     },
+                    //     success: function(response) {
+                    //         // Handle success if needed
+                    //     }
+                    // });
+                    
+                    // Close the timer popup
+                    swal.close();
+                    // Show a message indicating that the call has ended.
+                    swal("Call Ended", "The call has been ended.", "success");
+                }
+            });
+            
+            // Update the timer text every second (optional)
+            timerInterval = setInterval(function() {
+                var remainingTime = Math.ceil(swal.getTimerLeft() / 1000);
+                swal.getContent().querySelector("p").textContent = "You will be connected in " + remainingTime + " seconds.";
+            }, 1000);
+        } else {
+            // User clicked "No, cancel it!" in the initial popup - do nothing or handle accordingly
+        }
+    });
+});
     </script>
 
 

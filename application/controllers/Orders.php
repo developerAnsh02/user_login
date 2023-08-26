@@ -2302,7 +2302,7 @@ class Orders extends CI_Controller
     redirect($_SERVER['HTTP_REFERER']); // Redirect to the same page
 }
 
-    public function writeEdit($edit_id = '')
+public function writeEdit($edit_id = '')
 {
     $backurl = $this->input->post('backurl');
     $this->form_validation->set_rules('order_id', 'Order ID', 'required');
@@ -2347,18 +2347,27 @@ class Orders extends CI_Controller
             }
         }
 
+        $role_id = $this->session->userdata['logged_in']['role_id'];
+        $login_id = $this->session->userdata['logged_in']['id'];
+		$swid = $this->input->post('subwriter_name_new');
+		$wid = $this->input->post('writer_name_new');
+       if($role_id == 8 && $swid == $login_id )
+	   {
+		$wid = 0;
+	   }
+	   
+
         $data = array(
-           
-            
-            'wid' => $this->input->post('writer_name_new'),
+			
+            'wid' => $wid,
             'swid' => $this->input->post('subwriter_name_new'),
-            
             'writer_status' => $this->input->post('writer_status'),
             'flag' => '0',
         );
-        
+
         // Uncomment the line below to display the data being passed to the model
-        // echo '<pre>'; print_r($data); exit;
+        // echo '<pre>';
+		// print_r($data); exit;
 
         if (!empty($this->input->post('user_id')) && $this->input->post('user_id') != '') 
         {
