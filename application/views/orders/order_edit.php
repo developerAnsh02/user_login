@@ -263,89 +263,39 @@ $currentURL = current_url();
                                         <?php if ($role_id != '3') { ?>
                                             <?php if ($projectstatus == 'In Progress') { ?>
                                                 <select name="writer_name" class="form-control" required>
-                                            <option value=" " <?php if (@$writer_name == ' ') {
-                                                            echo "selected";
-                                                        } ?>> </option>
-                                            <option value="team 01" <?php if (@$writer_name == 'team 01') {
-                                                            echo "selected";
-                                                        } ?>>team 1</option>
-                                            <option value="team 02" <?php if (@$writer_name == 'team 02') {
-                                                            echo "selected";
-                                                        } ?>>team 2</option>
-                                            <option value="team 03" <?php if (@$writer_name == 'team 03') {
-                                                            echo "selected";
-                                                        } ?>>team 3</option>
-                                            <option value="team 04" <?php if (@$writer_name == 'team 04') {
-                                                            echo "selected";
-                                                        } ?>>team 4</option>
-                                            <option value="team 05" <?php if (@$writer_name == 'team 05') {
-                                                            echo "selected";
-                                                        } ?>>team 5</option>
-                                            <option value="team 06" <?php if (@$writer_name == 'team 06') {
-                                                            echo "selected";
-                                                        } ?>>team 6</option>
-                                            <option value="team 07" <?php if (@$writer_name == 'team 07') {
-                                                            echo "selected";
-                                                        } ?>>team 7</option>
-                                            <option value="team 08" <?php if (@$writer_name == 'team 08') {
-                                                            echo "selected";
-                                                        } ?>>team 8</option>
-                                            <option value="team 09" <?php if (@$writer_name == 'team 09') {
-                                                            echo "selected";
-                                                        } ?>>team  9</option>
-                                            <option value="team 010" <?php if (@$writer_name == 'team 010') {
-                                                        } ?>>team 10</option>
-                                            <option value="team 011" <?php if (@$writer_name == 'team 011') {
-                                            } ?>>team 11</option>
-
-                                            <option value="team 012" <?php if (@$writer_name == 'team 012') {
-                                            } ?>>team 12</option>
-                                            <option value="team 013" <?php if (@$writer_name == 'team 013') {
-                                            } ?>>team 13</option>
+                                                <option value=" " <?php if (@$writer_name == ' ') {echo "selected";} ?>> </option>
+                                            <option value="team 01" <?php if (@$writer_name == 'team 01') {echo "selected";} ?>>team 1</option>
+                                            <option value="team 02" <?php if (@$writer_name == 'team 02') {echo "selected";} ?>>team 2</option>
+                                            <option value="team 03" <?php if (@$writer_name == 'team 03') {echo "selected";} ?>>team 3</option>
+                                            <option value="team 04" <?php if (@$writer_name == 'team 04') {echo "selected";} ?>>team 4</option>
+                                            <option value="team 05" <?php if (@$writer_name == 'team 05') {echo "selected";} ?>>team 5</option>
+                                            <option value="team 06" <?php if (@$writer_name == 'team 06') {echo "selected";} ?>>team 6</option>
+                                            <option value="team 07" <?php if (@$writer_name == 'team 07') {echo "selected";} ?>>team 7</option>
+                                            <option value="team 08" <?php if (@$writer_name == 'team 08') {echo "selected";} ?>>team 8</option>
+                                            <option value="team 09" <?php if (@$writer_name == 'team 09') {echo "selected";} ?>>team  9</option>
+                                            <option value="team 010" <?php if (@$writer_name == 'team 010') {echo "selected";} ?>>team 10</option>
+                                            <option value="team 011" <?php if (@$writer_name == 'team 011') {echo "selected";} ?>>team 11</option>
+                                            <option value="team 012" <?php if (@$writer_name == 'team 012') {echo "selected";} ?>>team 12</option>
+                                            <option value="team 013" <?php if (@$writer_name == 'team 013') {echo "selected";} ?>>team 13</option>
                                         </select>
                                                 <span class="bar"></span>
                                                 <label for="input10">Writer name (Select team)</label>
                                             <?php } else { ?>
                                                <select name="writer_name" class="form-control" required>
-                                            <option value=" " <?php if (@$writer_name == ' ') {
-                                                            echo "selected";
-                                                        } ?>> </option>
-                                            <option value="team 01" <?php if (@$writer_name == 'team 01') {
-                                                            echo "selected";
-                                                        } ?>>team 1</option>
-                                            <option value="team 02" <?php if (@$writer_name == 'team 02') {
-                                                            echo "selected";
-                                                        } ?>>team 2</option>
-                                            <option value="team 03" <?php if (@$writer_name == 'team 03') {
-                                                            echo "selected";
-                                                        } ?>>team 3</option>
-                                            <option value="team 04" <?php if (@$writer_name == 'team 04') {
-                                                            echo "selected";
-                                                        } ?>>team 4</option>
-                                            <option value="team 05" <?php if (@$writer_name == 'team 05') {
-                                                            echo "selected";
-                                                        } ?>>team 5</option>
-                                            <option value="team 06" <?php if (@$writer_name == 'team 06') {
-                                                            echo "selected";
-                                                        } ?>>team 6</option>
-                                            <option value="team 07" <?php if (@$writer_name == 'team 07') {
-                                                            echo "selected";
-                                                        } ?>>team 7</option>
-                                            <option value="team 08" <?php if (@$writer_name == 'team 08') {
-                                                            echo "selected";
-                                                        } ?>>team 8</option>
-                                            <option value="team 09" <?php if (@$writer_name == 'team 09') {
-                                                            echo "selected";
-                                                        } ?>>team  9</option>
-                                            <option value="team 010" <?php if (@$writer_name == 'team 010') {
-                                                        } ?>>team 10</option>
-                                            <option value="team 011" <?php if (@$writer_name == 'team 011') {
-                                            } ?>>team 11</option>
-
-                                            <option value="team 012" <?php if (@$writer_name == 'team 012') {
-                                            } ?>>team 12</option>
-                                            <option value="team 013" <?php if (@$writer_name == 'team 013') {
-                                            } ?>>team 13</option>
+                                            <option value=" " <?php if (@$writer_name == ' ') {echo "selected";} ?>> </option>
+                                            <option value="team 01" <?php if (@$writer_name == 'team 01') {echo "selected";} ?>>team 1</option>
+                                            <option value="team 02" <?php if (@$writer_name == 'team 02') {echo "selected";} ?>>team 2</option>
+                                            <option value="team 03" <?php if (@$writer_name == 'team 03') {echo "selected";} ?>>team 3</option>
+                                            <option value="team 04" <?php if (@$writer_name == 'team 04') {echo "selected";} ?>>team 4</option>
+                                            <option value="team 05" <?php if (@$writer_name == 'team 05') {echo "selected";} ?>>team 5</option>
+                                            <option value="team 06" <?php if (@$writer_name == 'team 06') {echo "selected";} ?>>team 6</option>
+                                            <option value="team 07" <?php if (@$writer_name == 'team 07') {echo "selected";} ?>>team 7</option>
+                                            <option value="team 08" <?php if (@$writer_name == 'team 08') {echo "selected";} ?>>team 8</option>
+                                            <option value="team 09" <?php if (@$writer_name == 'team 09') {echo "selected";} ?>>team  9</option>
+                                            <option value="team 010" <?php if (@$writer_name == 'team 010') {echo "selected";} ?>>team 10</option>
+                                            <option value="team 011" <?php if (@$writer_name == 'team 011') {echo "selected";} ?>>team 11</option>
+                                            <option value="team 012" <?php if (@$writer_name == 'team 012') {echo "selected";} ?>>team 12</option>
+                                            <option value="team 013" <?php if (@$writer_name == 'team 013') {echo "selected";} ?>>team 13</option>
                                         </select>
                                                 <span class="bar"></span>
                                                 <label for="input10">Writer name (Select team)</label>
@@ -360,19 +310,8 @@ $currentURL = current_url();
                                 <input type="hidden" name="writer_name" id="input10" class="form-control writer_name" value="<?= @$writer_name ?>" />
                                 <?php } ?>
 
-                                <div class="col-lg-4">
-                                    <div class="form-group has-warning m-b-40">
-                                        <select name="writer_new_admin" class="form-control" onchange="toggleWriterNameNew(this)">
-                                            <option value=""></option>
-                                            <?php foreach ($writerAdmin as $employee) : ?>
-                                                <option value="<?php echo $employee['id']; ?>" <?php if (@$employee['id'] == $admin_id) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="input10">Select an Admin</label>
-                                    </div>
-                                </div>
                                 
-                                <?php if($admin_id != 0){ ?>
+                                    <?php if($role_id == 1)  {  ?> 
                                 <div class="col-lg-4" id="" style="display: ;">
                                     <div class="form-group has-warning m-b-40">
                                         <select name="writer_name_new" class="form-control">
@@ -384,34 +323,7 @@ $currentURL = current_url();
                                         <label for="input10">Select an Writer TL</label>
                                     </div>
                                 </div>
-                                <?php } else { ?>
-                                <div class="col-lg-4" id="writerNameNewContainer" style="display: none;">
-                                    <div class="form-group has-warning m-b-40">
-                                        <select name="writer_name_new" class="form-control">
-                                            <option value=""></option>
-                                            <?php foreach ($writerTL as $employee) : ?>
-                                                <option value="<?php echo $employee['id']; ?>" <?php if (@$employee['id'] == $wid) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        <label for="input10">Select an Writer TL</label>
-                                    </div>
-                                </div>
-                                <?php } ?>
-
-                                <script>
-                                function toggleWriterNameNew(selectElement) {
-                                    var writerNameNewContainer = document.getElementById('writerNameNewContainer');
-                                    if (selectElement.value !== '') {
-                                        writerNameNewContainer.style.display = 'block';
-                                    } else {
-                                        writerNameNewContainer.style.display = 'none';
-                                    }
-                                }
-                                </script>
-
-
-
-                                
+                                <?php }  ?>
 
                                 <!-- Writer price -->
                                 <div class="col-lg-4" style="display: none;">
