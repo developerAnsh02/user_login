@@ -1884,6 +1884,60 @@ public function admin_writer_data($id, $limit, $start, $online_order = '')
 			$query =  $this->db->get()->result_array();
 			return $query;
 		}
+
+
+		public function TotalWriterTL()
+		{
+			$this->db->select('*');
+			$this->db->from('employees');
+			// Add the WHERE condition to filter out tl_id equal to 0
+			$this->db->where('role_id ', 6);
+			$this->db->where('flag ', 0);
+
+			$query = $this->db->get();
+			return $query->num_rows();
+		}
+
+		public function TotaladminOrders()
+	{
+		$this->db->select('*');
+		$this->db->from('orders');
+		$this->db->where('admin_id',$this->login_id);
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+
+	public function TotalInProgressAdmin()
+{
+	$this->db->select('*');
+	$this->db->from('orders');
+	$this->db->where('admin_id', $this->login_id);
+	$this->db->where('writer_status','In progress');
+	$query = $this->db->get();
+	return $query->num_rows();
+}
+
+public function TodayRecentorderadmin()
+{
+    $this->db->select('*');
+    $this->db->from('orders');
+    $this->db->where('admin_id', $this->login_id);
+    $this->db->order_by('order_date', 'desc'); // Order by 'order_date' in descending order
+    $this->db->limit(5); // Get only 5 records
+    $query =  $this->db->get()->result_array();
+    return $query; // Return the result as an array of objects
+}
+
+public function TotalOrdersadminToday()
+	{
+		$this->db->select('*');
+		$this->db->from('orders');
+		$this->db->where('delivery_date', date('Y-m-d'));
+		$this->db->where('admin_id',  $this->login_id);
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
             
             
             

@@ -62,7 +62,15 @@ public function dashboard()
 			$data['recent_orders'] = $this->order_model->TodayRecentorderSubWriter();
 
 		}
-		
+		elseif ( $data['role_id'] == 8) {
+			$data['title'] = 'Admin Dashboard';
+			$data['total_customers'] = $this->order_model->TotalWriterTL();
+			$data['TotalOrders'] = $this->order_model->TotaladminOrders();;
+			$data['TotalOrdersToday'] = $this->order_model->TotalOrdersadminToday();
+			$data['pending_orders'] = $this->order_model->TotalInProgressAdmin();
+			$data['recent_orders'] = $this->order_model->TodayRecentorderadmin();
+
+		}
 		
 		
 		else {

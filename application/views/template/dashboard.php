@@ -353,6 +353,121 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
                 <!-- Column -->
             </div>
         <?php } ?>
+
+        <?php if($role_id ==8) {?>
+          <div class="row " style="justify-content: center; ">
+                <!-- Column -->
+                <div class="col-md-3 col-md-3 " >
+                    <a href="<?= base_url('index.php/Orders/Write_tl'); ?>">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="round align-self-center round-success">
+                                        <i class="ti-user"></i>
+                                    </div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0">
+                                            <?= $total_customers ?>
+                                        </h3>
+                                        <h5 class="text-muted m-b-0">Total Writer Tl </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- Column -->
+                <!-- Column -->
+                <div class="col-md-3 col-md-3">
+                    <a href="<?= base_url('index.php/Orders/index'); ?>">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="round align-self-center round-info">
+                                        <i class="ti-book"></i>
+                                    </div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0"><?= $TotalOrders ?></h3>
+                                        <h5 class="text-muted m-b-0">Total Orders</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- Column -->
+                <!-- Column -->
+                <div class="col-md-3 col-md-3">
+                    <a href="<?= base_url('index.php/Orders/index'); ?>?order_id=0&from_date=&upto_date=&swid=&order_date_filter=order_date&status=In+Progress">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="round align-self-center round" style="background: #3e3e76;">
+                                        <i class="icon-clock"></i>
+                                    </div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0"><?= $pending_orders ?></h3>
+                                        <h5 class="text-muted m-b-0">In Progress Order</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- Column -->
+                <!-- Column -->
+                <div class="col-md-3 col-md-3">
+                    <a href="<?= base_url('index.php/Orders/index') ;?>?customer_id=0&order_id=0&from_date=<?php echo date("d-m-Y"); ?>&upto_date=<?php echo date("d-m-Y"); ?>&order_date_filter=order_date&status=&title=">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex flex-row">
+                                    <div class="round align-self-center round-success">
+                                        <i class="ti-shopping-cart"></i>
+                                    </div>
+                                    <div class="m-l-10 align-self-center">
+                                        <h3 class="m-b-0"><?= $TotalOrdersToday ?></h3>
+                                        <h5 class="text-muted m-b-0">Today's Order</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Order Code</th>
+                                        <th>Title</th>
+                                        <th>Writer Deadline</th>
+                                        <th>Assign Time/date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                  
+                                        $i = 1;
+                                        foreach ($recent_orders as $order) {
+                                    ?>
+                                            <tr>
+                                                <td><?= $i++ ?></td>
+                                                <td><?= $order['order_id'] ?></td>
+                                                <td><?= $order['title'] ?></td>
+                                                <td><?php echo date('d-M-Y', strtotime($order['writer_deadline'])); ?></td>
+                                                <td><?php echo date('d-M-Y (h-i-s)' , strtotime($order['edited_on'])); ?></td>
+
+                                            </tr>
+                                    <?php
+                                        }
+                                    
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                <!-- Column -->
+            </div>
+        <?php } ?>
         
         <?php if($role_id == 6 || $role_id == 7){ ?>
         <div class="row " style="justify-content: center; ">
@@ -541,7 +656,7 @@ $role_id = $this->session->userdata['logged_in']['role_id'];
         <!-- New Customers List and New Products List -->
         <!-- ============================================================== -->
         <!-- /row -->
-        <?php if($role_id != 6 && $role_id != 7) {?>
+        <?php if($role_id != 6 && $role_id != 7 && $role_id != 8) {?>
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">

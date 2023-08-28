@@ -850,14 +850,16 @@ $currentURL = current_url();
                                 </div>
                                 <?php } ?>
 
-                                <?php if($actual_amount - $received_amount != 0  )  { ?>
+                                
+                                
+                                <?php if($amount - $received_amount != 0  )  { ?>
                                     <script>
                                           $(document).ready(function(){ //Make script DOM ready
                                             $('.new').change(function() { //jQuery Change Function
                                                 var opval = $(this).val(); //Get value from select element
                                                 if(opval=="Delivered"){ //Compare it and if true
                                                  swal({
-                                                     title: "Due Amount <?php echo $actual_amount  - $received_amount;?>",
+                                                     title: "Due Amount <?php echo $amount  - $received_amount;?>",
                                                      text: "When you have received the full amount, you will be able to mail it.",
                                                      icon: "warning",
                                                      buttons: true,
@@ -887,7 +889,7 @@ $currentURL = current_url();
 
                                     function myFunction<?php echo $order_id; ?>() {
                                         swal({
-                                            title: "Due Amount <?php echo $actual_amount  - $received_amount;?>",
+                                            title: "Due Amount <?php echo $amount  - $received_amount;?>",
                                             text: "When you have received the full amount, you will be able to mail it.",
                                             icon: "warning",
                                             buttons: true,

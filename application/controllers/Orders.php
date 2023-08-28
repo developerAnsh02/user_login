@@ -2360,7 +2360,7 @@ public function writeEdit($edit_id = '')
         $data = array(
 			
             'wid' => $wid,
-            'swid' => $this->input->post('subwriter_name_new'),
+            'swid' => $this->input->post('subwriter_name_new') === '8411' ? '8392' : $this->input->post('subwriter_name_new'),
             'writer_status' => $this->input->post('writer_status'),
             'flag' => '0',
         );

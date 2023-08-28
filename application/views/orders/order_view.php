@@ -330,11 +330,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                    
 																</a>
 																
-																	<!--<a href="<?php echo base_url(); ?>index.php/Orders/orderchatc/<?php echo $obj['order_id']; ?>" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 " >-->
-																	<!--<span class="svg-icon svg-icon-3">-->
-																	<!--W-->
-																	<!--</span>-->
-                                                                   
+																
 															
                                                                 <a href="<?php echo base_url(); ?>index.php/Orders/feedback/<?php echo $obj['id']; ?>" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 " ><i style='font: size 10px;' class="	fas fa-comments"></i></a>
                                                                <a href="#" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 " data-bs-toggle="modal" data-bs-target="#kt_modal_new_target1<?php echo $obj['order_id']; ?>">
@@ -1047,12 +1043,10 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                         <tr <?php if ($obj['is_read'] == 0) { ?> style="font-weight: 700;" <?php } ?> class="read_order <?php echo $class ?> " order_id="<?= $obj['id']  ?>">
                                             <input type="hidden" class="row_id" value="<?= $obj['id'] ?>">
                                             <input type="hidden" class="uid" value="<?= $obj['uid'] ?>">
-<<<<<<< Updated upstream
-                                            <input type="hidden" class="c_mobile" value="<?= $obj['c_mobile'] ?>">
-=======
-                                              <input type="hidden" class="c_mobile" value="<?= $obj['c_mobile'] ?>">
->>>>>>> Stashed changes
-                                            <input type="hidden" class="countrycode" value="<?= $obj['countrycode'] ?>">
+                                            <?php if($role_id == 1){ ?>
+                                              <input type="hidden" class="c_mobile" value="<?php echo $obj['c_mobile'] ?>">
+                                             <input type="hidden" class="countrycode" value="<?= $obj['countrycode'] ?>">
+                                             <?php } ?>
                                             <td class="hide-mb">
                                                 <?php echo $i; ?>
                                             </td>
@@ -1209,9 +1203,9 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 
                                                 
                                                 
-                                                <?php if($obj['swid'] == $obj['wid']  ){ ?>
+                                                <?php if($obj['swid'] == $obj['wid'] && $obj['swid'] != $obj['admin_id'] && $obj['wid'] != $obj['admin_id']){ ?>
                                                     Self Tl As Writer
-                                                <?php } elseif($obj['swid'] == $obj['admin_id']) {?>
+                                                <?php } elseif($obj['swid'] == $obj['wid'] || $obj['swid'] == $obj['admin_id'] || $obj['wid'] == $obj['admin_id']) {?>
                                                     Self Admin As Writer
                                                 
                                                 <?php } }?>
@@ -1297,7 +1291,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                         <option value="">Select a Writer</option>
                                                                                         
                                                                                         <?php if ($role_id == 8) { ?><option value="<?php echo $loginid ?>">Select Self Writer</option><?php } ?>
-                                                                                        <?php if($obj['swid'] == $loginid){ ?><option value="<?php echo $loginid ?>" <?= $obj['swid'] == $loginid ? "selected" : ""; ?>>You are Writer Now </option><?php } ?>
+                                                                                       
                                                                                         <?php foreach ($writerTL as $employeeS): ?>
                                                                                         <option value="<?= $employeeS['id']; ?>" <?= @$employeeS['id'] == $obj['wid'] ? "selected" : ""; ?>>
                                                                                             <?= $employeeS['name']; ?>
@@ -1328,19 +1322,17 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                     });
                                                                                 </script>
 
-                                                                                <?php if ($obj['wid'] != 0 && $role_id != 7) { ?>
+                                                                                <?php if ($obj['swid'] != 0 && $role_id != 7) { ?>
                                                                                 <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" onchange="toggleDropdown()" style="display: ;">
                                                                                     <label class="control-label">Select Subwriter</label>
                                                                                     <select name="subwriter_name_new" id="subwriterDropdownss<?php echo $obj['order_id'] ?>" class="form-control">
-                                                                                        <option value="">Select a Subwriter</option>
+                                                                                       
+                                                                                    <option value="">Select a Subwriter</option>
                                                                                         <?php if($role_id == 6){ ?>
                                                                                         <option value="<?= $loginid ?>" <?= $loginid == $obj['swid'] ? "selected" : ""; ?>>Select yourself as Writer</option>
                                                                                         <?php } ?>
-                                                                                        <?php if($role_id == 8){ ?>
-                                                                                        <option value="<?= $loginid ?>" <?= $loginid == $obj['swid'] ? "selected" : ""; ?>>Select yourself as Writer</option>
-                                                                                        <?php } ?>
-                                                                                        <option value="">Select a Subwriter</option>
-                                                                                        <option value="<?= $loginid ?>" <?= $loginid == $obj['swid'] ? "selected" : ""; ?>>Select yourself as Writer</option>
+                                                                                       
+                                                                                      
                                                                                         <?php foreach ($subwrtier as $employee): ?>
                                                                                         <option value="<?= $employee['id']; ?>" data-tl-id="<?= $employee['tl_id']; ?>" <?= @$employee['id'] == $obj['swid'] ? "selected" : ""; ?>>
                                                                                             <?= $employee['name']; ?>
@@ -1423,21 +1415,9 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                             <?php } ?>
 
                                                                             <?php if ($role_id == 8) { ?>
-                                                                              <?php
-                                                                            if($obj['swid'] == $loginid) {    
-                                                                            ?>   
-                                                                             <div class="col-lg-4" >
-                                                                                
-                                                                                <div class="form-group has-warning m-b-40">
-                                                                                 <select id="secondDropdown<?php echo $obj['order_id'] ?>" name="writer_status" class="form-control">
-                                                                                        <option value="">Select a status</option>
-                                                                                        <option value="In Progress">In Progress</option>
-                                                                                        <option value="Completed">Completed</option>
-                                                                                        <option value="Delivered">Delivered</option>
-                                                                                    </select>
-                                                                                   </div>
-                                                                            </div>
-                                                                            <?php } else { ?>
+                                                                               
+                                                                            
+                                                                           
                                                                            
                                                                             <div class="col-lg-4" >
                                                                                 
@@ -1452,7 +1432,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                     </select>
                                                                             </div>
                                                                             </div>
-                                                                            <?php } ?>
+                                                                          
                                                                             <?php } ?>
 
                                                                             <?php if ($role_id == 7) { ?>
@@ -1543,14 +1523,12 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                     <i style="color:#fff;" class="fa fa-phone"></i>
                                                 </a>
                                                 <?php } ?>
-
-
-                                                <?php if($role_id == 1 ) { ?>
-                                                <a type="button" class="btn btn-xs btn-primary btn-sm m-1 mark_as_call" title="Mark as failed job" style="background-color:green;">
-                                                    <i style="color:#fff;" class="fa fa-phone"></i>
-                                                </a>
-                                                <?php } ?>
-
+                                                    <?php if($role_id == 6 ||  $role_id == 1 || $role_id == 5 || $role_id == 8 ){ ?> 
+                                                    <a href="<?php echo base_url(); ?>index.php/Orders/orderchatc/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
+                                                      C
+                                                    </a>
+                                                    <?php }
+                                                ?>
                                                
                                                 <!-- / Mark Job Failed -->
 
@@ -1561,7 +1539,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 </a>
                                                 <?php } ?>
                                                 <?php if($obj['swid'] != $loginid && $obj['swid'] != 0) {?>
-                                                <?php if($role_id == 6 || $role_id == 8 || $role_id == 1) {?>
+                                                <?php if($role_id == 6 ||  $role_id == 1) {?>
                                                 <a href="<?php echo base_url(); ?>index.php/Orders/updateCallsData/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
                                                    W
                                                 </a>
@@ -1572,40 +1550,23 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                    W
                                                 </a>
                                                 <?php } ?>
+                                                
+                                                <?php if($obj['swid'] != $loginid && $obj['wid'] == $loginid || $obj['wid'] == 0 &&  $obj['swid'] != 0 )   {?>
+                                                 <?php if( $role_id == 8 ) {?>
+                                                 <a href="<?php echo base_url(); ?>index.php/Orders/updateCallsData/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
+                                                   W
+                                                </a>
+                                                <?php } } ?>
                                                
-                                                <?php if($role_id == 6 ||  $role_id == 1 || $role_id == 5 || $role_id == 8 ){ ?> 
-                                                    <a href="<?php echo base_url(); ?>index.php/Orders/orderchatc/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
-                                                      C
-                                                    </a>
-                                                    <?php }
-                                                ?>
+                                               
 
-                                                <?php if($obj['admin_id'] != 0  && $obj['wid'] != 0) {?>
+                                                <?php if($obj['wid'] != 0 && $obj['wid'] != 8392 && $obj['admin_id'] != 0) {?>
                                                     <?php if($role_id == 6 || $role_id == 8 || $role_id == 1) {?>
                                                         <a href="<?php echo base_url(); ?>index.php/Orders/updateadmin/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style=";background-color:#6699CC;">
                                                         A
                                                         </a>
                                                     <?php } 
                                                 } ?>
-
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModalwc<?= $customer_id ?>" style="width:10%;text:end;justify-content: end;">
-                            <i class="fas fa-phone-alt"></i>
-                        </button>
-                        <div class="modal fade bd-example-modal-xl" id="editModalwc<?= $customer_id ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-xl">
-                                <div class="modal-content" style="width: 80%;">
-                                    <div class="modal-header">
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <!-- <h4 class="modal-title" id="exampleModalLabel1">Call Status Update</h4>  -->
-                                            <h4>Call Now</h4>
-                                        </div>
-                                    </div>                 
-                                </div>                 
-                            </div>                 
-                        </div> 
 
                                                 
                                                 <!-- Button trigger modal -->
@@ -2087,70 +2048,6 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                 }
             });
         });
-
-        $(document).on('click', '.mark_as_call', function() {
-    var row_id = $(this).closest("tr").find('.row_id').val();
-    var uid = $(this).closest("tr").find('.uid').val();
-    var c_mobile = $(this).closest("tr").find('.c_mobile').val();
-    var countrycode = $(this).closest("tr").find('.countrycode').val();
-
-    // Show an alert with the values of c_mobile and countrycode
-    swal({
-        title: "Are you sure to call on",
-        text: "Call On " + "+" + countrycode + " " + c_mobile,
-        icon: "warning",
-        buttons: [
-            'No, cancel it!',
-            'Yes, I am sure!'
-        ],
-        dangerMode: true,
-    }).then(function(isConfirm) {
-        if (isConfirm) {
-            // User clicked "Yes, I am sure" - show another popup with a timer
-            var timerInterval;
-            swal({
-                title: "Calling...",
-                text: "You will be connected in 5 seconds.",
-                icon: "info",
-                timer: 5000, // 5000 milliseconds (5 seconds)
-                buttons: [
-                    'End Call',
-                    'Connecting...'
-                ],
-                closeOnClickOutside: false,
-            }).then(function(result) {
-                if (result === "End Call") {
-                    // Handle the end call action here.
-                    // You can add an AJAX call here to mark the call as completed.
-                    // $.ajax({
-                    //     type: "POST",
-                    //     url: '<?php echo base_url(); ?>index.php/Orders/markAsCompleted',
-                    //     data: {
-                    //         row_id: row_id,
-                    //         uid: uid,
-                    //     },
-                    //     success: function(response) {
-                    //         // Handle success if needed
-                    //     }
-                    // });
-                    
-                    // Close the timer popup
-                    swal.close();
-                    // Show a message indicating that the call has ended.
-                    swal("Call Ended", "The call has been ended.", "success");
-                }
-            });
-            
-            // Update the timer text every second (optional)
-            timerInterval = setInterval(function() {
-                var remainingTime = Math.ceil(swal.getTimerLeft() / 1000);
-                swal.getContent().querySelector("p").textContent = "You will be connected in " + remainingTime + " seconds.";
-            }, 1000);
-        } else {
-            // User clicked "No, cancel it!" in the initial popup - do nothing or handle accordingly
-        }
-    });
-});
 
      
     });
