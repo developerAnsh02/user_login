@@ -410,6 +410,7 @@ class Leads extends CI_Controller
                     $last_6 = substr($_POST['mobile'], -6);
                     $str = 'user' . $last_6;
                     $userData['email'] = $str;
+                    $userData['username'] = $str;
                 }
                 if (isset($_POST['phonecode']) && !empty($_POST['phonecode'])) {
                     $userData['countrycode'] = $_POST['phonecode'];

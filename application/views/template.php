@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <?php
 if (isset($this->session->userdata['logged_in'])) {
-	$username 		= ($this->session->userdata['logged_in']['username']);
+	$email 		= ($this->session->userdata['logged_in']['email']);
 	$email 			= ($this->session->userdata['logged_in']['email']);
 	$role_id 		= $this->session->userdata['logged_in']['role_id'];
 	$employee_id 	= $this->session->userdata['logged_in']['id'];

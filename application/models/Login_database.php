@@ -29,7 +29,7 @@ return false;
 public function login($data) {
 $status_mode='';
 $login_data=[];
-$condition = "username =" . "'" . $data['username'] . "' AND " . "password =" . "'" . $data['password'] . "'";
+$condition = "email =" . "'" . $data['email'] . "' AND " . "password =" . "'" . $data['password'] . "'";
 //print_r($condition);exit;
 $this->db->select('employees.*,roles.role as role');
 $this->db->from('employees');
@@ -57,9 +57,9 @@ if ($query->num_rows() == 1)
 }
 
 // Read data from database to show data in admin page
-public function read_user_information($username) {
+public function read_user_information($email) {
 
-$condition = "username =" . "'" . $username . "'";
+$condition = "email =" . "'" . $email . "'";
 $this->db->select('employees.*,roles.role as role');
 $this->db->from('employees');
 $this->db->join('roles','employees.role_id=roles.id');

@@ -164,7 +164,7 @@ public function dashboard()
 	public function user_login_process()
 	{
 		setcookie("orderid", "", time() - 60, "/", "", 0);
-		$this->form_validation->set_rules('username', 'Username', 'required');
+		$this->form_validation->set_rules('email', 'email', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
 		$new_password = md5($this->input->post('password'));
 		if ($this->form_validation->run() == FALSE) {
@@ -175,7 +175,7 @@ public function dashboard()
 			}
 		} else {
 			$data = array(
-				'username' => $this->input->post('username'),
+				'email' => $this->input->post('email'),
 				'password' => $new_password
 			);
 
@@ -184,13 +184,12 @@ public function dashboard()
 				$this->session->set_flashdata('failed', 'User is In Active!');
 				redirect('User_authentication/index', 'refresh');
 			} else if ($result == 'active') {
-				$username = $this->input->post('username');
-				$result = $this->login_database->read_user_information($username);
+				$email = $this->input->post('email');
+				$result = $this->login_database->read_user_information($email);
 
 				if ($result != false) {
 					$session_data = array(
 						'id' => $result[0]->id,
-						'username' => $result[0]->email,
 						'email' => $result[0]->email,
 						'name' => $result[0]->name,
 						'mobile_no' => $result[0]->mobile_no,
