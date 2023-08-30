@@ -291,7 +291,7 @@ class Leads extends CI_Controller
         $this->db->where('leads.flag', 0);
         $this->db->join('countries', 'leads.countrycode = countries.id', 'left');
         $this->db->limit($limit, $start);
-        $this->db->order_by("leads.id", "desc");
+        $this->db->order_by("leads.create_at", "desc");
         $query = $this->db->get();
         $query->result_array();
         return $query->result_array();
@@ -334,7 +334,7 @@ class Leads extends CI_Controller
         $this->db->where('leads.flag', 0);
         $this->db->join('countries', 'leads.countrycode = countries.id', 'left');
         $this->db->limit($limit, $start);
-        $this->db->order_by("leads.id", "desc");
+        $this->db->order_by("leads.create_at", "desc");
         $query = $this->db->get();
         $query->result_array();
         return $query->result_array();
@@ -367,7 +367,7 @@ class Leads extends CI_Controller
         $this->db->select('*, leads.id as id');
         $this->db->from('leads');
         $this->db->where('leads.flag', 0);
-        $this->db->order_by("leads.id", "desc");
+        $this->db->order_by("leads.create_at", "desc");
         $this->db->group_by("leads.mobile");
         $query = $this->db->get();
         $query->result_array();
