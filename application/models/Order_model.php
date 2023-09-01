@@ -1635,12 +1635,22 @@ public function feedback_list_all()
 					$this->db->where('orders.swid', $conditions['swid']);
 				}
 
-				if ($conditions['order_date_filter'] == 'order_date') {
+				if ($conditions['order_date_filter'] == 'order_date') 
+				{
 					if ($conditions['from_date'] != '1970-01-01')
 						$this->db->where('orders.order_date >=', $conditions['from_date']);
 					if ($conditions['upto_date'] != '1970-01-01')
 						$this->db->where('orders.order_date <=', $conditions['upto_date']);
-				} else {
+				} 
+				elseif($conditions['order_date_filter'] == 'delivery_date')
+				{
+					if ($conditions['from_date'] != '1970-01-01')
+						$this->db->where('orders.delivery_date >=', $conditions['from_date']);
+					if ($conditions['upto_date'] != '1970-01-01')
+						$this->db->where('orders.delivery_date <=', $conditions['upto_date']);
+				} 
+				else
+				{
 					if ($conditions['from_date'] != '1970-01-01')
 						$this->db->where('orders.writer_deadline >=', $conditions['from_date']);
 					if ($conditions['upto_date'] != '1970-01-01')

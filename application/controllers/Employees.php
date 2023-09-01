@@ -409,7 +409,7 @@ class Employees extends CI_Controller
 		$data['banks']			= $this->employee->getBanks();
 		$data['countries'] 		= $this->employee->getCountries();
 
-		// echo '<pre>'; print_r($data); exit;
+		
 		$this->template->load('template', '/writer/writer_edit', $data);
 	}
 
@@ -424,11 +424,11 @@ class Employees extends CI_Controller
             'username' => $this->input->post('email'),
             'mobile_no' => $this->input->post('mobile_no'),
             'countrycode' => $this->input->post('countrycode'),
-            'role_id' => $this->input->post('role_id'),
             'bank_id' => $this->input->post('bank_id'),
             'tl_id' => $this->input->post('writer_name_new'),
             'edited_by' => $loginId,
         );
+
 
         $result = $this->employee->employee_update($data, $id);
         if ($result == TRUE) {

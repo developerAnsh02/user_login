@@ -86,12 +86,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                             <label for="input12">Mobile</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <div class="form-group has-warning m-b-40">
-                                            <?php echo form_dropdown('role_id', $roles, $role_id, '', 'required="required"') ?>
-                                            <span class="bar"></span>
-                                        </div>
-                                    </div>
+                                   
                                     <div class="col-lg-4">
                                         <div class="form-group has-success m-b-40">
                                             <?php echo form_dropdown('countrycode', $countries, $countrycode, '', 'required="required"') ?>
@@ -109,6 +104,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         <div class="form-group has-error has-danger m-b-40">
                                             <select name="writer_name_new" class="form-control" >
                                                 <option value="">Select an employee</option>
+                                                <option value="8392" <?php if ($tl_id== 8392) { echo "selected"; } ?>>Admin</option>
                                                 <?php foreach ($writerTL as $employee) : ?>
                                                     <option value="<?php echo $employee['id']; ?>" <?php if ($tl_id== $employee['id']) { echo "selected"; } ?>><?php echo $employee['name']; ?></option>
                                                 <?php endforeach; ?>

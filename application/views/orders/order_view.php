@@ -66,14 +66,9 @@ $loginid        = $this->session->userdata['logged_in']['id'];
 			<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
 				<!--begin::Page title-->
 				<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
-									<!--begin::Title-->
 									<h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Order List
-									<!--begin::Separator-->
-									<span class="h-20px border-gray-200 border-start ms-3 mx-2">Home</span>
-									<!--end::Separator-->
-									<!--begin::Description-->
-									
-									<!--end::Description--></h1>
+									    <span class="h-20px border-gray-200 border-start ms-3 mx-2">Home</span>
+									</h1>
                                     
 									<!--end::Title-->
 				</div>
@@ -655,6 +650,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                         <select class="form-control" name="order_date_filter">
                                             <option value="order_date">Order Date</option>
                                             <option value="writer_delivery">Writer Deadline</option>
+                                            <option value="delivery_date">Order Deadline</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-sm-3">
@@ -1523,7 +1519,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                     <i style="color:#fff;" class="fa fa-phone"></i>
                                                 </a>
                                                 <?php } ?>
-                                                    <?php if($role_id == 6 ||  $role_id == 1 || $role_id == 5 || $role_id == 8 ){ ?> 
+                                                    <?php if($role_id == 7 ||$role_id == 6 ||  $role_id == 1 || $role_id == 5 || $role_id == 8 ){ ?> 
                                                     <a href="<?php echo base_url(); ?>index.php/Orders/orderchatc/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
                                                       C
                                                     </a>
