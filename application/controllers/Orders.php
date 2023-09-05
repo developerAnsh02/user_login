@@ -2224,6 +2224,9 @@ class Orders extends CI_Controller
 		if ($run == TRUE) {
 			$this->session->set_flashdata('error', 'Failed to insert writer!');
 		} else {
+			$writer = array(
+				'role_id' => 7,
+			);
 			$this->session->set_flashdata('success', 'Writer Inserted Successfully!');
 		}
 	

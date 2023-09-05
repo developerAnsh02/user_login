@@ -1319,23 +1319,16 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                 </script>
 
                                                                                 <?php if ($obj['swid'] != 0 && $role_id != 7) { ?>
-                                                                                <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" onchange="toggleDropdown()" style="display: ;">
-                                                                                    <label class="control-label">Select Subwriter</label>
-                                                                                    <select name="subwriter_name_new" id="subwriterDropdownss<?php echo $obj['order_id'] ?>" class="form-control">
-                                                                                       
-                                                                                    <option value="">Select a Subwriter</option>
-                                                                                        <?php if($role_id == 6){ ?>
-                                                                                        <option value="<?= $loginid ?>" <?= $loginid == $obj['swid'] ? "selected" : ""; ?>>Select yourself as Writer</option>
-                                                                                        <?php } ?>
-                                                                                       
-                                                                                      
-                                                                                        <?php foreach ($subwrtier as $employee): ?>
-                                                                                        <option value="<?= $employee['id']; ?>" data-tl-id="<?= $employee['tl_id']; ?>" <?= @$employee['id'] == $obj['swid'] ? "selected" : ""; ?>>
-                                                                                            <?= $employee['name']; ?>
-                                                                                        </option>
-                                                                                        <?php endforeach; ?>
-                                                                                    </select>
-                                                                                </div>
+                                                                                    <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" onchange="toggleDropdown()" style="display: ;">
+                                                                                        <label class="control-label">Select Subwriter</label>
+                                                                                        <select name="subwriter_name_new" id="subwriterDropdownss<?php echo $obj['order_id'] ?>" class="form-control">
+                                                                                            <option value="">Select a Subwriter</option>
+                                                                                            <?php if($role_id == 6){ ?><option value="<?= $loginid ?>" <?= $loginid == $obj['swid'] ? "selected" : ""; ?>>Select yourself as Writer</option><?php } ?>
+                                                                                            <?php foreach ($subwrtier as $employee): ?>
+                                                                                            <option value="<?= $employee['id']; ?>" data-tl-id="<?= $employee['tl_id']; ?>" <?= @$employee['id'] == $obj['swid'] ? "selected" : ""; ?>><?= $employee['name']; ?></option>
+                                                                                            <?php endforeach; ?>
+                                                                                        </select>
+                                                                                    </div>
                                                                                 <?php } else { ?>
                                                                                 <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" style="display: none;">
                                                                                     <label class="control-label">Select Subwriter</label>
