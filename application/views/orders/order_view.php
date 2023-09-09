@@ -66,9 +66,14 @@ $loginid        = $this->session->userdata['logged_in']['id'];
 			<div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
 				<!--begin::Page title-->
 				<div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
+									<!--begin::Title-->
 									<h1 class="d-flex align-items-center text-dark fw-bolder fs-3 my-1">Order List
-									    <span class="h-20px border-gray-200 border-start ms-3 mx-2">Home</span>
-									</h1>
+									<!--begin::Separator-->
+									<span class="h-20px border-gray-200 border-start ms-3 mx-2">Home</span>
+									<!--end::Separator-->
+									<!--begin::Description-->
+									
+									<!--end::Description--></h1>
                                     
 									<!--end::Title-->
 				</div>
@@ -1279,7 +1284,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                         <input type="text" style="display:none;" name="order_type" value="Back-End">
 
                                                                         <div class="row">
-                                                                            <div class="col-lg-4">
+                                                                            <div class="col-lg-12">
                                                                                 <?php if ($role_id == 8): ?>
                                                                                 <div class="form-group has-warning m-b-40">
                                                                                     <label class="control-label">Select Writer</label>
@@ -1319,21 +1324,29 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                 </script>
 
                                                                                 <?php if ($obj['swid'] != 0 && $role_id != 7) { ?>
-                                                                                    <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" onchange="toggleDropdown()" style="display: ;">
-                                                                                        <label class="control-label">Select Subwriter</label>
-                                                                                        <select name="subwriter_name_new" id="subwriterDropdownss<?php echo $obj['order_id'] ?>" class="form-control">
-                                                                                            <option value="">Select a Subwriter</option>
-                                                                                            <?php if($role_id == 6){ ?><option value="<?= $loginid ?>" <?= $loginid == $obj['swid'] ? "selected" : ""; ?>>Select yourself as Writer</option><?php } ?>
-                                                                                            <?php foreach ($subwrtier as $employee): ?>
-                                                                                            <option value="<?= $employee['id']; ?>" data-tl-id="<?= $employee['tl_id']; ?>" <?= @$employee['id'] == $obj['swid'] ? "selected" : ""; ?>><?= $employee['name']; ?></option>
-                                                                                            <?php endforeach; ?>
-                                                                                        </select>
-                                                                                    </div>
+                                                                                <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" onchange="toggleDropdown()" style="display: ;">
+                                                                                    <label class="control-label">Select Subwriter</label>
+                                                                                    <select name="subwriter_name_new" id="subwriterDropdownss<?php echo $obj['order_id'] ?>" class="form-control">
+                                                                                       
+                                                                                    <option value="">Select a Subwriter</option>
+                                                                                        <?php if($role_id == 6){ ?>
+                                                                                        <option value="<?= $loginid ?>" <?= $loginid == $obj['swid'] ? "selected" : ""; ?>>Select yourself as Writer</option>
+                                                                                        <?php } ?>
+                                                                                       
+                                                                                      
+                                                                                        <?php foreach ($subwrtier as $employee): ?>
+                                                                                        <option value="<?= $employee['id']; ?>" data-tl-id="<?= $employee['tl_id']; ?>" <?= @$employee['id'] == $obj['swid'] ? "selected" : ""; ?>>
+                                                                                            <?= $employee['name']; ?>
+                                                                                        </option>
+                                                                                        <?php endforeach; ?>
+                                                                                    </select>
+                                                                                </div>
                                                                                 <?php } else { ?>
-                                                                                <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" style="display: none;">
+                                                                                <div id="subwriterDropdown<?php echo $obj['order_id'] ?>" class="form-group has-warning m-b-40" ">
                                                                                     <label class="control-label">Select Subwriter</label>
                                                                                     <select name="subwriter_name_new" class="form-control">
                                                                                         <option value="">Select a Subwriter</option>
+                                                                                         <option value="<?php echo $loginid ?> " <?= $loginid== $obj['swid'] ? "selected" : ""; ?>>Select a Self As Writer</option>
                                                                                         <?php foreach ($subwrtier as $employee): ?>
                                                                                         <option value="<?= $employee['id']; ?>" data-tl-id="<?= $employee['tl_id']; ?>" <?= @$employee['id'] == $obj['swid'] ? "selected" : ""; ?>>
                                                                                             <?= $employee['name']; ?>
@@ -1347,19 +1360,27 @@ $loginid        = $this->session->userdata['logged_in']['id'];
 
                                                                         <div class="row">
                                                                             <?php if ($role_id == 6) { ?>
-                                                                            <div class="col-lg-4">
+                                                                            <div class="col-lg-12">
                                                                                 <div class="form-group has-warning m-b-40">
                                                                                     <?php if ($obj['swid'] == $loginid) { ?>
                                                                                     <select id="firstDropdown<?php echo $obj['order_id'] ?>" name="writer_status" class="form-control" style="display:none">
                                                                                         <option value="">Select a status</option>
                                                                                         <option value="Quality Accepted">Quality Accepted</option>
                                                                                         <option value="Quality Rejected">Quality Rejected</option>
+                                                                                        <option value="Hold It" <?php if (@$obj['writer_status'] == 'Hold It') {echo "selected";} ?>>Hold It</option>
+                                                                                        <option value="Handover To Aother Writer" <?php if (@$obj['writer_status'] == 'Handover To Aother Writer') {echo "selected";} ?>>Handover To Aother Writer</option>
+                                                                                        <option value="Feedback" <?php if (@$obj['writer_status'] == 'Feedback') {echo "selected";} ?>>Feedback</option>
+                                                                                        <option value="Feedback Delivered" <?php if (@$obj['writer_status'] == 'Feedback Delivered') {echo "selected";} ?>>Feedback Delivered</option>
                                                                                     </select>
                                                                                     <select id="secondDropdownLOGIN<?php echo $obj['order_id'] ?>" name="writer_status" class="form-control">
                                                                                         <option value="" <?php if (@$obj['writer_status'] == 'NULL ') {echo "selected";} ?>>Select a status</option>
                                                                                         <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progress</option>
                                                                                         <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
                                                                                         <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
+                                                                                        <option value="Hold It" <?php if (@$obj['writer_status'] == 'Hold It') {echo "selected";} ?>>Hold It</option>
+                                                                                        <option value="Handover To Aother Writer" <?php if (@$obj['writer_status'] == 'Handover To Aother Writer') {echo "selected";} ?>>Handover To Aother Writer</option>
+                                                                                        <option value="Feedback" <?php if (@$obj['writer_status'] == 'Feedback') {echo "selected";} ?>>Feedback</option>
+                                                                                        <option value="Feedback Delivered" <?php if (@$obj['writer_status'] == 'Feedback Delivered') {echo "selected";} ?>>Feedback Delivered</option>
                                                                                     </select>
                                                                                     <?php } else { ?>
                                                                                     <select id="secondDropdown<?php echo $obj['order_id'] ?>" name="writer_status" style="display:none" class="form-control">
@@ -1367,11 +1388,19 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                         <option value="In Progress">In Progress</option>
                                                                                         <option value="Completed">Completed</option>
                                                                                         <option value="Delivered">Delivered</option>
+                                                                                        <option value="Hold It" <?php if (@$obj['writer_status'] == 'Hold It') {echo "selected";} ?>>Hold It</option>
+                                                                                        <option value="Handover To Aother Writer" <?php if (@$obj['writer_status'] == 'Handover To Aother Writer') {echo "selected";} ?>>Handover To Aother Writer</option>
+                                                                                        <option value="Feedback" <?php if (@$obj['writer_status'] == 'Feedback') {echo "selected";} ?>>Feedback</option>
+                                                                                        <option value="Feedback Delivered" <?php if (@$obj['writer_status'] == 'Feedback Delivered') {echo "selected";} ?>>Feedback Delivered</option>
                                                                                     </select>
                                                                                     <select id="firstDropdownlogin<?php echo $obj['order_id'] ?>" name="writer_status" class="form-control">
                                                                                         <option value="">Select a status</option>
                                                                                         <option value="Quality Accepted"><?php if (@$obj['writer_status'] == 'Quality Accepted') {echo "selected";} ?>Quality Accepted</option>
                                                                                         <option value="Quality Rejected"><?php if (@$obj['writer_status'] == 'Quality Rejected') {echo "selected";} ?>Quality Rejected</option>
+                                                                                        <option value="Hold It" <?php if (@$obj['writer_status'] == 'Hold It') {echo "selected";} ?>>Hold It</option>
+                                                                                        <option value="Handover To Aother Writer" <?php if (@$obj['writer_status'] == 'Handover To Aother Writer') {echo "selected";} ?>>Handover To Aother Writer</option>
+                                                                                        <option value="Feedback" <?php if (@$obj['writer_status'] == 'Feedback') {echo "selected";} ?>>Feedback</option>
+                                                                                        <option value="Feedback Delivered" <?php if (@$obj['writer_status'] == 'Feedback Delivered') {echo "selected";} ?>>Feedback Delivered</option>
                                                                                     </select>
                                                                                     <?php } ?>
                                                                                 </div>
@@ -1408,26 +1437,57 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                             
                                                                            
                                                                            
-                                                                            <div class="col-lg-4" >
-                                                                                
+                                                                            <div class="col-lg-12" >
+                                                                            <?php if ($obj['swid'] != $loginid) { ?>
                                                                                 <div class="form-group has-warning m-b-40">
-                                                                                    <select name="writer_status" class="form-control">
+                                                                                    <select name="writer_status" class="form-control" id="writer_status">
                                                                                         <option value="" <?php if (@$obj['writer_status'] == 'NULL') {echo "selected";} ?>>Select a status</option>
                                                                                         <option value="Quality Accepted" <?php if (@$obj['writer_status'] == 'Quality Accepted') {echo "selected";} ?>>Quality Accepted</option>
                                                                                         <option value="Quality Rejected" <?php if (@$obj['writer_status'] == 'Quality Rejected') {echo "selected";} ?>>Quality Rejected</option>
                                                                                         <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progress</option>
                                                                                         <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
                                                                                         <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
+                                                                                        <option value="Hold It" <?php if (@$obj['writer_status'] == 'Hold It') {echo "selected";} ?>>Hold It</option>
+                                                                                        <option value="Handover To Another Writer" <?php if (@$obj['writer_status'] == 'Handover To Another Writer') {echo "selected";} ?>>Handover To Another Writer</option>
+                                                                                        <option value="Feedback" <?php if (@$obj['writer_status'] == 'Feedback') {echo "selected";} ?>>Feedback</option>
+                                                                                        <option value="Feedback Delivered" <?php if (@$obj['writer_status'] == 'Feedback Delivered') {echo "selected";} ?>>Feedback Delivered</option>
                                                                                     </select>
-                                                                            </div>
+                                                                                </div>
+                                                                                 <?php } else { ?> 
+                                                                                    <div class="form-group has-warning m-b-40">
+                                                                                     <select name="writer_status" class="form-control" id="writer_status">
+                                                                                        <option value="" <?php if (@$obj['writer_status'] == 'NULL') {echo "selected";} ?>>Select a status</option>
+                                                                                        <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progress</option>
+                                                                                        <option value="Completed" <?php if (@$obj['writer_status'] == 'Completed') {echo "selected";} ?>>Completed</option>
+                                                                                        <option value="Delivered" <?php if (@$obj['writer_status'] == 'Delivered') {echo "selected";} ?>>Delivered</option>
+                                                                                        <option value="Hold It" <?php if (@$obj['writer_status'] == 'Hold It') {echo "selected";} ?>>Hold It</option>
+                                                                                        <option value="Handover To Aother Writer" <?php if (@$obj['writer_status'] == 'Handover To Aother Writer') {echo "selected";} ?>>Handover To Aother Writer</option>
+                                                                                        <option value="Feedback" <?php if (@$obj['writer_status'] == 'Feedback') {echo "selected";} ?>>Feedback</option>
+                                                                                        <option value="Feedback Delivered" <?php if (@$obj['writer_status'] == 'Feedback Delivered') {echo "selected";} ?>>Feedback Delivered</option>
+                                                                                    </select>
+                                                                                 </div>
+                                                                               <?php  } ?>
                                                                             </div>
                                                                           
                                                                             <?php } ?>
+                                                                            <div id="newDropdown" style="display: none;">
+                                                                                Your new dropdown content goes here
+                                                                            </div>
 
+                                                                            <script>
+                                                                                var writerStatusSelect = document.getElementById("writer_status");
+                                                                                var newDropdown = document.getElementById("newDropdown");
+
+                                                                                writerStatusSelect.addEventListener("change", function () {
+                                                                                    if (writerStatusSelect.value === "Handover To Another Writer") {
+                                                                                        newDropdown.style.display = "block";
+                                                                                    } else {
+                                                                                        newDropdown.style.display = "none";
+                                                                                    }
+                                                                                });
+                                                                            </script>
                                                                             <?php if ($role_id == 7) { ?>
-                                                                            
-                                                                            
-                                                                            <div class="col-lg-4" style="margin-bottom:40px;  justify-content: center;" >
+                                                                            <div class="col-lg-12" style="margin-bottom:40px;  justify-content: center;" >
                                                                                 <select name="writer_status" class="form-control" required>
                                                                                     <option value="" <?php if (@$obj['writer_status'] == 'NULL ') {echo "selected";} ?>>Select a status</option>
                                                                                     <option value="In Progress" <?php if (@$obj['writer_status'] == 'In Progress') {echo "selected";} ?>>In Progress</option>
@@ -1436,8 +1496,53 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                 </select>
                                                                             </div>
                                                                             <?php } ?>
-                                                                        </div>
 
+                                                                            
+                                                                        </div>
+                                                                        <?php if($role_id == 8){ ?> 
+                                                                        <div class="col-lg-12 writer_deadline">
+                                                                            <div class="form-group has-warning m-b-40">
+                                                                                <?php if (!empty($obj['writer_deadline'])) {
+                                                                                    if (@$obj['writer_deadline'] != '1970-01-01') {
+                                                                                        $writer_deadlinenew = date("Y-m-d", strtotime(@$obj['writer_deadline']));
+                                                                                    } else {
+                                                                                        $writer_deadlinenew = date("Y-m-d");
+                                                                                    }
+                                                                                } else {
+                                                                                    $writer_deadlinenew = date("Y-m-d");
+                                                                                } ?>
+
+                                                                                <input type="text" class="form-control mdate" name="writer_deadline" value="<?php echo $writer_deadlinenew ?>">
+                                                                                <span class="bar"></span>
+                                                                                <label for="input10">Writer deadline</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <?php } else { ?>
+                                                                            <div class="col-lg-12 writer_deadline" style="display:none">
+                                                                            <div class="form-group has-warning m-b-40">
+                                                                                <?php if (!empty($obj['writer_deadline'])) {
+                                                                                    if (@$obj['writer_deadline'] != '1970-01-01') {
+                                                                                        $writer_deadlinenew = date("Y-m-d", strtotime(@$obj['writer_deadline']));
+                                                                                    } else {
+                                                                                        $writer_deadlinenew = date("Y-m-d");
+                                                                                    }
+                                                                                } else {
+                                                                                    $writer_deadlinenew = date("Y-m-d");
+                                                                                } ?>
+
+                                                                                <input type="text" class="form-control mdate" name="writer_deadline" value="<?php echo $writer_deadlinenew ?>">
+                                                                                <span class="bar"></span>
+                                                                                <label for="input10">Writer deadline</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <?php } ?>
+                                                                        <div class="col-lg-12">
+                                                                            <div class="form-group has-warning m-b-40">
+                                                                                <textarea type="text" name="message" class="form-control" rows="3" value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
+                                                                                <span class="bar"></span>
+                                                                                <label for="input10">Enter message</label>
+                                                                            </div>
+                                                                        </div>
                                                                         <div class="row">
                                                                             <input style="display:none" type="button" id="d<?php echo $obj['order_id']; ?>" class="btn btn-primary btn-block" value="Update" onclick="myFunction<?php echo $obj['order_id']; ?>()">
                                                                             <button type="submit" id='nd<?php echo $obj['order_id']; ?>' class="btn btn-primary btn-block">Update</button>
@@ -1489,8 +1594,8 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                         </a>
                                                         <?php } ?>
 
-                                                    <?php if($role_id != 6 && $role_id != 7 &&$role_id != 8) { ?>
-                                                    <?php if ($obj['projectstatus'] == 'Pending' || $obj['projectstatus'] == 'Cancelled') { ?>
+                                                        <?php if($role_id != 6 && $role_id != 7 &&$role_id != 8) { ?>
+                                                        <?php if ($obj['projectstatus'] == 'Pending' || $obj['projectstatus'] == 'Cancelled') { ?>
                                                         <a class="btn btn-xs btn-warning btn-sm m-1" href="<?php echo base_url(); ?>index.php/Orders/callstatus/<?php echo $obj['id']; ?>">
                                                             <i style="color:#fff;" class="fa fa-phone"></i>
                                                         </a>
@@ -1512,7 +1617,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                     <i style="color:#fff;" class="fa fa-phone"></i>
                                                 </a>
                                                 <?php } ?>
-                                                    <?php if($role_id == 7 ||$role_id == 6 ||  $role_id == 1 || $role_id == 5 || $role_id == 8 ){ ?> 
+                                                    <?php if($role_id == 6 ||  $role_id == 1 || $role_id == 5 || $role_id == 8 ){ ?> 
                                                     <a href="<?php echo base_url(); ?>index.php/Orders/orderchatc/<?php echo $obj['order_id']; ?>"  type="button" class="btn btn-xs btn-primary btn-sm m-1 " title="" style="background-color:green;">
                                                       C
                                                     </a>

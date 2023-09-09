@@ -238,6 +238,8 @@ class Orders extends CI_Controller
 		$data['writerTL'] 		= $this->Employee->getWriters();
 		$data['subwrtier']	 	= $this->Employee->getsubWritersfortl($login_id);
 		$data['customer_id'] 	= $customer_id;
+
+		// echo '<pre>'; print_r($data); exit;
 	
 		$this->template->load('template', 'orders/order_view', $data);
 	}
@@ -962,7 +964,7 @@ class Orders extends CI_Controller
 				'draft_date'		 => $this->input->post('draft_date'),
 				'draft_time'		 => $this->input->post('draft_time'),
 				'wid' 				 =>$this->input->post('writer_name_new'),
-				'admin_id'			 => $this->input->post('writer_name') === 'team 013' ? 8357 : $this->input->post('writer_new_admin'),
+				'admin_id'			 => $this->input->post('writer_name') === 'team 013' ? 8392 : $this->input->post('writer_new_admin'),
 				'flag' => '0',
 			);
 			if (!empty($this->input->post('user_id')) && $this->input->post('user_id') != '') 
@@ -2361,7 +2363,7 @@ public function writeEdit($edit_id = '')
 	   
 
         $data = array(
-			
+			'writer_deadline' => $this->input->post('writer_deadline'),
             'wid' => $wid,
             'swid' => $this->input->post('subwriter_name_new') === '8411' ? '8392' : $this->input->post('subwriter_name_new'),
             'writer_status' => $this->input->post('writer_status'),
