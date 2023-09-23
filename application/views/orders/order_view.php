@@ -967,6 +967,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                         <th style="white-space: nowrap;"  > Order Code</th>
                                         <th style="white-space: nowrap;" class="hide-mb"> Order Date</th>
                                         <th style="white-space: nowrap;"  class="hide-mb"> Delivery Date</th>
+                                        <th style="white-space: nowrap;"  class="hide-mb"> Delivery Date</th>
                                         <th style="white-space: nowrap;"class="hide-mb"> Title</th>
                                         <?php if($role_id != 6 && $role_id != 7 && $role_id != 8) { ?>
                                         <th style="white-space: nowrap;"  class="hide-mb"> Status</th>
@@ -1075,6 +1076,24 @@ $loginid        = $this->session->userdata['logged_in']['id'];
 
                                                 
                                             </td>
+
+                                            <td class="hide-mb" id='v' style="white-space: nowrap;">
+                                                <?php 
+                                                if (isset($obj['writer_fd']) && !empty($obj['writer_fd'])) {
+                                                    echo date('d-M-Y', strtotime($obj['writer_fd'])) ;
+                                                }
+                                                
+                                                ?>
+                                                <?php if($obj['writer_fd'] != '' && $obj['writer_ud'] != '') { ?>
+                                                    To 
+                                                <?php } ?>
+<?php
+                                                if (isset($obj['writer_ud']) && !empty($obj['writer_ud'])) {
+                                                    echo date('d-M-Y', strtotime($obj['writer_ud']));
+                                                }
+                                                ?>
+                                            </td>
+
                                            
                                             
                                                
@@ -1511,8 +1530,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                 } else {
                                                                                     $writer_deadlinenew = date("Y-m-d");
                                                                                 } ?>
-
-                                                                                <input type="text" class="form-control mdate" name="writer_deadline" value="<?php echo $writer_deadlinenew ?>">
+                                                                                <input type="text" class="form-control first mdate"  name="writer_deadline" value="<?php echo $writer_deadlinenew ?>">
                                                                                 <span class="bar"></span>
                                                                                 <label for="input10">Writer deadline</label>
                                                                             </div>
@@ -1536,9 +1554,28 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                             </div>
                                                                         </div>
                                                                         <?php } ?>
+                                                                        </div>
+
+                                                                        <div class="row">
+                                                                        <div class="col-lg-6">
+                                                                            
+                                                                            <div class="form-group has-warning m-b-40">
+                                                                                <textarea type="text" name="writer_fd" class="form-control mdate"  value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
+                                                                                <span class="bar"></span>
+                                                                                <label for="input10">writer deadline from date</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-6">
+                                                                            <div class="form-group has-warning m-b-40">
+                                                                                <textarea type="text" name="writer_ud" class="form-control mdate"  value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
+                                                                                <span class="bar"></span>
+                                                                                <label for="input10">Upto date</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        </div>
                                                                         <div class="col-lg-12">
                                                                             <div class="form-group has-warning m-b-40">
-                                                                                <textarea type="text" name="message" class="form-control" rows="3" value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
+                                                                                <textarea type="text" name="message" class="form-control" value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
                                                                                 <span class="bar"></span>
                                                                                 <label for="input10">Enter message</label>
                                                                             </div>
