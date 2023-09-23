@@ -207,6 +207,7 @@ class Orders extends CI_Controller
     				$conditions['page'] 	    		= $page;
     				$conditions['status']	    		= $this->input->get('status');
     				$conditions['swid']					= $this->input->get('swid');
+    				$conditions['subwriter_name_new']	= $this->input->get('subwriter_name_new');
     				$conditions['order_id'] 			= $this->input->get('order_id');
     				$conditions['order_date_filter'] 	= $this->input->get('order_date_filter');
     				$conditions['from_date'] 			= date('Y-m-d', strtotime($this->input->get('from_date')));
@@ -2367,6 +2368,8 @@ public function writeEdit($edit_id = '')
             'wid' => $wid,
             'swid' => $this->input->post('subwriter_name_new') === '8411' ? '8392' : $this->input->post('subwriter_name_new'),
             'writer_status' => $this->input->post('writer_status'),
+            'writer_fd' => $this->input->post('writer_fd'),
+            'writer_ud' => $this->input->post('writer_ud'),
             'flag' => '0',
         );
 

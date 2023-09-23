@@ -1632,7 +1632,11 @@ public function feedback_list_all()
 				}
 
 				if ($conditions['swid'] != '') {
-					$this->db->where('orders.swid', $conditions['swid']);
+					$this->db->where('orders.wid', $conditions['swid']);
+				}
+
+				if ($conditions['subwriter_name_new'] != '') {
+					$this->db->where('orders.swid', $conditions['subwriter_name_new']);
 				}
 
 				if ($conditions['order_date_filter'] == 'order_date') 

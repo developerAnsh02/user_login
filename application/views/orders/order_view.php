@@ -638,26 +638,43 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                 </div>
                                 <div class="col-md-3 col-sm-3">
                                    
-                                        
-                                        <select name="swid" class="form-control" >
-                                            <option value="">Select an Writer</option>
-                                            <?php foreach ($writerTL as $employee) : ?>
-                                                <option value="<?php echo $employee['id']; ?>"><?php echo $employee['name']; ?></option>
-                                            <?php endforeach; ?>
+                                         <select class="form-control" name="order_date_filter">
+                                            <option value="order_date">Order Date</option>
+                                            <option value="writer_delivery">Writer Deadline</option>
+                                            <option value="delivery_date">Order Deadline</option>
                                         </select>
+                                       
                                    
                                 </div>
                             </div>
                             
                             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                 <div class="row mt-3">
+                                    <?php if($role_id ==8 ) {?>
                                     <div class="col-md-3 col-sm-3">
-                                        <select class="form-control" name="order_date_filter">
-                                            <option value="order_date">Order Date</option>
-                                            <option value="writer_delivery">Writer Deadline</option>
-                                            <option value="delivery_date">Order Deadline</option>
+                                       
+                                         <select name="swid" class="form-control" >
+                                            <option value="">Select an Writer</option>
+                                            <?php foreach ($writerTL as $employee) : ?>
+                                                <option value="<?php echo $employee['id']; ?>"><?php echo $employee['name']; ?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
+                                     <div class="col-md-3 col-sm-3">
+                                        <select name="subwriter_name_new" class="form-control">
+                                            <option value="">Select a Subwriter</option>
+                                           
+                                            <?php foreach ($subwrtier as $employee): ?>
+                                            <option value="<?= $employee['id']; ?>" >
+                                                <?= $employee['name']; ?>
+                                            </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <?php } ?>
+                                    
+                                    
+                                    
                                     <div class="col-md-3 col-sm-3">
                                         <select class="form-control" name="status">
                                             <option value="" <?php if (@$obj['writer_status'] == 'NULL') {echo "selected";} ?>>Select a status</option>
@@ -967,7 +984,9 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                         <th style="white-space: nowrap;"  > Order Code</th>
                                         <th style="white-space: nowrap;" class="hide-mb"> Order Date</th>
                                         <th style="white-space: nowrap;"  class="hide-mb"> Delivery Date</th>
-                                        <th style="white-space: nowrap;"  class="hide-mb"> Delivery Date</th>
+                                        <?php if($role_id == 6 || $role_id == 8 || $role_id == 1) { ?>
+                                         <th style="white-space: nowrap;"  class="hide-mb">Delivery From - Upto</th>
+                                        <?php } ?>
                                         <th style="white-space: nowrap;"class="hide-mb"> Title</th>
                                         <?php if($role_id != 6 && $role_id != 7 && $role_id != 8) { ?>
                                         <th style="white-space: nowrap;"  class="hide-mb"> Status</th>
@@ -1045,7 +1064,7 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                         <tr <?php if ($obj['is_read'] == 0) { ?> style="font-weight: 700;" <?php } ?> class="read_order <?php echo $class ?> " order_id="<?= $obj['id']  ?>">
                                             <input type="hidden" class="row_id" value="<?= $obj['id'] ?>">
                                             <input type="hidden" class="uid" value="<?= $obj['uid'] ?>">
-                                            <?php if($role_id == 1){ ?>
+                                            <?php if($role_id == 1 || $role_id == 4){ ?>
                                               <input type="hidden" class="c_mobile" value="<?php echo $obj['c_mobile'] ?>">
                                              <input type="hidden" class="countrycode" value="<?= $obj['countrycode'] ?>">
                                              <?php } ?>
@@ -1076,24 +1095,21 @@ $loginid        = $this->session->userdata['logged_in']['id'];
 
                                                 
                                             </td>
-
+                                            <?php if($role_id == 6|| $role_id == 8 ||$role_id == 1) { ?>
                                             <td class="hide-mb" id='v' style="white-space: nowrap;">
-                                                <?php 
-                                                if (isset($obj['writer_fd']) && !empty($obj['writer_fd'])) {
-                                                    echo date('d-M-Y', strtotime($obj['writer_fd'])) ;
-                                                }
-                                                
-                                                ?>
-                                                <?php if($obj['writer_fd'] != '' && $obj['writer_ud'] != '') { ?>
+                                                 <?php if($obj['writer_fd'] != '0000-00-00' ) { ?>
+                                                <?php if (isset($obj['writer_fd']) && !empty($obj['writer_fd'])) {echo date('d-M', strtotime($obj['writer_fd'])) ;} }?>
+                                                <?php if($obj['writer_fd'] != '0000-00-00' && $obj['writer_ud'] != '0000-00-00') { ?>
                                                     To 
                                                 <?php } ?>
-<?php
+                                                 <?php if($obj['writer_ud'] != '0000-00-00' ) { ?>
+                                                <?php
                                                 if (isset($obj['writer_ud']) && !empty($obj['writer_ud'])) {
-                                                    echo date('d-M-Y', strtotime($obj['writer_ud']));
-                                                }
+                                                    echo date('d-M', strtotime($obj['writer_ud']));
+                                                } }
                                                 ?>
                                             </td>
-
+                                            <?php } ?>
                                            
                                             
                                                
@@ -1489,22 +1505,22 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                             </div>
                                                                           
                                                                             <?php } ?>
-                                                                            <div id="newDropdown" style="display: none;">
-                                                                                Your new dropdown content goes here
-                                                                            </div>
+                                                                            <!--<div id="newDropdown" style="display: none;">-->
+                                                                            <!--    Your new dropdown content goes here-->
+                                                                            <!--</div>-->
 
-                                                                            <script>
-                                                                                var writerStatusSelect = document.getElementById("writer_status");
-                                                                                var newDropdown = document.getElementById("newDropdown");
+                                                                            <!--<script>-->
+                                                                            <!--    var writerStatusSelect = document.getElementById("writer_status");-->
+                                                                            <!--    var newDropdown = document.getElementById("newDropdown");-->
 
-                                                                                writerStatusSelect.addEventListener("change", function () {
-                                                                                    if (writerStatusSelect.value === "Handover To Another Writer") {
-                                                                                        newDropdown.style.display = "block";
-                                                                                    } else {
-                                                                                        newDropdown.style.display = "none";
-                                                                                    }
-                                                                                });
-                                                                            </script>
+                                                                            <!--    writerStatusSelect.addEventListener("change", function () {-->
+                                                                            <!--        if (writerStatusSelect.value === "Handover To Another Writer") {-->
+                                                                            <!--            newDropdown.style.display = "block";-->
+                                                                            <!--        } else {-->
+                                                                            <!--            newDropdown.style.display = "none";-->
+                                                                            <!--        }-->
+                                                                            <!--    });-->
+                                                                            <!--</script>-->
                                                                             <?php if ($role_id == 7) { ?>
                                                                             <div class="col-lg-12" style="margin-bottom:40px;  justify-content: center;" >
                                                                                 <select name="writer_status" class="form-control" required>
@@ -1515,10 +1531,8 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                 </select>
                                                                             </div>
                                                                             <?php } ?>
-
                                                                             
-                                                                        </div>
-                                                                        <?php if($role_id == 8){ ?> 
+                                                                             <?php if($role_id == 8){ ?> 
                                                                         <div class="col-lg-12 writer_deadline">
                                                                             <div class="form-group has-warning m-b-40">
                                                                                 <?php if (!empty($obj['writer_deadline'])) {
@@ -1530,7 +1544,8 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                                 } else {
                                                                                     $writer_deadlinenew = date("Y-m-d");
                                                                                 } ?>
-                                                                                <input type="text" class="form-control first mdate"  name="writer_deadline" value="<?php echo $writer_deadlinenew ?>">
+
+                                                                                <input type="text" class="form-control mdate" name="writer_deadline" value="<?php echo $writer_deadlinenew ?>">
                                                                                 <span class="bar"></span>
                                                                                 <label for="input10">Writer deadline</label>
                                                                             </div>
@@ -1554,32 +1569,57 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                                             </div>
                                                                         </div>
                                                                         <?php } ?>
-                                                                        </div>
-
-                                                                        <div class="row">
+                                                                        
+                                                                        <?php if($role_id == 6 || $role_id == 8 || $role_id == 1) { ?>
+                                                                         <div class="row">
                                                                         <div class="col-lg-6">
                                                                             
                                                                             <div class="form-group has-warning m-b-40">
-                                                                                <textarea type="text" name="writer_fd" class="form-control mdate"  value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
+                                                                            <?php if (!empty($obj['writer_fd'])) {
+                                                                                    if (@$obj['writer_fd'] != '1970-01-01') {
+                                                                                        $writer_fd = date("Y-m-d", strtotime(@$obj['writer_fd']));
+                                                                                    } else {
+                                                                                        $writer_fd = date("Y-m-d");
+                                                                                    }
+                                                                                } else {
+                                                                                    $writer_fd = date("Y-m-d");
+                                                                                } ?>
+                                                                                 <input type="text" class="form-control mdate" name="writer_fd" value="<?php if($obj['writer_fd'] != '0000-00-00') { echo $writer_fd ; } ?>">
                                                                                 <span class="bar"></span>
                                                                                 <label for="input10">writer deadline from date</label>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-lg-6">
                                                                             <div class="form-group has-warning m-b-40">
-                                                                                <textarea type="text" name="writer_ud" class="form-control mdate"  value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
+                                                                            <?php if (!empty($obj['writer_ud'])) {
+                                                                                    if (@$obj['writer_ud'] != '1970-01-01') {
+                                                                                        $writer_ud = date("Y-m-d", strtotime(@$obj['writer_ud']));
+                                                                                    } else {
+                                                                                        $writer_ud = date("Y-m-d");
+                                                                                    }
+                                                                                } else {
+                                                                                    $writer_ud = date("Y-m-d");
+                                                                                } ?>
+                                                                                 <input type="text" class="form-control mdate" name="writer_ud" value="<?php if($obj['writer_ud'] != '0000-00-00') { echo $writer_ud ;  } ?>">
+
                                                                                 <span class="bar"></span>
                                                                                 <label for="input10">Upto date</label>
                                                                             </div>
                                                                         </div>
                                                                         </div>
-                                                                        <div class="col-lg-12">
+                                                                        <?php } ?>
+                                                                            
+                                                                             <div class="col-lg-12">
                                                                             <div class="form-group has-warning m-b-40">
-                                                                                <textarea type="text" name="message" class="form-control" value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
+                                                                                <textarea type="text" name="message" class="form-control" rows="3" value="" autofocus autocomplete="off" style="resize: none;"><?= $obj['message'] ?></textarea>
                                                                                 <span class="bar"></span>
                                                                                 <label for="input10">Enter message</label>
                                                                             </div>
                                                                         </div>
+                                                                        
+                                                                        
+                                                                        </div>
+
                                                                         <div class="row">
                                                                             <input style="display:none" type="button" id="d<?php echo $obj['order_id']; ?>" class="btn btn-primary btn-block" value="Update" onclick="myFunction<?php echo $obj['order_id']; ?>()">
                                                                             <button type="submit" id='nd<?php echo $obj['order_id']; ?>' class="btn btn-primary btn-block">Update</button>
@@ -1649,8 +1689,8 @@ $loginid        = $this->session->userdata['logged_in']['id'];
                                                 </a>
                                                 <?php } ?>
                                                 
-                                                 <?php if($role_id == 1 ) { ?>
-                                                <a type="button" class="btn btn-xs btn-primary btn-sm m-1 mark_as_call" title="Mark as failed job" style="background-color:green;">
+                                                 <?php if($role_id == 1 || $role_id == 4) { ?>
+                                                <a type="button" class="btn btn-xs btn-primary btn-sm m-1 mark_as_call" title="Click To Call" style="background-color:green;">
                                                     <i style="color:#fff;" class="fa fa-phone"></i>
                                                 </a>
                                                 <?php } ?>
